@@ -1,0 +1,69 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;   
+}
+#main{
+    width: 360px;
+    height: 455px;
+}
+#top{
+    padding: 25px;
+    width: 310px;
+    height: 60px;
+}
+#top #clock{
+    width: 165px;
+}
+#top #todayTime{
+    width: 165px;
+    padding-top: 15px;
+}
+#calendar{
+    border-top: solid 1px;
+    padding: 0 12px;
+    width: 336px;
+    height: 344px;
+}
+#calendar_top{
+    width: 100%;
+    height: 85px;
+}
+#calender_content{
+    width: 100%;
+    height: 260px;
+}
+
+#description{
+    padding-left: 13px;
+    height: 37px;
+    display: float;
+}
+
+#week{
+    width: 100%;
+    height: 48px;
+    display: flex;
+}
+.item{
+    width: 48px;
+    height: 37px;
+    text-align: center;
+}
+.button{
+    width: 48px;
+    height: 37px;
+    text-align: center;
+    float: right;
+}
+table{
+    display: flex;
+}
+table td{
+    border: solid 2px;
+    width: 42px;
+    height: 42px;
+    text-align: center;
+}
+
+
