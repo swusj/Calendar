@@ -1,0 +1,25 @@
+#main{
+    font-family: Arial, Times, serif;
+}
+#top #clock{
+    font-size: 43px;
+    line-height: 100%;
+}
+#top #todayTime{
+    font-size: 14px;
+    line-height: 100%;
+}
+table td{
+    margin:1px;
+
+}
+#calendar_top{
+    font-size:15px
+}
+
+#description{
+    line-height: 37px;
+}
+.item{
+    line-height: 48px;
+}
