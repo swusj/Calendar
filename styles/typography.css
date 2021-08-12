@@ -1,5 +1,5 @@
 #main{
-    font-family: Arial, Times, serif;
+    font-family: "Segoe UI", Times, serif;
 }
 #top #clock{
     font-size: 43px;
@@ -11,7 +11,6 @@
 }
 table td{
     margin:1px;
-
 }
 #calendar_top{
     font-size:15px
