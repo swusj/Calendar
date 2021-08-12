@@ -55,7 +55,11 @@
     height: 37px;
     text-align: center;
     float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 table td{
     border: solid 2px;
     width: 42px;
