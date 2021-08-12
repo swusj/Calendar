@@ -1,0 +1,47 @@
+#main{
+    background-color: rgb(43,49,61);
+    color:white
+}
+#todayTime{
+    color:rgb(166,216,255)
+}
+/* #top{
+    background-color: violet;
+}
+#top #clock{
+    background-color: yellow;
+}
+#top #todayTime{
+    background-color: teal;
+} */
+#calendar{
+    /* background-color: turquoise; */
+    border-color:rgb(95,97,101);
+}
+/* #calendar_top{
+    background-color: brown;
+}
+
+#calender_content{
+    background-color: darkblue;
+}
+
+#description{
+    background-color: cornflowerblue;
+}
+
+#week{
+    background-color: cyan;
+} */
+
+table td{
+    border-color: rgb(43,49,61);
+    /* background-color: blueviolet; */
+}
+table td:hover{
+    border-color: rgb(95,97,101);
+    /* background-color: blueviolet; */
+}
+/* .item{
+    background-color: rgb(49, 119, 90);
+} */
