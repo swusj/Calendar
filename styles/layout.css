@@ -56,9 +56,6 @@
     text-align: center;
     float: right;
 }
-table{
-    display: flex;
-}
 table td{
     border: solid 2px;
     width: 42px;
