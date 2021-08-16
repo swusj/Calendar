@@ -18,6 +18,7 @@ function getLastMonth(year, month) {
   }
   LastMonth.dayNum = getDayNum(LastMonth.year, LastMonth.month)
   LastMonth.dayOfOne = getDayOfOne(LastMonth.year, LastMonth.month)
+  LastMonth.showing = 0
   return LastMonth
 }
 
@@ -34,6 +35,7 @@ function getNextMonth(year, month) {
   }
   NextMonth.dayNum = getDayNum(NextMonth.year, NextMonth.month)
   NextMonth.dayOfOne = getDayOfOne(NextMonth.year, NextMonth.month)
+  NextMonth.showing = 0
   return NextMonth
 }
 
@@ -71,9 +73,9 @@ function getLastYear(year, month) {
     LastYear.year = year - 1
   }
   LastYear.month = month
-
   LastYear.dayNum = getDayNum(LastYear.year, LastYear.month)
   LastYear.dayOfOne = getDayOfOne(LastYear.year, LastYear.month)
+  LastYear.showing = 1
   return LastYear
 }
 
@@ -84,6 +86,7 @@ function getNextYear(year, month) {
   NextYear.month = month
   NextYear.dayNum = getDayNum(NextYear.year, NextYear.month)
   NextYear.dayOfOne = getDayOfOne(NextYear.year, NextYear.month)
+  NextYear.showing = 1
   return NextYear
 }
 
@@ -99,6 +102,7 @@ function getLastTenYear(year, month) {
   LastTenYear.month = month
   LastTenYear.dayNum = getDayNum(LastTenYear.year, LastTenYear.month)
   LastTenYear.dayOfOne = getDayOfOne(LastTenYear.year, LastTenYear.month)
+  LastTenYear.showing = 2
   return LastTenYear
 }
 
@@ -109,6 +113,7 @@ function getNextTenYear(year, month) {
   NextTenYear.month = month
   NextTenYear.dayNum = getDayNum(NextTenYear.year, NextTenYear.month)
   NextTenYear.dayOfOne = getDayOfOne(NextTenYear.year, NextTenYear.month)
+  NextTenYear.showing = 2
   return NextTenYear
 }
 
