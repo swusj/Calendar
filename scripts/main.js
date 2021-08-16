@@ -102,9 +102,57 @@ function getNextMonth(year, month) {
   return NextMonth
 }
 
+// 获取上一年日期对象的函数
+function getLastYear(year,month) {
+  let LastYear = {}
+  if(year ===0){
+    LastYear.year = year
+  }else{
+    LastYear.year = year-1
+  }
+  LastYear.month = month
+  LastYear.dayNum = getDayNum(LastYear.year, LastYear.month)
+  LastYear.dayOfOne = getDayOfOne(LastYear.year, LastYear.month)
+  return LastYear
+}
+
+// 获取下一年日期对象的函数
+function getNextYear(year,month) {
+  let NextYear = {}
+  NextYear.year = year+1
+  NextYear.month = month
+  NextYear.dayNum = getDayNum(NextYear.year, NextYear.month)
+  NextYear.dayOfOne = getDayOfOne(NextYear.year, NextYear.month)
+  return NextYear
+}
+
+// 获取前十年日期对象的函数
+function getLastTenYear(year,month) {
+  let LastTenYear = {}
+  if(year-10 <0){
+    LastTenYear.year = 0
+  }else{
+    LastTenYear.year = year-10
+  }
+  LastTenYear.month = month
+  LastTenYear.dayNum = getDayNum(LastTenYear.year, LastTenYear.month)
+  LastTenYear.dayOfOne = getDayOfOne(LastTenYear.year, LastTenYear.month)
+  return LastTenYear
+}
+
+// 获取后十年日期对象的函数
+function getNextTenYear(year,month) {
+  let NextTenYear = {}
+  NextTenYear.year = year+10
+  NextTenYear.month = month
+  NextTenYear.dayNum = getDayNum(NextTenYear.year, NextTenYear.month)
+  NextTenYear.dayOfOne = getDayOfOne(NextTenYear.year, NextTenYear.month)
+  return NextTenYear
+}
+
 const content = document.getElementsByClassName("content")[0]
 // 显示当前日历
-function showCalendar(ShowDate) {
+function showCalendar() {
   // 获取上个月对象
   let LastMonth = getLastMonth(ShowDate.year, ShowDate.month)
   // let Calender = document.getElementById("calender_content")
@@ -191,7 +239,7 @@ function showHead(year, month) {
 function calendarOnload() {
   showClock();
   showToday(TodayDate.year, TodayDate.month + 1, TodayDate.date);
-  showCalendar(ShowDate)
+  showCalendar()
 
 }
 
@@ -201,29 +249,6 @@ window.addEventListener("load", calendarOnload);
 
 // -----下面是交互部分------------
 
-// ----上下键部分------------------
-const ButtonList = document.getElementsByClassName("button")
-const NextButton = ButtonList[1]
-const LastButton = ButtonList[0]
-NextButton.addEventListener("click", showNext)
-LastButton.addEventListener("click", showLast)
-
-// 显示上个月日历
-function showLast() {
-  if (showing === 0) {
-    ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
-    showCalendar(ShowDate)
-  }
-}
-
-// 显示下个月日历
-function showNext() {
-  if (showing === 0) {
-    ShowDate = getNextMonth(ShowDate.year, ShowDate.month)
-    showCalendar(ShowDate)
-  }
-}
-
 // -----蓝字部分------------------------------------------
 todayTime.addEventListener("click", showNowMonth)
 
@@ -231,7 +256,7 @@ todayTime.addEventListener("click", showNowMonth)
 function showNowMonth() {
   ShowDate = Object.assign(ShowDate,TodayDate)
   showing = 0
-  showCalendar(ShowDate)
+  showCalendar()
 }
 
 // ----内容头----------------------------------------------
@@ -270,7 +295,6 @@ function showMonth(){
   content.innerHTML = str
   showHead(ShowDate.year)
   changeMonthCss()
-
 }
 
 // 更改月历显示效果,绑定事件处理函数
@@ -294,7 +318,7 @@ function handleMonthClick(){
   ShowDate.dayNum = getDayNum(ShowDate.year,ShowDate.month)
   ShowDate.dayOfOne = getDayOfOne(ShowDate.year, ShowDate.month);
   showHead(ShowDate.year,ShowDate.month) //更新日历头
-  showCalendar(ShowDate)  //更新日历
+  showCalendar()  //更新日历
 }
 
 // 显示年历
@@ -334,7 +358,7 @@ function changeYearCss(leftYearIndex) {
 
 // 处理点击年份
 function handleYearClick(){
-  showing =1
+  showing = 1
   const year = this.childNodes[0].nodeValue
   ShowDate.year = year
   ShowDate.dayNum = getDayNum(ShowDate.year,ShowDate.month)
@@ -352,6 +376,41 @@ function addClass(node,className){
   }
 }
 
+// ----上下键部分------------------
+const ButtonList = document.getElementsByClassName("button")
+const NextButton = ButtonList[1]
+const LastButton = ButtonList[0]
+NextButton.addEventListener("click", showNext)
+LastButton.addEventListener("click", showLast)
+
+// 显示上个月日历
+function showLast() {
+  console.log(showing)
+  if (showing === 0) { //如果在显示日历
+    ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
+    showCalendar()
+  }else if(showing === 1){ //如果在显示月历
+    ShowDate = getLastYear(ShowDate.year, ShowDate.month)
+    showMonth()
+  }else if(showing === 2){ //如果在显示年历
+    ShowDate = getLastTenYear(ShowDate.year, ShowDate.month)
+    showYear()
+  }
+}
+
+// 显示下个月日历
+function showNext() {
+  if (showing === 0) {
+    ShowDate = getNextMonth(ShowDate.year, ShowDate.month)
+    showCalendar()
+  }else if(showing === 1){ //如果在显示月历
+    ShowDate = getNextYear(ShowDate.year, ShowDate.month)
+    showMonth()
+  }else if(showing === 2){ //如果在显示年历
+    ShowDate = getNextTenYear(ShowDate.year, ShowDate.month)
+    showYear()
+  }
+}
 
 
 
