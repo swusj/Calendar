@@ -61,10 +61,10 @@ function showClock() {
   window.setInterval("displayTime()", 1000);
 }
 
+let todayTime = document.getElementById("todayTime");
 // 显示今天日期的函数
 function showToday(year, month, day) {
   let today = `${year}年${month}月${day}日`;
-  let todayTime = document.getElementById("todayTime");
   todayTime.innerHTML = today;
 }
 
@@ -137,6 +137,7 @@ function showCalendar(ShowDate) {
   }
   Calender.innerHTML = LastStr + NowStr + NextStr
   changeCalendarCss(ShowDate.dayOfOne, ShowDate.dayNum)
+  showMonth(ShowDate.year, ShowDate.month)
 }
 
 // 更改日历显示效果
@@ -163,7 +164,6 @@ function showMonth(year, month) {
 function calendarOnload() {
   showClock();
   showToday(TodayDate.year, TodayDate.month + 1, TodayDate.date);
-  showMonth(ShowDate.year, ShowDate.month)
   showCalendar(ShowDate)
 
 }
@@ -175,8 +175,8 @@ window.addEventListener("load", calendarOnload);
 //-----下面是交互部分------------
 
 const ButtonList = document.getElementsByClassName("button")
-const NextButton = ButtonList[0]
-const LastButton = ButtonList[1]
+const NextButton = ButtonList[1]
+const LastButton = ButtonList[0]
 NextButton.addEventListener("click",showNextMonth)
 LastButton.addEventListener("click",showLastMonth)
 
@@ -184,14 +184,18 @@ LastButton.addEventListener("click",showLastMonth)
 function showLastMonth(){
   ShowDate = getLastMonth(ShowDate.year,ShowDate.month)
   showCalendar(ShowDate)
-  showMonth(ShowDate.year, ShowDate.month)
 }
 
 // 显示下个月日历
 function showNextMonth(){
   ShowDate = getNextMonth(ShowDate.year,ShowDate.month)
   showCalendar(ShowDate)
-  showMonth(ShowDate.year, ShowDate.month)
+}
+
+todayTime.addEventListener("click",showNowMonth)
+
+function showNowMonth(){
+  showCalendar(TodayDate)
 }
 
 
