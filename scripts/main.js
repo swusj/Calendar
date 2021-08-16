@@ -296,6 +296,7 @@ function handleMonthClick(){
   showCalendar(ShowDate)  //更新日历
 }
 
+// 显示年历
 function showYear(){
   let index = [3,0,1,2]
   let leftYear = ShowDate.year-ShowDate.year%10
@@ -317,16 +318,28 @@ function showYear(){
   changeYearCss(leftYearIndex)
 }
 
-// 更改年历显示效果
+// 更改年历显示效果，绑定事件处理函数
 function changeYearCss(leftYearIndex) {
   const table = content.getElementsByTagName("table")[0]
   table.className = "month_content"
   const YearList = table.getElementsByTagName("td")
   for(let i = 0;i<16;i++){
+    YearList[i].addEventListener("click",handleYearClick)
     if(i<leftYearIndex || i>leftYearIndex+9){
       addClass(YearList[i],"NotNow")
     }
   }
+}
+
+// 处理点击年份
+function handleYearClick(){
+  showing =1
+  const year = this.childNodes[0].nodeValue
+  ShowDate.year = year
+  ShowDate.dayNum = getDayNum(ShowDate.year,ShowDate.month)
+  ShowDate.dayOfOne = getDayOfOne(ShowDate.year, ShowDate.month);
+  showHead(ShowDate.year,ShowDate.month) //更新日历头
+  showMonth()  //显示月历
 }
 
 // 为节点添加类
