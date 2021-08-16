@@ -229,8 +229,9 @@ todayTime.addEventListener("click", showNowMonth)
 
 // 显示当月日历
 function showNowMonth() {
-  showCalendar(TodayDate)
+  ShowDate = Object.assign(ShowDate,TodayDate)
   showing = 0
+  showCalendar(ShowDate)
 }
 
 // ----内容头----------------------------------------------
