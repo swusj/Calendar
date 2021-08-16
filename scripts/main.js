@@ -310,7 +310,9 @@ function changeMonthCss() {
       addClass(MonthList[i], "NotNow")
     }
   }
-  
+  if(ShowDate.year === TodayDate.year && ShowDate.month === TodayDate.month){
+    addClass(MonthList[ShowDate.month],"CurMonthItem")
+  }
 }
 
 // 处理点击月份
@@ -356,6 +358,9 @@ function changeYearCss(leftYearIndex) {
     if (i < leftYearIndex || i > leftYearIndex + 9) {
       addClass(YearList[i], "NotNow")
     }
+  }
+  if(ShowDate.year === TodayDate.year){
+    addClass(YearList[leftYearIndex+TodayDate.year%10],"CurMonthItem")
   }
 }
 
