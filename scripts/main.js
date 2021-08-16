@@ -2,7 +2,7 @@ const MyDate = new Date();
 const MonthOfLeapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const MonthOfComYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const DayChange = [6, 0, 1, 2, 3, 4, 5];
-const Week = ["一","二","三","四","五","六","日"]
+const Week = ["一", "二", "三", "四", "五", "六", "日"]
 const ShowList = ["day", "month", "year"]
 let showing = 0   // 当前显示的是日历还是月历还是年历
 
@@ -103,12 +103,12 @@ function getNextMonth(year, month) {
 }
 
 // 获取上一年日期对象的函数
-function getLastYear(year,month) {
+function getLastYear(year, month) {
   let LastYear = {}
-  if(year ===0){
+  if (year === 0) {
     LastYear.year = year
-  }else{
-    LastYear.year = year-1
+  } else {
+    LastYear.year = year - 1
   }
   LastYear.month = month
   LastYear.dayNum = getDayNum(LastYear.year, LastYear.month)
@@ -117,9 +117,9 @@ function getLastYear(year,month) {
 }
 
 // 获取下一年日期对象的函数
-function getNextYear(year,month) {
+function getNextYear(year, month) {
   let NextYear = {}
-  NextYear.year = year+1
+  NextYear.year = year + 1
   NextYear.month = month
   NextYear.dayNum = getDayNum(NextYear.year, NextYear.month)
   NextYear.dayOfOne = getDayOfOne(NextYear.year, NextYear.month)
@@ -127,12 +127,12 @@ function getNextYear(year,month) {
 }
 
 // 获取前十年日期对象的函数
-function getLastTenYear(year,month) {
+function getLastTenYear(year, month) {
   let LastTenYear = {}
-  if(year-10 <0){
+  if (year - 10 < 0) {
     LastTenYear.year = 0
-  }else{
-    LastTenYear.year = year-10
+  } else {
+    LastTenYear.year = year - 10
   }
   LastTenYear.month = month
   LastTenYear.dayNum = getDayNum(LastTenYear.year, LastTenYear.month)
@@ -141,9 +141,9 @@ function getLastTenYear(year,month) {
 }
 
 // 获取后十年日期对象的函数
-function getNextTenYear(year,month) {
+function getNextTenYear(year, month) {
   let NextTenYear = {}
-  NextTenYear.year = year+10
+  NextTenYear.year = year + 10
   NextTenYear.month = month
   NextTenYear.dayNum = getDayNum(NextTenYear.year, NextTenYear.month)
   NextTenYear.dayOfOne = getDayOfOne(NextTenYear.year, NextTenYear.month)
@@ -162,17 +162,17 @@ function showCalendar() {
 
   // 生成表头
   let week = document.createElement("div")
-  week.setAttribute("id","week")
-  for(let k =0;k<7;k++){
+  week.setAttribute("id", "week")
+  for (let k = 0; k < 7; k++) {
     let item = document.createElement("div")
-    item.setAttribute("class","item")
+    item.setAttribute("class", "item")
     item.innerHTML = Week[k]
     week.appendChild(item)
   }
 
   // 生成表内容
   let table = document.createElement("table")
-  table.setAttribute("id","calender_content")
+  table.setAttribute("id", "calender_content")
   let i = 0
   for (i; i < ShowDate.dayOfOne; i++) {
     LastStr += `<td>${LastMonth.dayNum - ShowDate.dayOfOne + i + 1}</td>`
@@ -211,13 +211,15 @@ function showCalendar() {
 // 更改日历显示效果
 function changeCalendarCss(dayOfOne, dayNum) {
   let CalendarList = document.getElementsByTagName("td")
-  let i = 0
-  for (i; i < dayOfOne; i++) {
-    addClass(CalendarList[i],"NotNow")
+  for (let i = 0; i < 42; i++) {
+    if (i < dayOfOne || i >= (dayOfOne + dayNum)) {
+      addClass(CalendarList[i], "NotNow")
+    }
   }
-  i--
-  for (i = dayOfOne + dayNum; i < 42; i++) {
-    addClass(CalendarList[i],"NotNow")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+  if (ShowDate.year === TodayDate.year && ShowDate.month === TodayDate.month && ShowDate.date === TodayDate.date) {
+    addClass(CalendarList[dayOfOne+TodayDate.date-1],"CurDateItem")
+    let str = `<div class="CurDate">${TodayDate.date}</div>`
+    CalendarList[dayOfOne+TodayDate.date-1].innerHTML = str
   }
 }
 
@@ -225,12 +227,12 @@ let content_head = document.getElementById("show_month")
 // 显示日历头
 function showHead(year, month) {
   let str = ""
-  if(showing === 0){
+  if (showing === 0) {
     str = `${year}年${month + 1}月`
-  }else if(showing === 1){
+  } else if (showing === 1) {
     str = `${year}年`
-  }else if(showing === 2){
-    str = `${year - year% 10}-${(year - year% 10)+9}`
+  } else if (showing === 2) {
+    str = `${year - year % 10}-${(year - year % 10) + 9}`
   }
   content_head.innerHTML = str
 }
@@ -254,7 +256,7 @@ todayTime.addEventListener("click", showNowMonth)
 
 // 显示当月日历
 function showNowMonth() {
-  ShowDate = Object.assign(ShowDate,TodayDate)
+  ShowDate = Object.assign(ShowDate, TodayDate)
   showing = 0
   showCalendar()
 }
@@ -262,36 +264,36 @@ function showNowMonth() {
 // ----内容头----------------------------------------------
 
 
-content_head.addEventListener("click",handleContentClick)
+content_head.addEventListener("click", handleContentClick)
 
 
 // 处理点击事件
-function handleContentClick(){
-  if(showing<3){
+function handleContentClick() {
+  if (showing < 3) {
     showing++
   }
-  if(showing === 1){
+  if (showing === 1) {
     showMonth()
   }
-  if(showing === 2){
+  if (showing === 2) {
     showYear()
   }
 }
 
 // 显示月历的函数
 
-function showMonth(){
+function showMonth() {
   let str = "<table>"
-  for(let i=0;i<16;i++){
-    if(i%4===0){
-      str +="<tr>"
+  for (let i = 0; i < 16; i++) {
+    if (i % 4 === 0) {
+      str += "<tr>"
     }
-    str +=`<td>${i+1}月</td>`
-    if(i%4===3){
-      str +="</tr>"
+    str += `<td>${i + 1}月</td>`
+    if (i % 4 === 3) {
+      str += "</tr>"
     }
   }
-  str +="</table>"
+  str += "</table>"
   content.innerHTML = str
   showHead(ShowDate.year)
   changeMonthCss()
@@ -302,42 +304,43 @@ function changeMonthCss() {
   const table = content.getElementsByTagName("table")[0]
   table.className = "month_content"
   const MonthList = table.getElementsByTagName("td")
-  for(let i = 0;i<16;i++){
-    MonthList[i].addEventListener("click",handleMonthClick)
-    if(i>=12){
-      addClass(MonthList[i],"NotNow")
+  for (let i = 0; i < 16; i++) {
+    MonthList[i].addEventListener("click", handleMonthClick)
+    if (i >= 12) {
+      addClass(MonthList[i], "NotNow")
     }
   }
+  
 }
 
 // 处理点击月份
-function handleMonthClick(){
-  showing =0
+function handleMonthClick() {
+  showing = 0
   const month = this.childNodes[0].nodeValue.charAt(0)
-  ShowDate.month = month-1
-  ShowDate.dayNum = getDayNum(ShowDate.year,ShowDate.month)
+  ShowDate.month = month - 1
+  ShowDate.dayNum = getDayNum(ShowDate.year, ShowDate.month)
   ShowDate.dayOfOne = getDayOfOne(ShowDate.year, ShowDate.month);
-  showHead(ShowDate.year,ShowDate.month) //更新日历头
+  showHead(ShowDate.year, ShowDate.month) //更新日历头
   showCalendar()  //更新日历
 }
 
 // 显示年历
-function showYear(){
-  let index = [3,0,1,2]
-  let leftYear = ShowDate.year-ShowDate.year%10
-  let leftYearIndex = index[leftYear %4]
+function showYear() {
+  let index = [3, 0, 1, 2]
+  let leftYear = ShowDate.year - ShowDate.year % 10
+  let leftYearIndex = index[leftYear % 4]
   let str = "<table>"
-  const FirstYear = leftYear-leftYearIndex
-  for(let i = 0;i<16;i++){
-    if(i%4 === 0){
-      str +="<tr>"
+  const FirstYear = leftYear - leftYearIndex
+  for (let i = 0; i < 16; i++) {
+    if (i % 4 === 0) {
+      str += "<tr>"
     }
-    str +=`<td>${FirstYear+i}</td>`
-    if(i%4===3){
-      str +="</tr>"
+    str += `<td>${FirstYear + i}</td>`
+    if (i % 4 === 3) {
+      str += "</tr>"
     }
   }
-  str +="</table>"
+  str += "</table>"
   content.innerHTML = str
   showHead(ShowDate.year)
   changeYearCss(leftYearIndex)
@@ -348,30 +351,30 @@ function changeYearCss(leftYearIndex) {
   const table = content.getElementsByTagName("table")[0]
   table.className = "month_content"
   const YearList = table.getElementsByTagName("td")
-  for(let i = 0;i<16;i++){
-    YearList[i].addEventListener("click",handleYearClick)
-    if(i<leftYearIndex || i>leftYearIndex+9){
-      addClass(YearList[i],"NotNow")
+  for (let i = 0; i < 16; i++) {
+    YearList[i].addEventListener("click", handleYearClick)
+    if (i < leftYearIndex || i > leftYearIndex + 9) {
+      addClass(YearList[i], "NotNow")
     }
   }
 }
 
 // 处理点击年份
-function handleYearClick(){
+function handleYearClick() {
   showing = 1
   const year = this.childNodes[0].nodeValue
   ShowDate.year = year
-  ShowDate.dayNum = getDayNum(ShowDate.year,ShowDate.month)
+  ShowDate.dayNum = getDayNum(ShowDate.year, ShowDate.month)
   ShowDate.dayOfOne = getDayOfOne(ShowDate.year, ShowDate.month);
-  showHead(ShowDate.year,ShowDate.month) //更新日历头
+  showHead(ShowDate.year, ShowDate.month) //更新日历头
   showMonth()  //显示月历
 }
 
 // 为节点添加类
-function addClass(node,className){
-  if(node.className){
-    node.className +=` ${className}`
-  }else{
+function addClass(node, className) {
+  if (node.className) {
+    node.className += ` ${className}`
+  } else {
     node.className = className
   }
 }
@@ -389,10 +392,10 @@ function showLast() {
   if (showing === 0) { //如果在显示日历
     ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
     showCalendar()
-  }else if(showing === 1){ //如果在显示月历
+  } else if (showing === 1) { //如果在显示月历
     ShowDate = getLastYear(ShowDate.year, ShowDate.month)
     showMonth()
-  }else if(showing === 2){ //如果在显示年历
+  } else if (showing === 2) { //如果在显示年历
     ShowDate = getLastTenYear(ShowDate.year, ShowDate.month)
     showYear()
   }
@@ -403,10 +406,10 @@ function showNext() {
   if (showing === 0) {
     ShowDate = getNextMonth(ShowDate.year, ShowDate.month)
     showCalendar()
-  }else if(showing === 1){ //如果在显示月历
+  } else if (showing === 1) { //如果在显示月历
     ShowDate = getNextYear(ShowDate.year, ShowDate.month)
     showMonth()
-  }else if(showing === 2){ //如果在显示年历
+  } else if (showing === 2) { //如果在显示年历
     ShowDate = getNextTenYear(ShowDate.year, ShowDate.month)
     showYear()
   }
