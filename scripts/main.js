@@ -70,99 +70,132 @@ function showToday(year, month, day) {
 
 
 // 获取上个月日期对象的函数
-function getLastMonth(year,month){
-    let LastMonth = {}
-    if(month === 0){ //如果是一月份
-        LastMonth.month = 11
-        LastMonth.year = year -1
-    } else{
-        LastMonth.month = month-1
-        LastMonth.year = year
-    }
-    LastMonth.dayNum = getDayNum(LastMonth.year,LastMonth.month)
-    LastMonth.dayOfOne = getDayOfOne(LastMonth.year, LastMonth.month)
-    return LastMonth
+function getLastMonth(year, month) {
+  let LastMonth = {}
+  if (month === 0) { //如果是一月份
+    LastMonth.month = 11
+    LastMonth.year = year - 1
+  } else {
+    LastMonth.month = month - 1
+    LastMonth.year = year
+  }
+  LastMonth.dayNum = getDayNum(LastMonth.year, LastMonth.month)
+  LastMonth.dayOfOne = getDayOfOne(LastMonth.year, LastMonth.month)
+  return LastMonth
 }
 
 // 获取下个月日期对象的函数
-function getNextMonth(year,month){
-    let NextMonth = {}
-    if(month === 11){ //如果是12月份
-        NextMonth.month = 1
-        NextMonth.year = year +1
-    } else{
-        NextMonth.month = month+1
-        NextMonth.year = year
-    }
-    NextMonth.dayNum = getDayNum(NextMonth.year,NextMonth.month)
-    NextMonth.dayOfOne = getDayOfOne(NextMonth.year, NextMonth.month)
-    return NextMonth
+function getNextMonth(year, month) {
+  let NextMonth = {}
+  if (month === 11) { //如果是12月份
+    NextMonth.month = 1
+    NextMonth.year = year + 1
+  } else {
+    NextMonth.month = month + 1
+    NextMonth.year = year
+  }
+  NextMonth.dayNum = getDayNum(NextMonth.year, NextMonth.month)
+  NextMonth.dayOfOne = getDayOfOne(NextMonth.year, NextMonth.month)
+  return NextMonth
 }
 
 
 // 显示当前日历
 function showCalendar(ShowDate) {
-    // 获取上个月对象
-    let LastMonth = getLastMonth(ShowDate.year,ShowDate.month)
-    let Calender = document.getElementById("calender_content")
-    let LastStr = "<tr>",
-        NowStr = "",
-        NextStr = ""
-    let i = 0
-    for(i;i<ShowDate.dayOfOne;i++){
-        LastStr += `<td>${LastMonth.dayNum-ShowDate.dayOfOne+i+1}</td>`
+  // 获取上个月对象
+  let LastMonth = getLastMonth(ShowDate.year, ShowDate.month)
+  let Calender = document.getElementById("calender_content")
+  let LastStr = "<tr>",
+    NowStr = "",
+    NextStr = ""
+  let i = 0
+  for (i; i < ShowDate.dayOfOne; i++) {
+    LastStr += `<td>${LastMonth.dayNum - ShowDate.dayOfOne + i + 1}</td>`
+  }
+  i--
+  for (let j = 1; j <= ShowDate.dayNum; j++) {
+    // console.log(i)
+    i++
+    if (i % 7 === 0) {
+      NowStr += "<tr>"
     }
-    i--
-    for(let j = 1;j<=ShowDate.dayNum;j++){
-        // console.log(i)
-        i++
-        if(i%7 ===0){
-            NowStr +="<tr>"
-        }
-        NowStr +=`<td>${j}</td>`
-        if(i%7 ===6){
-            NowStr +="</tr>"
-        }
+    NowStr += `<td>${j}</td>`
+    if (i % 7 === 6) {
+      NowStr += "</tr>"
     }
-    let k = 1
-    for(i = i+1;i<42;i++){
-        if(i%7 ===0){
-            NextStr +="<tr>"
-        }
-        NextStr +=`<td>${k}</td>`
-        k++
-        if(i%7 ===6){
-            NextStr +="</tr>"
-        }
+  }
+  let k = 1
+  for (i = i + 1; i < 42; i++) {
+    if (i % 7 === 0) {
+      NextStr += "<tr>"
     }
-    Calender.innerHTML = LastStr+NowStr+NextStr
-    ChangeCalendarCss(ShowDate.dayOfOne,ShowDate.dayNum)
+    NextStr += `<td>${k}</td>`
+    k++
+    if (i % 7 === 6) {
+      NextStr += "</tr>"
+    }
+  }
+  Calender.innerHTML = LastStr + NowStr + NextStr
+  changeCalendarCss(ShowDate.dayOfOne, ShowDate.dayNum)
 }
 
-
-function ChangeCalendarCss(dayOfOne,dayNum){
-    let CalendarList =document.getElementsByTagName("td")
-    let i = 0
-    for(i;i<dayOfOne;i++){
-        CalendarList[i].className += " NotNowMonth"
-    }
-    i--
-    for(i=dayOfOne+dayNum;i<42;i++){
-        CalendarList[i].className += " NotNowMonth"
-    } 
+// 更改日历显示效果
+function changeCalendarCss(dayOfOne, dayNum) {
+  let CalendarList = document.getElementsByTagName("td")
+  let i = 0
+  for (i; i < dayOfOne; i++) {
+    CalendarList[i].className += " NotNowMonth"
+  }
+  i--
+  for (i = dayOfOne + dayNum; i < 42; i++) {
+    CalendarList[i].className += " NotNowMonth"
+  }
 }
 
+// 显示日历头
+function showMonth(year, month) {
+  let ShowMonth = document.getElementById("show_month")
+  let str = `${year}年${month + 1}月`
+  ShowMonth.innerHTML = str
+}
 
 // 页面初始化要调用的函数
-function CalendarOnload(){ 
-    showClock();
-    showToday(TodayDate.year,TodayDate.month+1,TodayDate.date);
-    showCalendar(ShowDate)
-    
+function calendarOnload() {
+  showClock();
+  showToday(TodayDate.year, TodayDate.month + 1, TodayDate.date);
+  showMonth(ShowDate.year, ShowDate.month)
+  showCalendar(ShowDate)
+
 }
 
 // 页面加载完成后就要调用的函数
-window.addEventListener("load", CalendarOnload);
+window.addEventListener("load", calendarOnload);
+
+
+//-----下面是交互部分------------
+
+const ButtonList = document.getElementsByClassName("button")
+const NextButton = ButtonList[0]
+const LastButton = ButtonList[1]
+NextButton.addEventListener("click",showNextMonth)
+LastButton.addEventListener("click",showLastMonth)
+
+// 显示上个月日历
+function showLastMonth(){
+  ShowDate = getLastMonth(ShowDate.year,ShowDate.month)
+  showCalendar(ShowDate)
+  showMonth(ShowDate.year, ShowDate.month)
+}
+
+// 显示下个月日历
+function showNextMonth(){
+  ShowDate = getNextMonth(ShowDate.year,ShowDate.month)
+  showCalendar(ShowDate)
+  showMonth(ShowDate.year, ShowDate.month)
+}
+
+
+
 
 
 
