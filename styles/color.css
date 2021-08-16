@@ -37,11 +37,11 @@
     background-color: navy;
 } */
 
-table td{
+#calender_content td{
     border-color: rgb(43,49,61);
     /* background-color: blueviolet; */
 }
-table td:hover{
+#calender_content td:hover{
     border-color: rgb(95,97,101);
     /* background-color: blueviolet; */
 }
@@ -52,6 +52,15 @@ table td:hover{
     background-color: wheat;
 } */
 
-.NotNowMonth{
+.NotNow{
     color: rgb(95,97,101);;
+}
+
+.month_content td{
+    border-color: rgb(43,49,61);
+    /* background-color: blueviolet; */
+}
+.month_content td:hover{
+    border-color: rgb(95,97,101);
+    /* background-color: blueviolet; */
 }
