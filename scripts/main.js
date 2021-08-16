@@ -2,6 +2,9 @@ const MyDate = new Date();
 const MonthOfLeapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const MonthOfComYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const DayChange = [6, 0, 1, 2, 3, 4, 5];
+const Week = ["一","二","三","四","五","六","日"]
+const ShowList = ["day", "month", "year"]
+let showing = 0   // 当前显示的是日历还是月历还是年历
 
 // 存当前处于时间的对象
 const TodayDate = {
@@ -99,15 +102,29 @@ function getNextMonth(year, month) {
   return NextMonth
 }
 
-
+const content = document.getElementsByClassName("content")[0]
 // 显示当前日历
 function showCalendar(ShowDate) {
   // 获取上个月对象
   let LastMonth = getLastMonth(ShowDate.year, ShowDate.month)
-  let Calender = document.getElementById("calender_content")
+  // let Calender = document.getElementById("calender_content")
   let LastStr = "<tr>",
     NowStr = "",
     NextStr = ""
+
+  // 生成表头
+  let week = document.createElement("div")
+  week.setAttribute("id","week")
+  for(let k =0;k<7;k++){
+    let item = document.createElement("div")
+    item.setAttribute("class","item")
+    item.innerHTML = Week[k]
+    week.appendChild(item)
+  }
+
+  // 生成表内容
+  let table = document.createElement("table")
+  table.setAttribute("id","calender_content")
   let i = 0
   for (i; i < ShowDate.dayOfOne; i++) {
     LastStr += `<td>${LastMonth.dayNum - ShowDate.dayOfOne + i + 1}</td>`
@@ -135,9 +152,12 @@ function showCalendar(ShowDate) {
       NextStr += "</tr>"
     }
   }
-  Calender.innerHTML = LastStr + NowStr + NextStr
+  content.innerHTML = ""
+  table.innerHTML = LastStr + NowStr + NextStr
+  content.appendChild(week)
+  content.appendChild(table)
   changeCalendarCss(ShowDate.dayOfOne, ShowDate.dayNum)
-  showMonth(ShowDate.year, ShowDate.month)
+  showHead(ShowDate.year, ShowDate.month)
 }
 
 // 更改日历显示效果
@@ -145,19 +165,26 @@ function changeCalendarCss(dayOfOne, dayNum) {
   let CalendarList = document.getElementsByTagName("td")
   let i = 0
   for (i; i < dayOfOne; i++) {
-    CalendarList[i].className += " NotNowMonth"
+    addClass(CalendarList[i],"NotNow")
   }
   i--
   for (i = dayOfOne + dayNum; i < 42; i++) {
-    CalendarList[i].className += " NotNowMonth"
+    addClass(CalendarList[i],"NotNow")                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
   }
 }
 
+let content_head = document.getElementById("show_month")
 // 显示日历头
-function showMonth(year, month) {
-  let ShowMonth = document.getElementById("show_month")
-  let str = `${year}年${month + 1}月`
-  ShowMonth.innerHTML = str
+function showHead(year, month) {
+  let str = ""
+  if(showing === 0){
+    str = `${year}年${month + 1}月`
+  }else if(showing === 1){
+    str = `${year}年`
+  }else if(showing === 2){
+    str = `${year - year% 10}-${(year - year% 10)+9}`
+  }
+  content_head.innerHTML = str
 }
 
 // 页面初始化要调用的函数
@@ -172,32 +199,144 @@ function calendarOnload() {
 window.addEventListener("load", calendarOnload);
 
 
-//-----下面是交互部分------------
+// -----下面是交互部分------------
 
+// ----上下键部分------------------
 const ButtonList = document.getElementsByClassName("button")
 const NextButton = ButtonList[1]
 const LastButton = ButtonList[0]
-NextButton.addEventListener("click",showNextMonth)
-LastButton.addEventListener("click",showLastMonth)
+NextButton.addEventListener("click", showNext)
+LastButton.addEventListener("click", showLast)
 
 // 显示上个月日历
-function showLastMonth(){
-  ShowDate = getLastMonth(ShowDate.year,ShowDate.month)
-  showCalendar(ShowDate)
+function showLast() {
+  if (showing === 0) {
+    ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
+    showCalendar(ShowDate)
+  }
 }
 
 // 显示下个月日历
-function showNextMonth(){
-  ShowDate = getNextMonth(ShowDate.year,ShowDate.month)
-  showCalendar(ShowDate)
+function showNext() {
+  if (showing === 0) {
+    ShowDate = getNextMonth(ShowDate.year, ShowDate.month)
+    showCalendar(ShowDate)
+  }
 }
 
-todayTime.addEventListener("click",showNowMonth)
+// -----蓝字部分------------------------------------------
+todayTime.addEventListener("click", showNowMonth)
 
-function showNowMonth(){
+// 显示当月日历
+function showNowMonth() {
   showCalendar(TodayDate)
+  showing = 0
 }
 
+// ----内容头----------------------------------------------
+
+
+content_head.addEventListener("click",handleContentClick)
+
+
+// 处理点击事件
+function handleContentClick(){
+  if(showing<3){
+    showing++
+  }
+  if(showing === 1){
+    showMonth()
+  }
+  if(showing === 2){
+    showYear()
+  }
+}
+
+// 显示月历的函数
+
+function showMonth(){
+  let str = "<table>"
+  for(let i=0;i<16;i++){
+    if(i%4===0){
+      str +="<tr>"
+    }
+    str +=`<td>${i+1}月</td>`
+    if(i%4===3){
+      str +="</tr>"
+    }
+  }
+  str +="</table>"
+  content.innerHTML = str
+  showHead(ShowDate.year)
+  changeMonthCss()
+
+}
+
+// 更改月历显示效果,绑定事件处理函数
+function changeMonthCss() {
+  const table = content.getElementsByTagName("table")[0]
+  table.className = "month_content"
+  const MonthList = table.getElementsByTagName("td")
+  for(let i = 0;i<16;i++){
+    MonthList[i].addEventListener("click",handleMonthClick)
+    if(i>=12){
+      addClass(MonthList[i],"NotNow")
+    }
+  }
+}
+
+// 处理点击月份
+function handleMonthClick(){
+  showing =0
+  const month = this.childNodes[0].nodeValue.charAt(0)
+  ShowDate.month = month-1
+  ShowDate.dayNum = getDayNum(ShowDate.year,ShowDate.month)
+  ShowDate.dayOfOne = getDayOfOne(ShowDate.year, ShowDate.month);
+  showHead(ShowDate.year,ShowDate.month) //更新日历头
+  showCalendar(ShowDate)  //更新日历
+}
+
+function showYear(){
+  let index = [3,0,1,2]
+  let leftYear = ShowDate.year-ShowDate.year%10
+  let leftYearIndex = index[leftYear %4]
+  let str = "<table>"
+  const FirstYear = leftYear-leftYearIndex
+  for(let i = 0;i<16;i++){
+    if(i%4 === 0){
+      str +="<tr>"
+    }
+    str +=`<td>${FirstYear+i}</td>`
+    if(i%4===3){
+      str +="</tr>"
+    }
+  }
+  str +="</table>"
+  content.innerHTML = str
+  showHead(ShowDate.year)
+  changeYearCss(leftYearIndex)
+}
+
+// 更改年历显示效果
+function changeYearCss(leftYearIndex) {
+  const table = content.getElementsByTagName("table")[0]
+  table.className = "month_content"
+  const YearList = table.getElementsByTagName("td")
+  for(let i = 0;i<16;i++){
+    if(i<leftYearIndex || i>leftYearIndex+9){
+      addClass(YearList[i],"NotNow")
+    }
+  }
+}
+
+// 为节点添加类
+function addClass(node,className){
+  if(node.className){
+    node.className +=` ${className}`
+  }else{
+    node.className = className
+  }
+}
 
 
 
