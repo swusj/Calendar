@@ -83,8 +83,15 @@
 
 .month_content td{
     border: solid 2px;
-    width: 42px;
     text-align: center;
+}
+
+.CurDate{
+    border: solid 2px;
+    width:auto;
+    text-align: center;
+    height: calc(100% - 4px);
+    display: flex;
 }
 
 
