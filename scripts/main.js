@@ -90,8 +90,7 @@ function showLast() {
   } else if (ShowDate.showing === 1) { //如果在显示月历
     carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.3)
   } else if (ShowDate.showing === 2) { //如果在显示年历
-    ShowDate = getLastTenYear(ShowDate.year, ShowDate.month)
-    showYear(ShowDate, TodayDate, content, content_head)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.3)
   }
 }
 
@@ -102,19 +101,19 @@ function showNext() {
   } else if (ShowDate.showing === 1) { //如果在显示月历
     carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.3)
   } else if (ShowDate.showing === 2) { //如果在显示年历
-    ShowDate = getNextTenYear(ShowDate.year, ShowDate.month)
-    showYear(ShowDate, TodayDate, content, content_head)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.3)
   }
 }
 
-// 实现过度效果 先给轮播图加上trans, 再移动top, 移完了，去掉trans,更新日历 
+// 实现过渡效果 先给轮播图加上trans, 再移动top, 移完了，去掉trans,更新日历 
 function carouselTrans(carousel, method, time) {
   const table_height = window.getComputedStyle(carousel.getElementsByTagName("table")[0]).height;  // 获取最终元素的style，是只读的，而style是只写的
 
   addClass(carousel, "trans")
 
   if (method === "last") {
-    carousel.style.top = `0px`
+    carousel.style.top = `0px` //移动top
+
     setTimeout(function () {
       carousel.classList.remove("trans")
       if (ShowDate.showing === 0) { //如果在显示月历
@@ -123,10 +122,14 @@ function carouselTrans(carousel, method, time) {
       } else if (ShowDate.showing === 1) { //如果在显示月历
         ShowDate = getLastYear(ShowDate.year, ShowDate.month)
         showMonth(ShowDate, TodayDate, content, content_head)
+      } else if (ShowDate.showing === 2) { //如果在显示年历
+        ShowDate = getLastTenYear(ShowDate.year, ShowDate.month)
+        showYear(ShowDate, TodayDate, content, content_head)
       }
     }, time * 1000)
   } else if (method === "next") {
-    carousel.style.top = `${-2 * table_height.slice(0, -2)}px`
+    carousel.style.top = `${-2 * table_height.slice(0, -2)}px` //移动top
+
     setTimeout(function () {
       carousel.classList.remove("trans")
       if (ShowDate.showing === 0) { //如果在显示月历
@@ -135,6 +138,9 @@ function carouselTrans(carousel, method, time) {
       } else if (ShowDate.showing === 1) { //如果在显示月历
         ShowDate = getNextYear(ShowDate.year, ShowDate.month)
         showMonth(ShowDate, TodayDate, content, content_head)
+      } else if (ShowDate.showing === 2) { //如果在显示年历
+        ShowDate = getNextTenYear(ShowDate.year, ShowDate.month)
+        showYear(ShowDate, TodayDate, content, content_head)
       }
     }, time * 1000)
   }
