@@ -12,8 +12,9 @@
 
 问题 3：怎么实现点击按钮后是滚动切换的效果？
 借鉴轮播图的思想。可以先显示 3 个月/年/十年的日历，显示的容器 overflow:hidden，position:relative, size 还是是 x 历该有的大小;内里包含一个放了三个 x 历的 div2，按理来说应该是显示容器的三倍（因为有上中下三个月嘛），设置其 position 为 absolute，top 应该等于负一个 x 历的高度；
-滚动就可以 transition: top xs（不确定）
-点击的时候，先更改 div2 的 top，此时 transition 生效开始动画，动画完了(用 settimeout)。然后再将上中下三个对象移位，补位。然后重新渲染 div2 的内容,此时先把 div2 的 transition 值改成 0，再更改其 top 为负一个 x 历的高度，再设置 transition: top xs
+滚动就可以 transition: top xs
+点击的时候，先给轮播图加上 trans,再更改 div2 的 top，此时 transition 生效开始动画，动画完了(用 settimeout)。去掉 trans,再更改 ShowDate。然后重新渲染 div2 的内容(x 历)
+因此所有生成 x 历骨架的函数都要一次性生成三个表格
 
 显示函数：
 
@@ -34,7 +35,7 @@
 3. 显示日历
 
 1) 日历：
-   createCalendar 显示日历骨架 (先生成 html 骨架)
+   createCalendar 显示全部日历骨架 (先生成 html 骨架)
    changeCalendarCss 更改日历显示效果 (再添加 css)
    showCalendar 显示日历 (调用 createCalendar，changeCalendarCss，showHead)
 
@@ -70,3 +71,7 @@
 onload：
 
 1. calendarOnload 页面初始化要调用的函数(showClock,showToday,showCalendar)
+
+轮播图过渡：
+
+1. carouselTrans 实现过渡效果 先给轮播图加上 trans, 再移动 top, 移完了，去掉 trans,更新日历
