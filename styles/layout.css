@@ -24,8 +24,7 @@
   padding: 0 12px;
   width: 336px;
   height: 344px;
-  /* position: relative; */
-  /* 最后一条是拿来实现轮播图的，这个就是最外层的div了 */
+  position: relative;
 }
 #calendar_top {
   width: 100%;
@@ -71,16 +70,16 @@
 .content {
   width: 336px;
   height: 317px;
-  position: relative;
+  overflow: hidden;
+  position: absolute;
+  top: 27px;
+  left: 13px;
 }
 
 /* 表格始终上边空了一节，才用了绝对定位 */
 .month_content {
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: 317px;
 }
 
 .month_content td {
@@ -108,4 +107,13 @@
   width: 100%;
   position: absolute;
   top: -259px;
+}
+
+/* 存三个月的轮播图,是会改变top的那个 */
+.month_carousel {
+  height: calc(317px * 1);
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  top: -317px;
 }
