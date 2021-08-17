@@ -10,6 +10,11 @@
 问题 2：如何点击日历头来切换显示的是日历还是年历？
 最开始是用了一个全局变量 showing 来存储当前显示状态，但发现如果将代码拆分到多个文件中去的话，showing 不好更改，因此重新考虑作为 ShowDate 的一个属性 ShowDate.showing 好带着走。
 
+问题 3：怎么实现点击按钮后是滚动切换的效果？
+借鉴轮播图的思想。可以先显示 3 个月/年/十年的日历，显示的容器 overflow:hidden，position:relative, size 还是是 x 历该有的大小;内里包含一个放了三个 x 历的 div2，按理来说应该是显示容器的三倍（因为有上中下三个月嘛），设置其 position 为 absolute，top 应该等于负一个 x 历的高度；
+滚动就可以 transition: top xs（不确定）
+点击的时候，先更改 div2 的 top，此时 transition 生效开始动画，动画完了(用 settimeout)。然后再将上中下三个对象移位，补位。然后重新渲染 div2 的内容,此时先把 div2 的 transition 值改成 0，再更改其 top 为负一个 x 历的高度，再设置 transition: top xs
+
 显示函数：
 
 1. 计时器
