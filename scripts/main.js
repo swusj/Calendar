@@ -38,11 +38,17 @@ let ShowDate = {};
 ShowDate = Object.assign(ShowDate, TodayDate); // 浅拷贝就够了
 ShowDate.showing = 0  // 当前显示的是日历还是月历还是年历
 
-
+// 获取主要要显示内容的元素节点容器
 const todayTime = document.getElementById("todayTime");
 const content = document.getElementsByClassName("content")[0]
 const content_head = document.getElementById("show_month")
 
+
+
+// 绑定各种事件
+
+// ---绑定页面加载完成-------------------------------------
+window.addEventListener("load", calendarOnload);
 
 // 页面初始化要调用的函数
 function calendarOnload() {
@@ -51,19 +57,13 @@ function calendarOnload() {
   showCalendar(ShowDate, TodayDate, content, content_head)
 }
 
-// 页面加载完成后就要调用的函数
-window.addEventListener("load", calendarOnload);
-
-
-// 绑定各种事件
-
 // -----蓝字部分------------------------------------------
 todayTime.addEventListener("click", showNowMonth.bind(todayTime, ShowDate, TodayDate, content, content_head))
-// ----内容头----------------------------------------------
 
+// ----x历头----------------------------------------------
 content_head.addEventListener("click", handleContentClick)
 
-// 处理点击事件
+// 处理点击 x 历头
 function handleContentClick() {
   if (ShowDate.showing < 3) {
     ShowDate.showing++
@@ -75,7 +75,6 @@ function handleContentClick() {
     showYear(ShowDate, TodayDate, content, content_head)
   }
 }
-
 
 // ----上下键部分------------------
 const ButtonList = document.getElementsByClassName("button")
