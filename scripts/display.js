@@ -1,21 +1,11 @@
 import {
-    MonthOfLeapYear,
-    MonthOfComYear,
-    DayChange,
     Week,
-    ShowList
 } from './config.js'
 
 import {
-    isLeapYear,
     getDayNum,
     getDayOfOne,
     getLastMonth,
-    getNextMonth,
-    getLastYear,
-    getNextYear,
-    getLastTenYear,
-    getNextTenYear,
     addClass
 } from "./utils.js";
 
@@ -33,9 +23,13 @@ function displayTime() {
     clock.innerHTML = ClockStr;
 }
 
+function showClock() {
+    window.setInterval(displayTime, 1000);
+}
+
 // 显示今天日期的函数
-function showToday(year, month, day, node) {
-    let today = `${year}年${month}月${day}日`;
+function showToday(TodayDate, node) {
+    let today = `${TodayDate.year}年${TodayDate.month + 1}月${TodayDate.date}日`;
     node.innerHTML = today;
 }
 
@@ -55,7 +49,7 @@ function changeCalendarCss(TodayDate, ShowDate) {
 }
 
 
-// 显示日历头
+// 显示x历头
 function showHead(ShowDate, node) {
     let str = ""
     if (ShowDate.showing === 0) {
@@ -198,8 +192,8 @@ function handleYearClick(ShowDate, TodayDate, content, content_head) {
 // 显示月历的函数
 function showMonth(ShowDate, TodayDate, content, content_head) {
     createMonth(content)
-    showHead(ShowDate, content_head)
     changeMonthCss(ShowDate, TodayDate, content, content_head)
+    showHead(ShowDate, content_head)
 }
 
 // 显示当月日历
@@ -229,8 +223,8 @@ function changeYearCss(leftYearIndex, ShowDate, TodayDate, content, content_head
 // 显示年历
 function showYear(ShowDate, TodayDate, content, content_head) {
     const leftYearIndex = createYear(ShowDate, content)
-    showHead(ShowDate, content_head)
     changeYearCss(leftYearIndex, ShowDate, TodayDate, content, content_head)
+    showHead(ShowDate, content_head)
 }
 
 export {
@@ -249,4 +243,5 @@ export {
     showNowMonth,
     changeYearCss,
     showYear,
+    showClock,
 }
