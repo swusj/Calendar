@@ -1,3 +1,10 @@
+* {
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+}
 #main {
   font-family: "Segoe UI", Times, serif;
 }
@@ -29,15 +36,14 @@ table td {
   align-items: center;
 }
 
-/* #calendar {
-  overflow: hidden;
- 
-} */
-
 .carousel_container {
   overflow: hidden;
 }
 
 .trans {
   transition: top 0.3s;
+}
+
+#todayTime {
+  cursor: pointer;
 }
