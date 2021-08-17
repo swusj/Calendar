@@ -191,12 +191,16 @@ function showMonth(ShowDate, TodayDate, content, content_head) {
 
 // 显示年历骨架
 function createYear(ShowDate, content) {
+    // 生成表格骨架
     let index = [3, 0, 1, 2]
     let leftYear = ShowDate.year - ShowDate.year % 10
     let leftYearIndex = index[leftYear % 4]
-    let str = "<table>"
-    const FirstYear = leftYear - leftYearIndex
-    for (let i = 0; i < 16; i++) {
+    let str = ""
+    const FirstYear = leftYear - leftYearIndex - 32
+    for (let i = 0; i < 48; i++) {
+        if (i % 16 === 0) {
+            str += "<table>"
+        }
         if (i % 4 === 0) {
             str += "<tr>"
         }
@@ -204,17 +208,29 @@ function createYear(ShowDate, content) {
         if (i % 4 === 3) {
             str += "</tr>"
         }
+        if (i % 16 === 15) {
+            str += "</table>"
+        }
     }
-    str += "</table>"
-    content.innerHTML = str
+
+    // 生成轮播图
+    const month_carousel = document.createElement("div")
+    addClass(month_carousel, "month_carousel")
+    month_carousel.innerHTML = str
+
+    content.innerHTML = ""
+    content.appendChild(month_carousel)
+
     return leftYearIndex
 }
 
 // 更改年历显示效果，绑定事件处理函数
 function changeYearCss(leftYearIndex, ShowDate, TodayDate, content, content_head) {
-    const table = content.getElementsByTagName("table")[0]
-    table.className = "month_content"
-    const YearList = table.getElementsByTagName("td")
+    const tableList = content.getElementsByTagName("table")
+    for (let i = 0; i < 3; i++) {
+        addClass(tableList[i], "month_content")
+    }
+    const YearList = tableList[1].getElementsByTagName("td")
     for (let i = 0; i < 16; i++) {
         YearList[i].addEventListener("click", handleYearClick.bind(YearList[i], ShowDate, TodayDate, content, content_head))
         if (i < leftYearIndex || i > leftYearIndex + 9) {
