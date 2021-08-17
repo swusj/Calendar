@@ -7,10 +7,10 @@ import {
   getNextYear,
   getLastTenYear,
   getNextTenYear,
+  addClass,
 } from "./utils.js";
 
 import {
-  displayTime,
   showToday,
   showCalendar,
   showMonth,
@@ -86,9 +86,7 @@ LastButton.addEventListener("click", showLast.bind())
 // 显示上个月x历 
 function showLast() {
   if (ShowDate.showing === 0) { //如果在显示日历
-    ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
-    console.log(ShowDate)
-    showCalendar(ShowDate, TodayDate, content, content_head)
+    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "last", 0.5)
   } else if (ShowDate.showing === 1) { //如果在显示月历
     ShowDate = getLastYear(ShowDate.year, ShowDate.month)
     showMonth(ShowDate, TodayDate, content, content_head)
@@ -101,9 +99,7 @@ function showLast() {
 // 显示下个月x历
 function showNext() {
   if (ShowDate.showing === 0) {
-    ShowDate = getNextMonth(ShowDate.year, ShowDate.month)
-    console.log(ShowDate)
-    showCalendar(ShowDate, TodayDate, content, content_head)
+    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "next", 0.3)
   } else if (ShowDate.showing === 1) { //如果在显示月历
     ShowDate = getNextYear(ShowDate.year, ShowDate.month)
     showMonth(ShowDate, TodayDate, content, content_head)
@@ -113,6 +109,23 @@ function showNext() {
   }
 }
 
+// 实现过度效果 先给轮播图加上trans, 再移动top, 移完了，去掉trans,更新日历 
+function carouselTrans(carousel, method, time) {
+  let table_height = carousel.getElementsByTagName("table")[0].style.height
+  let top = 0
+  if (method === "last") {
+    top = 0
+  } else if (method === "next") {
+    top = -2 * table_height
+  }
+  addClass(carousel, "trans")
+  carousel.style.top = top
+  setTimeout(function () {
+    carousel.classList.remove("trans")
+    ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
+    showCalendar(ShowDate, TodayDate, content, content_head)
+  }, time * 1000)
+}
 
 
 
