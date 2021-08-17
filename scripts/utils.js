@@ -2,8 +2,6 @@ import {
   MonthOfLeapYear,
   MonthOfComYear,
   DayChange,
-  Week,
-  ShowList
 } from './config.js'
 
 // 获取上个月日期对象的函数
