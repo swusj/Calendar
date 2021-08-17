@@ -34,9 +34,9 @@ todayDate.dayNum = getDayNum(todayDate.year, todayDate.month);
 todayDate.dayOfOne = getDayOfOne(todayDate.year, todayDate.month);
 
 // 初始化当前显示时间对象
-let ShowDate = {};
-ShowDate = Object.assign(ShowDate, todayDate); // 浅拷贝就够了
-ShowDate.showing = 0  // 当前显示的是日历还是月历还是年历
+let showDate = {};
+showDate = Object.assign(showDate, todayDate); // 浅拷贝就够了
+showDate.showing = 0  // 当前显示的是日历还是月历还是年历
 
 // 获取主要要显示内容的元素节点容器
 const todayTime = document.getElementById("todayTime");
@@ -54,53 +54,53 @@ window.addEventListener("load", calendarOnload);
 function calendarOnload() {
   showClock();
   showToday(todayDate, todayTime);
-  showCalendar(ShowDate, todayDate, content, content_head)
+  showCalendar(showDate, todayDate, content, content_head)
 }
 
 // -----蓝字部分------------------------------------------
-todayTime.addEventListener("click", showNowMonth.bind(todayTime, ShowDate, todayDate, content, content_head))
+todayTime.addEventListener("click", showNowMonth.bind(todayTime, showDate, todayDate, content, content_head))
 
 // ----x历头----------------------------------------------
 content_head.addEventListener("click", handleContentClick)
 
 // 处理点击 x 历头
 function handleContentClick() {
-  if (ShowDate.showing < 3) {
-    ShowDate.showing++
+  if (showDate.showing < 3) {
+    showDate.showing++
   }
-  if (ShowDate.showing === 1) {
-    showMonth(ShowDate, todayDate, content, content_head)
+  if (showDate.showing === 1) {
+    showMonth(showDate, todayDate, content, content_head)
   }
-  if (ShowDate.showing === 2) {
-    showYear(ShowDate, todayDate, content, content_head)
+  if (showDate.showing === 2) {
+    showYear(showDate, todayDate, content, content_head)
   }
 }
 
 // ----上下键部分------------------
-const LastButton = document.getElementsByClassName("arrowLast")[0]
-const NextButton = document.getElementsByClassName("arrowNext")[0]
-NextButton.addEventListener("click", showNext.bind())
-LastButton.addEventListener("click", showLast.bind())
+const lastButton = document.getElementsByClassName("arrowLast")[0]
+const nextButton = document.getElementsByClassName("arrowNext")[0]
+nextButton.addEventListener("click", showNext.bind())
+lastButton.addEventListener("click", showLast.bind())
 
 // 显示上个月x历 
 function showLast() {
-  if (ShowDate.showing === 0) { //如果在显示日历
-    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "last", 0.3)
-  } else if (ShowDate.showing === 1) { //如果在显示月历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.3)
-  } else if (ShowDate.showing === 2) { //如果在显示年历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.3)
+  if (showDate.showing === 0) { //如果在显示日历
+    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "last", 0.15)
+  } else if (showDate.showing === 1) { //如果在显示月历
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.15)
+  } else if (showDate.showing === 2) { //如果在显示年历
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.15)
   }
 }
 
 // 显示下个月x历
 function showNext() {
-  if (ShowDate.showing === 0) {
-    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "next", 0.3)
-  } else if (ShowDate.showing === 1) { //如果在显示月历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.3)
-  } else if (ShowDate.showing === 2) { //如果在显示年历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.3)
+  if (showDate.showing === 0) {
+    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "next", 0.15)
+  } else if (showDate.showing === 1) { //如果在显示月历
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.15)
+  } else if (showDate.showing === 2) { //如果在显示年历
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.15)
   }
 }
 
@@ -115,15 +115,15 @@ function carouselTrans(carousel, method, time) {
 
     setTimeout(function () {
       carousel.classList.remove("trans")
-      if (ShowDate.showing === 0) { //如果在显示月历
-        ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
-        showCalendar(ShowDate, todayDate, content, content_head)
-      } else if (ShowDate.showing === 1) { //如果在显示月历
-        ShowDate = getLastYear(ShowDate.year, ShowDate.month)
-        showMonth(ShowDate, todayDate, content, content_head)
-      } else if (ShowDate.showing === 2) { //如果在显示年历
-        ShowDate = getLastTenYear(ShowDate.year, ShowDate.month)
-        showYear(ShowDate, todayDate, content, content_head)
+      if (showDate.showing === 0) { //如果在显示月历
+        showDate = getLastMonth(showDate.year, showDate.month)
+        showCalendar(showDate, todayDate, content, content_head)
+      } else if (showDate.showing === 1) { //如果在显示月历
+        showDate = getLastYear(showDate.year, showDate.month)
+        showMonth(showDate, todayDate, content, content_head)
+      } else if (showDate.showing === 2) { //如果在显示年历
+        showDate = getLastTenYear(showDate.year, showDate.month)
+        showYear(showDate, todayDate, content, content_head)
       }
     }, time * 1000)
   } else if (method === "next") {
@@ -131,15 +131,15 @@ function carouselTrans(carousel, method, time) {
 
     setTimeout(function () {
       carousel.classList.remove("trans")
-      if (ShowDate.showing === 0) { //如果在显示月历
-        ShowDate = getNextMonth(ShowDate.year, ShowDate.month)
-        showCalendar(ShowDate, todayDate, content, content_head)
-      } else if (ShowDate.showing === 1) { //如果在显示月历
-        ShowDate = getNextYear(ShowDate.year, ShowDate.month)
-        showMonth(ShowDate, todayDate, content, content_head)
-      } else if (ShowDate.showing === 2) { //如果在显示年历
-        ShowDate = getNextTenYear(ShowDate.year, ShowDate.month)
-        showYear(ShowDate, todayDate, content, content_head)
+      if (showDate.showing === 0) { //如果在显示月历
+        showDate = getNextMonth(showDate.year, showDate.month)
+        showCalendar(showDate, todayDate, content, content_head)
+      } else if (showDate.showing === 1) { //如果在显示月历
+        showDate = getNextYear(showDate.year, showDate.month)
+        showMonth(showDate, todayDate, content, content_head)
+      } else if (showDate.showing === 2) { //如果在显示年历
+        showDate = getNextTenYear(showDate.year, showDate.month)
+        showYear(showDate, todayDate, content, content_head)
       }
     }, time * 1000)
   }

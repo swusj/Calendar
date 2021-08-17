@@ -42,7 +42,7 @@ table td {
 }
 
 .trans {
-  transition: top 0.3s;
+  transition: top 0.15s;
 }
 
 #todayTime {
