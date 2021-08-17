@@ -1,9 +1,9 @@
-#main{
-    background-color: rgb(43,49,61);
-    color:white
+#main {
+  background-color: rgb(43, 49, 61);
+  color: white;
 }
-#todayTime{
-    color:rgb(166,216,255)
+#todayTime {
+  color: rgb(166, 216, 255);
 }
 /* #top{
     background-color: violet;
@@ -14,9 +14,9 @@
 #top #todayTime{
     background-color: teal;
 } */
-#calendar{
-    /* background-color: turquoise; */
-    border-color:rgb(95,97,101);
+#calendar {
+  /* background-color: turquoise; */
+  border-color: rgb(95, 97, 101);
 }
 /* #calendar_top{
     background-color: brown;
@@ -37,13 +37,13 @@
     background-color: navy;
 } */
 
-#calender_content td{
-    border-color: rgb(43,49,61);
-    /* background-color: blueviolet; */
+#calender_content td {
+  border-color: rgb(43, 49, 61);
+  /* background-color: blueviolet; */
 }
-#calender_content td:hover{
-    border-color: rgb(95,97,101);
-    /* background-color: blueviolet; */
+#calender_content td:hover {
+  border-color: rgb(95, 97, 101);
+  /* background-color: blueviolet; */
 }
 /* .item{
     background-color: rgb(49, 119, 90);
@@ -52,37 +52,45 @@
     background-color: wheat;
 } */
 
-.NotNow{
-    color: rgb(95,97,101);;
+.NotNow {
+  color: rgb(95, 97, 101);
 }
 
-.month_content td{
-    border-color: rgb(43,49,61);
-    /* background-color: blueviolet; */
+.month_content td {
+  border-color: rgb(43, 49, 61);
+  /* background-color: blueviolet; */
 }
-.month_content td:hover{
-    border-color: rgb(95,97,101);
-    /* background-color: blueviolet; */
-}
-
-#calender_content .CurDateItem{
-    border-color: rgb(0,120,215) ;
+.month_content td:hover {
+  border-color: rgb(95, 97, 101);
+  /* background-color: blueviolet; */
 }
 
-#calender_content .CurDateItem:hover{
-    border-color: rgb(102,174,215) ;
+#calender_content .CurDateItem {
+  border-color: rgb(0, 120, 215);
 }
 
-#calender_content .CurDate{
-    background-color: rgb(0,120,215);
-    border-color:rgb(43,49,61);
+#calender_content .CurDateItem:hover {
+  border-color: rgb(102, 174, 215);
 }
 
-.month_content .CurMonthItem{
-    border-color: rgb(0,120,215) ;
-    background-color: rgb(0,120,215);
+#calender_content .CurDate {
+  background-color: rgb(0, 120, 215);
+  border-color: rgb(43, 49, 61);
 }
 
-.month_content .CurMonthItem:hover{
-    border-color: rgb(102,174,215) ;
+.month_content .CurMonthItem {
+  border-color: rgb(0, 120, 215);
+  background-color: rgb(0, 120, 215);
 }
+
+.month_content .CurMonthItem:hover {
+  border-color: rgb(102, 174, 215);
+}
+
+/* .calender_carousel {
+  background-color: blanchedalmond;
+} */
+
+/* .carousel_container {
+  background-color: brown;
+} */
