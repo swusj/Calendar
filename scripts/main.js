@@ -144,7 +144,6 @@ function carouselTrans(carousel, method, time) {
       }
     }, time * 1000)
   }
-
 }
 
 
