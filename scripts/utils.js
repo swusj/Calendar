@@ -1,40 +1,40 @@
 import {
-  MonthOfLeapYear,
-  MonthOfComYear,
-  DayChange,
+  MONTHOFLEAPYEAR,
+  MONTHOFCOMYEAR,
+  DAYCHENGE,
 } from './config.js'
 
 // 获取上个月日期对象的函数
 function getLastMonth(year, month) {
-  let LastMonth = {}
+  let lastMonth = {}
   if (month === 0) { //如果是一月份
-    LastMonth.month = 11
-    LastMonth.year = year - 1
+    lastMonth.month = 11
+    lastMonth.year = year - 1
   } else {
-    LastMonth.month = month - 1
-    LastMonth.year = year
+    lastMonth.month = month - 1
+    lastMonth.year = year
   }
-  LastMonth.dayNum = getDayNum(LastMonth.year, LastMonth.month)
-  LastMonth.dayOfOne = getDayOfOne(LastMonth.year, LastMonth.month)
-  LastMonth.showing = 0
-  return LastMonth
+  lastMonth.dayNum = getDayNum(lastMonth.year, lastMonth.month)
+  lastMonth.dayOfOne = getDayOfOne(lastMonth.year, lastMonth.month)
+  lastMonth.showing = 0
+  return lastMonth
 }
 
 
 // 获取下个月日期对象的函数
 function getNextMonth(year, month) {
-  let NextMonth = {}
+  let nextMonth = {}
   if (month === 11) { //如果是12月份
-    NextMonth.month = 1
-    NextMonth.year = year + 1
+    nextMonth.month = 1
+    nextMonth.year = year + 1
   } else {
-    NextMonth.month = month + 1
-    NextMonth.year = year
+    nextMonth.month = month + 1
+    nextMonth.year = year
   }
-  NextMonth.dayNum = getDayNum(NextMonth.year, NextMonth.month)
-  NextMonth.dayOfOne = getDayOfOne(NextMonth.year, NextMonth.month)
-  NextMonth.showing = 0
-  return NextMonth
+  nextMonth.dayNum = getDayNum(nextMonth.year, nextMonth.month)
+  nextMonth.dayOfOne = getDayOfOne(nextMonth.year, nextMonth.month)
+  nextMonth.showing = 0
+  return nextMonth
 }
 
 // 判断是不是闰年的函数
@@ -50,16 +50,16 @@ function isLeapYear(year) {
 // 根据年份和月份获取月份天数的函数
 function getDayNum(year, month) {
   if (isLeapYear(year)) {
-    return MonthOfLeapYear[month];
+    return MONTHOFLEAPYEAR[month];
   } else {
-    return MonthOfComYear[month];
+    return MONTHOFCOMYEAR[month];
   }
 }
 
 // 获得某年某月的 1号 是星期几的函数
 function getDayOfOne(year, month) {
   const tmp = new Date(year, month, 1);
-  return DayChange[tmp.getDay()];
+  return DAYCHENGE[tmp.getDay()];
 }
 
 // 获取上一年日期对象的函数
@@ -79,13 +79,13 @@ function getLastYear(year, month) {
 
 // 获取下一年日期对象的函数
 function getNextYear(year, month) {
-  let NextYear = {}
-  NextYear.year = year + 1
-  NextYear.month = month
-  NextYear.dayNum = getDayNum(NextYear.year, NextYear.month)
-  NextYear.dayOfOne = getDayOfOne(NextYear.year, NextYear.month)
-  NextYear.showing = 1
-  return NextYear
+  let nextYear = {}
+  nextYear.year = year + 1
+  nextYear.month = month
+  nextYear.dayNum = getDayNum(nextYear.year, nextYear.month)
+  nextYear.dayOfOne = getDayOfOne(nextYear.year, nextYear.month)
+  nextYear.showing = 1
+  return nextYear
 }
 
 

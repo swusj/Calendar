@@ -19,23 +19,23 @@ import {
   showClock,
 } from './display.js'
 
-const MyDate = new Date();
+const myDate = new Date();
 
 // 存当前处于时间的对象
-const TodayDate = {
-  year: MyDate.getFullYear(),
-  month: MyDate.getMonth(),
-  date: MyDate.getDate(),
+const todayDate = {
+  year: myDate.getFullYear(),
+  month: myDate.getMonth(),
+  date: myDate.getDate(),
   showing: 0
 };
 
 // 初始化当前时间对象
-TodayDate.dayNum = getDayNum(TodayDate.year, TodayDate.month);
-TodayDate.dayOfOne = getDayOfOne(TodayDate.year, TodayDate.month);
+todayDate.dayNum = getDayNum(todayDate.year, todayDate.month);
+todayDate.dayOfOne = getDayOfOne(todayDate.year, todayDate.month);
 
 // 初始化当前显示时间对象
 let ShowDate = {};
-ShowDate = Object.assign(ShowDate, TodayDate); // 浅拷贝就够了
+ShowDate = Object.assign(ShowDate, todayDate); // 浅拷贝就够了
 ShowDate.showing = 0  // 当前显示的是日历还是月历还是年历
 
 // 获取主要要显示内容的元素节点容器
@@ -53,12 +53,12 @@ window.addEventListener("load", calendarOnload);
 // 页面初始化要调用的函数
 function calendarOnload() {
   showClock();
-  showToday(TodayDate, todayTime);
-  showCalendar(ShowDate, TodayDate, content, content_head)
+  showToday(todayDate, todayTime);
+  showCalendar(ShowDate, todayDate, content, content_head)
 }
 
 // -----蓝字部分------------------------------------------
-todayTime.addEventListener("click", showNowMonth.bind(todayTime, ShowDate, TodayDate, content, content_head))
+todayTime.addEventListener("click", showNowMonth.bind(todayTime, ShowDate, todayDate, content, content_head))
 
 // ----x历头----------------------------------------------
 content_head.addEventListener("click", handleContentClick)
@@ -69,17 +69,16 @@ function handleContentClick() {
     ShowDate.showing++
   }
   if (ShowDate.showing === 1) {
-    showMonth(ShowDate, TodayDate, content, content_head)
+    showMonth(ShowDate, todayDate, content, content_head)
   }
   if (ShowDate.showing === 2) {
-    showYear(ShowDate, TodayDate, content, content_head)
+    showYear(ShowDate, todayDate, content, content_head)
   }
 }
 
 // ----上下键部分------------------
-const ButtonList = document.getElementsByClassName("button")
-const NextButton = ButtonList[0]
-const LastButton = ButtonList[1]
+const LastButton = document.getElementsByClassName("arrowLast")[0]
+const NextButton = document.getElementsByClassName("arrowNext")[0]
 NextButton.addEventListener("click", showNext.bind())
 LastButton.addEventListener("click", showLast.bind())
 
@@ -118,13 +117,13 @@ function carouselTrans(carousel, method, time) {
       carousel.classList.remove("trans")
       if (ShowDate.showing === 0) { //如果在显示月历
         ShowDate = getLastMonth(ShowDate.year, ShowDate.month)
-        showCalendar(ShowDate, TodayDate, content, content_head)
+        showCalendar(ShowDate, todayDate, content, content_head)
       } else if (ShowDate.showing === 1) { //如果在显示月历
         ShowDate = getLastYear(ShowDate.year, ShowDate.month)
-        showMonth(ShowDate, TodayDate, content, content_head)
+        showMonth(ShowDate, todayDate, content, content_head)
       } else if (ShowDate.showing === 2) { //如果在显示年历
         ShowDate = getLastTenYear(ShowDate.year, ShowDate.month)
-        showYear(ShowDate, TodayDate, content, content_head)
+        showYear(ShowDate, todayDate, content, content_head)
       }
     }, time * 1000)
   } else if (method === "next") {
@@ -134,13 +133,13 @@ function carouselTrans(carousel, method, time) {
       carousel.classList.remove("trans")
       if (ShowDate.showing === 0) { //如果在显示月历
         ShowDate = getNextMonth(ShowDate.year, ShowDate.month)
-        showCalendar(ShowDate, TodayDate, content, content_head)
+        showCalendar(ShowDate, todayDate, content, content_head)
       } else if (ShowDate.showing === 1) { //如果在显示月历
         ShowDate = getNextYear(ShowDate.year, ShowDate.month)
-        showMonth(ShowDate, TodayDate, content, content_head)
+        showMonth(ShowDate, todayDate, content, content_head)
       } else if (ShowDate.showing === 2) { //如果在显示年历
         ShowDate = getNextTenYear(ShowDate.year, ShowDate.month)
-        showYear(ShowDate, TodayDate, content, content_head)
+        showYear(ShowDate, todayDate, content, content_head)
       }
     }, time * 1000)
   }
