@@ -6,7 +6,8 @@ import {
     getDayNum,
     getDayOfOne,
     getLastMonth,
-    addClass
+    addClass,
+    getNextMonth
 } from "./utils.js";
 
 
@@ -33,22 +34,6 @@ function showToday(TodayDate, node) {
     node.innerHTML = today;
 }
 
-// 更改日历显示效果
-function changeCalendarCss(TodayDate, ShowDate) {
-    let CalendarList = document.getElementsByTagName("td")
-    for (let i = 0; i < 42; i++) {
-        if (i < ShowDate.dayOfOne || i >= (ShowDate.dayOfOne + ShowDate.dayNum)) {
-            addClass(CalendarList[i], "NotNow")
-        }
-    }
-    if (ShowDate.year === TodayDate.year && ShowDate.month === TodayDate.month && ShowDate.date === TodayDate.date) {
-        addClass(CalendarList[ShowDate.dayOfOne + TodayDate.date - 1], "CurDateItem")
-        let str = `<div class="CurDate">${TodayDate.date}</div>`
-        CalendarList[ShowDate.dayOfOne + TodayDate.date - 1].innerHTML = str
-    }
-}
-
-
 // 显示x历头
 function showHead(ShowDate, node) {
     let str = ""
@@ -63,25 +48,13 @@ function showHead(ShowDate, node) {
     console.log(str)
 }
 
-
-// 显示日历骨架
-function createCalendar(ShowDate, content) {
+// 生成一个月的日历骨架
+function createSingleMonth(ShowDate) {
     // 获取上个月对象
     let LastMonth = getLastMonth(ShowDate.year, ShowDate.month)
-    let Str = ""
-
-    // 生成表头
-    let week = document.createElement("div")
-    week.setAttribute("id", "week")
-    for (let k = 0; k < 7; k++) {
-        let item = document.createElement("div")
-        item.setAttribute("class", "item")
-        item.innerHTML = Week[k]
-        week.appendChild(item)
-    }
-
-    // 生成表内容
     let table = document.createElement("table")
+    let Str = ""
+    // 生成表内容
     table.setAttribute("id", "calender_content")
     let j = 1, k = 1
     for (let i = 0; i < 42; i++) {
@@ -101,10 +74,72 @@ function createCalendar(ShowDate, content) {
             Str += "</tr>"
         }
     }
-    content.innerHTML = ""
     table.innerHTML = Str
+    return table
+}
+
+
+// 显示全部日历骨架
+function createCalendar(ShowDate, content) {
+    // 生成表头
+    let week = document.createElement("div")
+    week.setAttribute("id", "week")
+    for (let k = 0; k < 7; k++) {
+        let item = document.createElement("div")
+        item.setAttribute("class", "item")
+        item.innerHTML = Week[k]
+        week.appendChild(item)
+    }
+
+    // 生成三个表
+    const table_last = createSingleMonth(getLastMonth(ShowDate.year, ShowDate.month))
+    const table_now = createSingleMonth(ShowDate)
+    const table_next = createSingleMonth(getNextMonth(ShowDate.year, ShowDate.month))
+
+    // 轮播图容器
+    const carousel_container = document.createElement("div")
+    carousel_container.setAttribute("class", "carousel_container")
+
+    // 轮播图
+    const calender_carousel = document.createElement("div")
+    calender_carousel.setAttribute("class", "calender_carousel")
+    calender_carousel.appendChild(table_last)
+    calender_carousel.appendChild(table_now)
+    calender_carousel.appendChild(table_next)
+
+    addClass(calender_carousel, "trans")
+
+    carousel_container.appendChild(calender_carousel)
+
+    content.innerHTML = ""
     content.appendChild(week)
-    content.appendChild(table)
+    content.appendChild(carousel_container)
+}
+
+
+// 更改日历显示效果
+function changeCalendarCss(TodayDate, ShowDate, content) {
+    const table = content.getElementsByTagName("table")[1]
+    let CalendarList = table.getElementsByTagName("td")
+    for (let i = 0; i < 42; i++) {
+        if (i < ShowDate.dayOfOne || i >= (ShowDate.dayOfOne + ShowDate.dayNum)) {
+            addClass(CalendarList[i], "NotNow")
+        }
+    }
+    if (ShowDate.year === TodayDate.year && ShowDate.month === TodayDate.month && ShowDate.date === TodayDate.date) {
+        addClass(CalendarList[ShowDate.dayOfOne + TodayDate.date - 1], "CurDateItem")
+        let str = `<div class="CurDate">${TodayDate.date}</div>`
+        CalendarList[ShowDate.dayOfOne + TodayDate.date - 1].innerHTML = str
+    }
+}
+
+
+// 显示日历
+function showCalendar(ShowDate, TodayDate, content, content_head) {
+    // TODO 显示上中下三个月的日历
+    createCalendar(ShowDate, content)
+    changeCalendarCss(TodayDate, ShowDate, content)
+    showHead(ShowDate, content_head)
 }
 
 // 显示月历骨架
@@ -144,12 +179,6 @@ function createYear(ShowDate, content) {
     return leftYearIndex
 }
 
-// 显示日历
-function showCalendar(ShowDate, TodayDate, content, content_head) {
-    createCalendar(ShowDate, content)
-    changeCalendarCss(TodayDate, ShowDate)
-    showHead(ShowDate, content_head)
-}
 
 // 处理点击月份
 function handleMonthClick(ShowDate, TodayDate, content, content_head) {
@@ -244,4 +273,5 @@ export {
     changeYearCss,
     showYear,
     showClock,
+
 }
