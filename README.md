@@ -1,17 +1,67 @@
 # 日历
 
-问题1：如何正确显示当前日期日历？
-首先api获取当前年月日，但要正常显示在6*7格子中，需要了解这个月有多少天，1号是周几，才好排列
+问题 1：如何正确显示当前日期日历？
+首先 api 获取当前年月日，但要正常显示在 6\*7 格子中，需要了解这个月有多少天，1 号是周几，才好排列
 （上个月（主要是上个月有多少天）和下个月的日期也要显示几个）
 
-1. 因此首先要有个对象，存当前处于时间（年月日，天数，一号为周几）。const NowDate (day,month,year,dayNum,weekOfDayOne)
-2. 第二个对象（年月日，天数，一号为周几），存当前显示的时间。const ShowDate  (day,month,year,dayNum,DayOfOne)
+1. 因此首先要有个对象，存当前处于时间（年月日，天数，一号为周几）。const TodayDate (date,month,year,dayNum,dayOfOne)
+2. 第二个对象（年月日，天数，一号为周几），存当前显示的时间。let ShowDate (date,month,year,dayNum,dayOfOne)
+
+问题 2：如何点击日历头来切换显示的是日历还是年历？
+最开始是用了一个全局变量 showing 来存储当前显示状态，但发现如果将代码拆分到多个文件中去的话，showing 不好更改，因此重新考虑作为 ShowDate 的一个属性 ShowDate.showing 好带着走。
 
 显示函数：
 
-1. 根据年份获取月份天数的函数     getDayNum
-2. 获得某年某月的 1号 是星期几的函数   getDayOfOne
-3. 刷新显示日历的函数， showCalendar  (ShowDate)
-根据第二个Date对象，调用前面的函数获取上中下三个月日期；分别三个循环，第一个生成
-前一月的html代码；第二个生成当月代码；第三个生成下月代码；其中注意不同日期不同显示效果，最后将字符串
-设置为xx.innerhtml
+1. 计时器
+
+1) displayTime 显示当前时刻的函数
+2) showClock 用 setInterval 调用 displayTime 实现计时器
+
+2. 蓝字
+
+1) showToday 显示今天日期的函数（蓝字部分）
+2) showNowMonth 绑定的点击事件，显示当月日历
+
+3. 日历头
+
+1) showHead 显示 x 历头 (根据当前显示状态不同显示的内容也不同)
+
+3. 显示日历
+
+1) 日历：
+   createCalendar 显示日历骨架 (先生成 html 骨架)
+   changeCalendarCss 更改日历显示效果 (再添加 css)
+   showCalendar 显示日历 (调用 createCalendar，changeCalendarCss，showHead)
+
+2) 月历：
+   createMonth 显示月历骨架
+   changeMonthCss 更改月历显示效果,绑定事件处理函数 handleMonthClick
+   showMonth 显示月历(调用 createMonth,changeMonthCss,showHead)
+
+3) 年历：
+   createYear 显示年历骨架
+   changeYearCss 更改年历显示效果，绑定事件处理函数 handleYearClick
+   showYear 显示年历(调用 createYear,changeYearCss,showHead)
+
+交互函数：
+
+1. handleContentClick 处理点击 x 历头 (根据当前状态切换显示日历、年历、月历)
+2. handleYearClick 处理点击年份 (显示点击年份的月历)
+3. handleMonthClick 处理点击月份 (显示点击月份的日历)
+4. showLast 处理点击上箭头，显示上个 x 历 (根据当前状态显示上个日历、年历、月历)
+5. showNext 处理点击下箭头，显示下个 x 历 (根据当前状态显示下个日历、年历、月历)
+
+通用工具：
+
+1. isLeapYear 判断是不是闰年的函数
+2. getDayNum 根据年份和月份获取月份天数的函数
+3. getDayOfOne 获得某年某月的 1 号 是星期几的函数
+4. addClass 为节点添加类
+5. getLastYear 获取上一年日期对象的函数
+6. getNextYear 获取下一年日期对象的函数
+7. getLastTenYear 获取前十年日期对象的函数
+8. getNextTenYear 获取后十年日期对象的函数
+
+onload：
+
+1. calendarOnload 页面初始化要调用的函数(showClock,showToday,showCalendar)
