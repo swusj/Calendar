@@ -1,5 +1,12 @@
 import {
     WEEK,
+    NUMOF_CANLENDER_ITEM,
+    NUMOF_CANLENDER_ROW_ITEM,
+    NUMOF_MONTH_YEAR_ROW_ITEM,
+    NUMOF_MONTH_YEAR_ITEM,
+    NUM_OF_NEAR_YEARS,
+    MONTH_NUM_OF_YEAR,
+    NUMOF_TABLE
 } from './config.js'
 
 import {
@@ -41,7 +48,7 @@ function showHead(showDate, node) {
     } else if (showDate.showing === 1) {
         str = `${showDate.year}年`
     } else if (showDate.showing === 2) {
-        str = `${showDate.year - showDate.year % 10}-${(showDate.year - showDate.year % 10) + 9}`
+        str = `${showDate.year - showDate.year % NUM_OF_NEAR_YEARS}-${(showDate.year - showDate.year % NUM_OF_NEAR_YEARS) + NUM_OF_NEAR_YEARS - 1}`
     }
     node.innerHTML = str
 }
@@ -55,8 +62,8 @@ function createSingleMonth(showDate) {
     // 生成表内容
     table.classList.add("calender-content")
     let j = 1, k = 1
-    for (let i = 0; i < 42; i++) {
-        if (i % 7 === 0) {
+    for (let i = 0; i < NUMOF_CANLENDER_ITEM; i++) {
+        if (i % NUMOF_CANLENDER_ROW_ITEM === 0) {
             Str += "<tr>"
         }
         if (i < showDate.dayOfOne) {
@@ -68,7 +75,7 @@ function createSingleMonth(showDate) {
             Str += `<td>${k}</td>`
             k++
         }
-        if (i % 7 === 6) {
+        if (i % NUMOF_CANLENDER_ROW_ITEM === NUMOF_CANLENDER_ROW_ITEM - 1) {
             Str += "</tr>"
         }
     }
@@ -82,7 +89,7 @@ function createCalendar(showDate, content) {
     // 生成表头
     let week = document.createElement("div")
     week.setAttribute("id", "week")
-    for (let k = 0; k < 7; k++) {
+    for (let k = 0; k < NUMOF_CANLENDER_ROW_ITEM; k++) {
         let item = document.createElement("div")
         item.setAttribute("class", "item")
         item.innerHTML = WEEK[k]
@@ -100,7 +107,7 @@ function createCalendar(showDate, content) {
 
     // 轮播图
     const calender_carousel = document.createElement("div")
-    calender_carousel.setAttribute("class", "calender_carousel")
+    calender_carousel.setAttribute("class", "calender-carousel")
     calender_carousel.appendChild(table_last)
     calender_carousel.appendChild(table_now)
     calender_carousel.appendChild(table_next)
@@ -117,7 +124,7 @@ function createCalendar(showDate, content) {
 function changeCalendarCss(todayDate, showDate, content) {
     const table = content.getElementsByTagName("table")[1]
     let calendarList = table.getElementsByTagName("td")
-    for (let i = 0; i < 42; i++) {
+    for (let i = 0; i < NUMOF_CANLENDER_ITEM; i++) {
         if (i < showDate.dayOfOne || i >= (showDate.dayOfOne + showDate.dayNum)) {
             calendarList[i].classList.add("not-now")
         }
@@ -142,12 +149,12 @@ function showCalendar(showDate, todayDate, content, content_head) {
 function createMonth(content) {
     // 生成一个表格
     let str = "<table>"
-    for (let i = 0; i < 16; i++) {
-        if (i % 4 === 0) {
+    for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
+        if (i % NUMOF_MONTH_YEAR_ROW_ITEM === 0) {
             str += "<tr>"
         }
-        str += `<td>${i % 12 + 1}月</td>`
-        if (i % 4 === 3) {
+        str += `<td>${i % MONTH_NUM_OF_YEAR + 1}月</td>`
+        if (i % NUMOF_MONTH_YEAR_ROW_ITEM === NUMOF_MONTH_YEAR_ROW_ITEM - 1) {
             str += "</tr>"
         }
     }
@@ -165,13 +172,13 @@ function createMonth(content) {
 // 更改月历显示效果,绑定事件处理函数
 function changeMonthCss(showDate, todayDate, content, content_head) {
     const tableList = content.getElementsByTagName("table")
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < NUMOF_TABLE; i++) {
         tableList[i].classList.add("month-content")
     }
     const monthList = tableList[1].getElementsByTagName("td")
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
         monthList[i].addEventListener("click", handleMonthClick.bind(monthList[i], showDate, todayDate, content, content_head))  // 通过bind实现函数传参
-        if (i >= 12) {
+        if (i >= MONTH_NUM_OF_YEAR) {
             monthList[i].classList.add("not-now")
         }
     }
@@ -191,22 +198,22 @@ function showMonth(showDate, todayDate, content, content_head) {
 function createYear(showDate, content) {
     // 生成表格骨架
     let index = [3, 0, 1, 2]
-    let leftYear = showDate.year - showDate.year % 10
-    let leftYearIndex = index[leftYear % 4]
+    let leftYear = showDate.year - showDate.year % NUM_OF_NEAR_YEARS
+    let leftYearIndex = index[leftYear % NUMOF_MONTH_YEAR_ROW_ITEM]
     let str = ""
-    const firstYear = leftYear - leftYearIndex - 16
-    for (let i = 0; i < 48; i++) {
-        if (i % 16 === 0) {
+    const firstYear = leftYear - leftYearIndex - NUMOF_MONTH_YEAR_ITEM
+    for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM * NUMOF_TABLE; i++) {
+        if (i % NUMOF_MONTH_YEAR_ITEM === 0) {
             str += "<table>"
         }
-        if (i % 4 === 0) {
+        if (i % NUMOF_MONTH_YEAR_ROW_ITEM === 0) {
             str += "<tr>"
         }
         str += `<td>${firstYear + i}</td>`
-        if (i % 4 === 3) {
+        if (i % NUMOF_MONTH_YEAR_ROW_ITEM === NUMOF_MONTH_YEAR_ROW_ITEM - 1) {
             str += "</tr>"
         }
-        if (i % 16 === 15) {
+        if (i % NUMOF_MONTH_YEAR_ITEM === NUMOF_MONTH_YEAR_ITEM - 1) {
             str += "</table>"
         }
     }
@@ -225,18 +232,18 @@ function createYear(showDate, content) {
 // 更改年历显示效果，绑定事件处理函数
 function changeYearCss(leftYearIndex, showDate, todayDate, content, content_head) {
     const tableList = content.getElementsByTagName("table")
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < NUMOF_TABLE; i++) {
         tableList[i].classList.add("month-content")
     }
     const YearList = tableList[1].getElementsByTagName("td")
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
         YearList[i].addEventListener("click", handleYearClick.bind(YearList[i], showDate, todayDate, content, content_head))
-        if (i < leftYearIndex || i > leftYearIndex + 9) {
+        if (i < leftYearIndex || i >= leftYearIndex + NUM_OF_NEAR_YEARS) {
             YearList[i].classList.add("not-now")
         }
     }
     if (showDate.year === todayDate.year) {
-        YearList[leftYearIndex + todayDate.year % 10].classList.add("curmonth-item")
+        YearList[leftYearIndex + todayDate.year % NUM_OF_NEAR_YEARS].classList.add("curmonth-item")
     }
 }
 

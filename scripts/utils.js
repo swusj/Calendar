@@ -2,6 +2,7 @@ import {
   MONTH_OF_LEAP_YEAR,
   MONTH_OF_COM_YEAR,
   DAY_CHENGE,
+  NUM_OF_NEAR_YEARS,
 } from './config.js'
 
 // 获取上个月日期对象的函数
@@ -92,10 +93,10 @@ function getNextYear(year, month) {
 // 获取前十年日期对象的函数
 function getPrevTenYear(year, month) {
   let LastTenYear = {}
-  if (year - 10 < 0) {
+  if (year - NUM_OF_NEAR_YEARS < 0) {
     LastTenYear.year = 0
   } else {
-    LastTenYear.year = year - 10
+    LastTenYear.year = year - NUM_OF_NEAR_YEARS
   }
   LastTenYear.month = month
   LastTenYear.dayNum = getDayNum(LastTenYear.year, LastTenYear.month)
@@ -107,7 +108,7 @@ function getPrevTenYear(year, month) {
 // 获取后十年日期对象的函数
 function getNextTenYear(year, month) {
   let NextTenYear = {}
-  NextTenYear.year = year + 10
+  NextTenYear.year = year + NUM_OF_NEAR_YEARS
   NextTenYear.month = month
   NextTenYear.dayNum = getDayNum(NextTenYear.year, NextTenYear.month)
   NextTenYear.dayOfOne = getDayOfOne(NextTenYear.year, NextTenYear.month)

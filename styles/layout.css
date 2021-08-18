@@ -116,7 +116,7 @@
 }
 
 /* 存三个日历的轮播图,是会改变top的那个 */
-.calender_carousel {
+.calender-carousel {
   height: calc(259px * 3);
   width: 100%;
   position: absolute;

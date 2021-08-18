@@ -10,6 +10,10 @@ import {
 } from "./utils.js";
 
 import {
+  TRANS_TIME
+} from "./config.js"
+
+import {
   showToday,
   showCalendar,
   showMonth,
@@ -40,7 +44,7 @@ showDate.showing = 0  // 当前显示的是日历还是月历还是年历
 // 获取主要要显示内容的元素节点容器
 const todayTime = document.getElementById("today-time");
 const content = document.getElementsByClassName("content")[0]
-const content_head = document.getElementById("show_month")
+const content_head = document.getElementById("show-month")
 
 
 
@@ -93,22 +97,22 @@ lastButton.addEventListener("click", showLast)
 // 显示上个月x历 
 function showLast() {
   if (showDate.showing === 0) { //如果在显示日历
-    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "prev", 0.15)
+    carouselTrans(document.getElementsByClassName("calender-carousel")[0], "prev", TRANS_TIME)
   } else if (showDate.showing === 1) { //如果在显示月历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "prev", 0.15)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "prev", TRANS_TIME)
   } else if (showDate.showing === 2) { //如果在显示年历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "prev", 0.15)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "prev", TRANS_TIME)
   }
 }
 
 // 显示下个月x历
 function showNext() {
   if (showDate.showing === 0) {
-    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "next", 0.15)
+    carouselTrans(document.getElementsByClassName("calender-carousel")[0], "next", TRANS_TIME)
   } else if (showDate.showing === 1) { //如果在显示月历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.15)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", TRANS_TIME)
   } else if (showDate.showing === 2) { //如果在显示年历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", 0.15)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "next", TRANS_TIME)
   }
 }
 
