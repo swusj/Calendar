@@ -9,11 +9,11 @@
 #main {
   font-family: "Segoe UI", Times, serif;
 }
-#top #clock {
+#clock {
   font-size: 43px;
   line-height: 100%;
 }
-#top #today-time {
+#today-time {
   font-size: 14px;
   line-height: 100%;
 }
