@@ -5,7 +5,7 @@ import {
 } from './config.js'
 
 // 获取上个月日期对象的函数
-function getLastMonth(year, month) {
+function getPrevMonth(year, month) {
   let lastMonth = {}
   if (month === 0) { //如果是一月份
     lastMonth.month = 11
@@ -63,7 +63,7 @@ function getDayOfOne(year, month) {
 }
 
 // 获取上一年日期对象的函数
-function getLastYear(year, month) {
+function getPrevYear(year, month) {
   let LastYear = {}
   if (year === 0) {
     LastYear.year = year
@@ -90,7 +90,7 @@ function getNextYear(year, month) {
 
 
 // 获取前十年日期对象的函数
-function getLastTenYear(year, month) {
+function getPrevTenYear(year, month) {
   let LastTenYear = {}
   if (year - 10 < 0) {
     LastTenYear.year = 0
@@ -116,25 +116,24 @@ function getNextTenYear(year, month) {
 }
 
 
-// 为节点添加类
-function addClass(node, className) {
-  if (node.className) {
-    node.className += ` ${className}`
-  } else {
-    node.className = className
-  }
-}
+// // 为节点添加类
+// function addClass(node, className) {
+//   if (node.className) {
+//     node.className += ` ${className}`
+//   } else {
+//     node.className = className
+//   }
+// }
 
 
 export {
-  getLastMonth,
+  getPrevMonth,
   getNextMonth,
   isLeapYear,
   getDayNum,
   getDayOfOne,
-  getLastYear,
+  getPrevYear,
   getNextYear,
-  getLastTenYear,
+  getPrevTenYear,
   getNextTenYear,
-  addClass,
 }

@@ -68,11 +68,10 @@ DEMO 地址：https://swusj.github.io/Calendar/calendar.html
 1. isLeapYear 判断是不是闰年的函数
 2. getDayNum 根据年份和月份获取月份天数的函数
 3. getDayOfOne 获得某年某月的 1 号 是星期几的函数
-4. addClass 为节点添加类
-5. getLastYear 获取上一年日期对象的函数
-6. getNextYear 获取下一年日期对象的函数
-7. getLastTenYear 获取前十年日期对象的函数
-8. getNextTenYear 获取后十年日期对象的函数
+4. getLastYear 获取上一年日期对象的函数
+5. getNextYear 获取下一年日期对象的函数
+6. getLastTenYear 获取前十年日期对象的函数
+7. getNextTenYear 获取后十年日期对象的函数
 
 onload：
 

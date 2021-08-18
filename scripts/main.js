@@ -1,13 +1,12 @@
 import {
   getDayNum,
   getDayOfOne,
-  getLastMonth,
+  getPrevMonth,
   getNextMonth,
-  getLastYear,
+  getPrevYear,
   getNextYear,
-  getLastTenYear,
+  getPrevTenYear,
   getNextTenYear,
-  addClass,
 } from "./utils.js";
 
 import {
@@ -86,7 +85,7 @@ function handleContentClick() {
 }
 
 // ----上下键部分------------------
-const lastButton = document.getElementsByClassName("arrow-last")[0]
+const lastButton = document.getElementsByClassName("arrow-prev")[0]
 const nextButton = document.getElementsByClassName("arrow-next")[0]
 nextButton.addEventListener("click", showNext)
 lastButton.addEventListener("click", showLast)
@@ -94,11 +93,11 @@ lastButton.addEventListener("click", showLast)
 // 显示上个月x历 
 function showLast() {
   if (showDate.showing === 0) { //如果在显示日历
-    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "last", 0.15)
+    carouselTrans(document.getElementsByClassName("calender_carousel")[0], "prev", 0.15)
   } else if (showDate.showing === 1) { //如果在显示月历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.15)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "prev", 0.15)
   } else if (showDate.showing === 2) { //如果在显示年历
-    carouselTrans(document.getElementsByClassName("month_carousel")[0], "last", 0.15)
+    carouselTrans(document.getElementsByClassName("month_carousel")[0], "prev", 0.15)
   }
 }
 
@@ -117,22 +116,21 @@ function showNext() {
 function carouselTrans(carousel, method, time) {
   const table_height = window.getComputedStyle(carousel.getElementsByTagName("table")[0]).height;  // 获取最终元素的style，是只读的，而style是只写的
 
-  // carousel.classList.add("class")
-  addClass(carousel, "trans")
+  carousel.classList.add("trans")
 
-  if (method === "last") {
+  if (method === "prev") {
     carousel.style.top = `0px` //移动top
 
     setTimeout(function () {
       carousel.classList.remove("trans")
       if (showDate.showing === 0) { //如果在显示月历
-        showDate = getLastMonth(showDate.year, showDate.month)
+        showDate = getPrevMonth(showDate.year, showDate.month)
         showCalendar(showDate, todayDate, content, content_head)
       } else if (showDate.showing === 1) { //如果在显示月历
-        showDate = getLastYear(showDate.year, showDate.month)
+        showDate = getPrevYear(showDate.year, showDate.month)
         showMonth(showDate, todayDate, content, content_head)
       } else if (showDate.showing === 2) { //如果在显示年历
-        showDate = getLastTenYear(showDate.year, showDate.month)
+        showDate = getPrevTenYear(showDate.year, showDate.month)
         showYear(showDate, todayDate, content, content_head)
       }
     }, time * 1000)

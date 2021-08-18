@@ -5,8 +5,7 @@ import {
 import {
     getDayNum,
     getDayOfOne,
-    getLastMonth,
-    addClass,
+    getPrevMonth,
     getNextMonth
 } from "./utils.js";
 
@@ -50,11 +49,11 @@ function showHead(showDate, node) {
 // 生成一个月的日历骨架
 function createSingleMonth(showDate) {
     // 获取上个月对象
-    let LastMonth = getLastMonth(showDate.year, showDate.month)
+    let LastMonth = getPrevMonth(showDate.year, showDate.month)
     let table = document.createElement("table")
     let Str = ""
     // 生成表内容
-    addClass(table, "calender-content")
+    table.classList.add("calender-content")
     let j = 1, k = 1
     for (let i = 0; i < 42; i++) {
         if (i % 7 === 0) {
@@ -91,7 +90,7 @@ function createCalendar(showDate, content) {
     }
 
     // 生成三个表
-    const table_last = createSingleMonth(getLastMonth(showDate.year, showDate.month))
+    const table_last = createSingleMonth(getPrevMonth(showDate.year, showDate.month))
     const table_now = createSingleMonth(showDate)
     const table_next = createSingleMonth(getNextMonth(showDate.year, showDate.month))
 
@@ -120,13 +119,11 @@ function changeCalendarCss(todayDate, showDate, content) {
     let calendarList = table.getElementsByTagName("td")
     for (let i = 0; i < 42; i++) {
         if (i < showDate.dayOfOne || i >= (showDate.dayOfOne + showDate.dayNum)) {
-            addClass(calendarList[i], "not-now")
+            calendarList[i].classList.add("not-now")
         }
     }
-    console.log(showDate)
-    console.log(todayDate)
     if (showDate.year === todayDate.year && showDate.month === todayDate.month) {
-        addClass(calendarList[showDate.dayOfOne + todayDate.date - 1], "curdate-item")
+        calendarList[showDate.dayOfOne + todayDate.date - 1].classList.add("curdate-item")
         let str = `<div class="curdate">${todayDate.date}</div>`
         calendarList[showDate.dayOfOne + todayDate.date - 1].innerHTML = str
     }
@@ -158,7 +155,7 @@ function createMonth(content) {
 
     // 生成轮播图
     const month_carousel = document.createElement("div")
-    addClass(month_carousel, "month_carousel")
+    month_carousel.classList.add("month_carousel")
     month_carousel.innerHTML = str + str + str
 
     content.innerHTML = ""
@@ -169,17 +166,17 @@ function createMonth(content) {
 function changeMonthCss(showDate, todayDate, content, content_head) {
     const tableList = content.getElementsByTagName("table")
     for (let i = 0; i < 3; i++) {
-        addClass(tableList[i], "month-content")
+        tableList[i].classList.add("month-content")
     }
     const monthList = tableList[1].getElementsByTagName("td")
     for (let i = 0; i < 16; i++) {
         monthList[i].addEventListener("click", handleMonthClick.bind(monthList[i], showDate, todayDate, content, content_head))  // 通过bind实现函数传参
         if (i >= 12) {
-            addClass(monthList[i], "not-now")
+            monthList[i].classList.add("not-now")
         }
     }
     if (showDate.year === todayDate.year && showDate.month === todayDate.month) {
-        addClass(monthList[showDate.month], "curmonth-item")
+        monthList[showDate.month].classList.add("curmonth-item")
     }
 }
 
@@ -216,7 +213,7 @@ function createYear(showDate, content) {
 
     // 生成轮播图
     const month_carousel = document.createElement("div")
-    addClass(month_carousel, "month_carousel")
+    month_carousel.classList.add("month_carousel")
     month_carousel.innerHTML = str
 
     content.innerHTML = ""
@@ -229,17 +226,17 @@ function createYear(showDate, content) {
 function changeYearCss(leftYearIndex, showDate, todayDate, content, content_head) {
     const tableList = content.getElementsByTagName("table")
     for (let i = 0; i < 3; i++) {
-        addClass(tableList[i], "month-content")
+        tableList[i].classList.add("month-content")
     }
     const YearList = tableList[1].getElementsByTagName("td")
     for (let i = 0; i < 16; i++) {
         YearList[i].addEventListener("click", handleYearClick.bind(YearList[i], showDate, todayDate, content, content_head))
         if (i < leftYearIndex || i > leftYearIndex + 9) {
-            addClass(YearList[i], "not-now")
+            YearList[i].classList.add("not-now")
         }
     }
     if (showDate.year === todayDate.year) {
-        addClass(YearList[leftYearIndex + todayDate.year % 10], "curmonth-item")
+        YearList[leftYearIndex + todayDate.year % 10].classList.add("curmonth-item")
     }
 }
 
