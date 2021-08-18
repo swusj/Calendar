@@ -1,4 +1,8 @@
-# 日历
+# Demo 讲解
+
+地址，截图，说明
+
+# 开发的思路和细节说明
 
 DEMO 地址：https://swusj.github.io/Calendar/calendar.html
 
@@ -77,3 +81,7 @@ onload：
 轮播图过渡：
 
 1. carouselTrans 实现过渡效果 先给轮播图加上 trans, 再移动 top, 移完了，去掉 trans,更新日历
+
+# changelog
+
+## 2021

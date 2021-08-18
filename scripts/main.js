@@ -58,7 +58,16 @@ function calendarOnload() {
 }
 
 // -----蓝字部分------------------------------------------
-todayTime.addEventListener("click", showNowMonth.bind(todayTime, showDate, todayDate, content, content_head))
+// 发现这里此时的showDate是最最开始的showDate，而且showNowMonth里对showDate的更改根本没传出来，说明这个已经不是一个showDate了,因此这样的
+// 绑定事件带引用类型的参数不好。（猜测可能是代码执行到这行的时候，x.bind()直接把后面那一溜参数给了showNowMonth，然后返回了showNowMonth的拷贝，并且参数可能是也进行了拷贝，而不是直接传的，所以才会发生这种情况）
+// todayTime.addEventListener("click", showNowMonth.bind(todayTime, showDate, todayDate, content, content_head))
+
+// 因此采用下面这种方式来带参数 ———— 多套一层函数
+todayTime.addEventListener("click", handleTodayTextClick)
+
+function handleTodayTextClick() {
+  showNowMonth(showDate, todayDate, content, content_head)
+}
 
 // ----x历头----------------------------------------------
 content_head.addEventListener("click", handleContentClick)
@@ -79,8 +88,8 @@ function handleContentClick() {
 // ----上下键部分------------------
 const lastButton = document.getElementsByClassName("arrowLast")[0]
 const nextButton = document.getElementsByClassName("arrowNext")[0]
-nextButton.addEventListener("click", showNext.bind())
-lastButton.addEventListener("click", showLast.bind())
+nextButton.addEventListener("click", showNext)
+lastButton.addEventListener("click", showLast)
 
 // 显示上个月x历 
 function showLast() {

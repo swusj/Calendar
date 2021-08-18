@@ -195,7 +195,7 @@ function createYear(showDate, content) {
     let leftYear = showDate.year - showDate.year % 10
     let leftYearIndex = index[leftYear % 4]
     let str = ""
-    const firstYear = leftYear - leftYearIndex - 32
+    const firstYear = leftYear - leftYearIndex - 16
     for (let i = 0; i < 48; i++) {
         if (i % 16 === 0) {
             str += "<table>"
@@ -263,7 +263,7 @@ function handleMonthClick(showDate, todayDate, content, content_head) {
 function handleYearClick(showDate, todayDate, content, content_head) {
     showDate.showing = 1
     const year = this.childNodes[0].nodeValue
-    showDate.year = year
+    showDate.year = Number(year)
     showDate.dayNum = getDayNum(showDate.year, showDate.month)
     showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
 
