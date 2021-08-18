@@ -256,7 +256,7 @@ function handleMonthClick(showDate, todayDate, content, content_head) {
     showDate.dayNum = getDayNum(showDate.year, showDate.month)
     showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
 
-    showCalendar(showDate, todayDate, content, content_head)  //更新日历
+    showCalendar(showDate, todayDate, content, content_head)  //更新日历zz
 }
 
 // 处理点击年份
