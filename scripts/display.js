@@ -54,7 +54,7 @@ function createSingleMonth(showDate) {
     let table = document.createElement("table")
     let Str = ""
     // 生成表内容
-    table.setAttribute("id", "calender_content")
+    addClass(table, "calender_content")
     let j = 1, k = 1
     for (let i = 0; i < 42; i++) {
         if (i % 7 === 0) {
@@ -147,7 +147,7 @@ function createMonth(content) {
         if (i % 4 === 0) {
             str += "<tr>"
         }
-        str += `<td>${i + 1}月</td>`
+        str += `<td>${i % 12 + 1}月</td>`
         if (i % 4 === 3) {
             str += "</tr>"
         }
