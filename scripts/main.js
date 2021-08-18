@@ -69,7 +69,7 @@ function handleTodayTextClick() {
   showNowMonth(showDate, todayDate, content, content_head)
 }
 
-// ----x历头----------------------------------------------
+// ----x历头---------------------------------------------
 content_head.addEventListener("click", handleContentClick)
 
 // 处理点击 x 历头
