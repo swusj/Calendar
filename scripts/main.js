@@ -74,14 +74,14 @@ content_head.addEventListener("click", handleContentClick)
 
 // 处理点击 x 历头
 function handleContentClick() {
-  if (showDate.showing < 3) {
+  if (showDate.showing < 2) {
     showDate.showing++
-  }
-  if (showDate.showing === 1) {
-    showMonth(showDate, todayDate, content, content_head)
-  }
-  if (showDate.showing === 2) {
-    showYear(showDate, todayDate, content, content_head)
+    if (showDate.showing === 1) {
+      showMonth(showDate, todayDate, content, content_head)
+    }
+    if (showDate.showing === 2) {
+      showYear(showDate, todayDate, content, content_head)
+    }
   }
 }
 
