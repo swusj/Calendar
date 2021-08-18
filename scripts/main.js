@@ -50,8 +50,8 @@ const content_head = document.getElementById("show-month")
 
 // 绑定各种事件
 
-// ---绑定页面加载完成-------------------------------------
-window.addEventListener("load", calendarOnload);
+// ---绑定页面除了js的异步请求以外的东西加载完成时-------------------------------------
+window.addEventListener("DOMContentLoaded", calendarOnload);
 
 // 页面初始化要调用的函数
 function calendarOnload() {
