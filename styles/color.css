@@ -2,7 +2,7 @@
   background-color: rgb(43, 49, 61);
   color: white;
 }
-#todayTime {
+#today-time {
   color: rgb(166, 216, 255);
 }
 /* #top{
@@ -11,7 +11,7 @@
 #top #clock{
     background-color: yellow;
 }
-#top #todayTime{
+#top #today-time{
     background-color: teal;
 } */
 #calendar {
@@ -22,7 +22,7 @@
     background-color: brown;
 }
 
-.calender_content{
+.calender-content{
     background-color: darkblue;
 }
 
@@ -37,11 +37,11 @@
     background-color: navy;
 } */
 
-.calender_content td {
+.calender-content td {
   border-color: rgb(43, 49, 61);
   /* background-color: blueviolet; */
 }
-.calender_content td:hover {
+.calender-content td:hover {
   border-color: rgb(95, 97, 101);
   /* background-color: blueviolet; */
 }
@@ -52,38 +52,38 @@
     background-color: wheat;
 } */
 
-.NotNow {
+.not-now {
   color: rgb(95, 97, 101);
 }
 
-.month_content td {
+.month-content td {
   border-color: rgb(43, 49, 61);
   /* background-color: blueviolet; */
 }
-.month_content td:hover {
+.month-content td:hover {
   border-color: rgb(95, 97, 101);
   /* background-color: blueviolet; */
 }
 
-.calender_content .CurDateItem {
+.calender-content .curdate-item {
   border-color: rgb(0, 120, 215);
 }
 
-.calender_content .CurDateItem:hover {
+.calender-content .curdate-item:hover {
   border-color: rgb(102, 174, 215);
 }
 
-.calender_content .CurDate {
+.calender-content .curdate {
   background-color: rgb(0, 120, 215);
   border-color: rgb(43, 49, 61);
 }
 
-.month_content .CurMonthItem {
+.month-content .curmonth-item {
   border-color: rgb(0, 120, 215);
   background-color: rgb(0, 120, 215);
 }
 
-.month_content .CurMonthItem:hover {
+.month-content .curmonth-item:hover {
   border-color: rgb(102, 174, 215);
 }
 
@@ -91,7 +91,7 @@
   background-color: blanchedalmond;
 } */
 
-/* .carousel_container {
+/* .carousel-container {
   background-color: brown;
 } */
 
@@ -107,11 +107,11 @@
   color: rgb(223, 223, 223);
 }
 
-#todayTime:hover {
+#today-time:hover {
   color: rgb(169, 169, 169);
 }
 
-#todayTime:active {
+#today-time:active {
   color: rgb(95, 97, 101);
 }
 

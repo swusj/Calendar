@@ -54,7 +54,7 @@ function createSingleMonth(showDate) {
     let table = document.createElement("table")
     let Str = ""
     // 生成表内容
-    addClass(table, "calender_content")
+    addClass(table, "calender-content")
     let j = 1, k = 1
     for (let i = 0; i < 42; i++) {
         if (i % 7 === 0) {
@@ -97,7 +97,7 @@ function createCalendar(showDate, content) {
 
     // 轮播图容器
     const carousel_container = document.createElement("div")
-    carousel_container.setAttribute("class", "carousel_container")
+    carousel_container.setAttribute("class", "carousel-container")
 
     // 轮播图
     const calender_carousel = document.createElement("div")
@@ -120,12 +120,12 @@ function changeCalendarCss(todayDate, showDate, content) {
     let calendarList = table.getElementsByTagName("td")
     for (let i = 0; i < 42; i++) {
         if (i < showDate.dayOfOne || i >= (showDate.dayOfOne + showDate.dayNum)) {
-            addClass(calendarList[i], "NotNow")
+            addClass(calendarList[i], "not-now")
         }
     }
     if (showDate.year === todayDate.year && showDate.month === todayDate.month && showDate.date === todayDate.date) {
-        addClass(calendarList[showDate.dayOfOne + todayDate.date - 1], "CurDateItem")
-        let str = `<div class="CurDate">${todayDate.date}</div>`
+        addClass(calendarList[showDate.dayOfOne + todayDate.date - 1], "curdate-item")
+        let str = `<div class="curdate">${todayDate.date}</div>`
         calendarList[showDate.dayOfOne + todayDate.date - 1].innerHTML = str
     }
 }
@@ -167,17 +167,17 @@ function createMonth(content) {
 function changeMonthCss(showDate, todayDate, content, content_head) {
     const tableList = content.getElementsByTagName("table")
     for (let i = 0; i < 3; i++) {
-        addClass(tableList[i], "month_content")
+        addClass(tableList[i], "month-content")
     }
     const monthList = tableList[1].getElementsByTagName("td")
     for (let i = 0; i < 16; i++) {
         monthList[i].addEventListener("click", handleMonthClick.bind(monthList[i], showDate, todayDate, content, content_head))  // 通过bind实现函数传参
         if (i >= 12) {
-            addClass(monthList[i], "NotNow")
+            addClass(monthList[i], "not-now")
         }
     }
     if (showDate.year === todayDate.year && showDate.month === todayDate.month) {
-        addClass(monthList[showDate.month], "CurMonthItem")
+        addClass(monthList[showDate.month], "curmonth-item")
     }
 }
 
@@ -227,17 +227,17 @@ function createYear(showDate, content) {
 function changeYearCss(leftYearIndex, showDate, todayDate, content, content_head) {
     const tableList = content.getElementsByTagName("table")
     for (let i = 0; i < 3; i++) {
-        addClass(tableList[i], "month_content")
+        addClass(tableList[i], "month-content")
     }
     const YearList = tableList[1].getElementsByTagName("td")
     for (let i = 0; i < 16; i++) {
         YearList[i].addEventListener("click", handleYearClick.bind(YearList[i], showDate, todayDate, content, content_head))
         if (i < leftYearIndex || i > leftYearIndex + 9) {
-            addClass(YearList[i], "NotNow")
+            addClass(YearList[i], "not-now")
         }
     }
     if (showDate.year === todayDate.year) {
-        addClass(YearList[leftYearIndex + todayDate.year % 10], "CurMonthItem")
+        addClass(YearList[leftYearIndex + todayDate.year % 10], "curmonth-item")
     }
 }
 

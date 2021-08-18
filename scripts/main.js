@@ -39,7 +39,7 @@ showDate = Object.assign(showDate, todayDate); // 浅拷贝就够了
 showDate.showing = 0  // 当前显示的是日历还是月历还是年历
 
 // 获取主要要显示内容的元素节点容器
-const todayTime = document.getElementById("todayTime");
+const todayTime = document.getElementById("today-time");
 const content = document.getElementsByClassName("content")[0]
 const content_head = document.getElementById("show_month")
 
@@ -86,8 +86,8 @@ function handleContentClick() {
 }
 
 // ----上下键部分------------------
-const lastButton = document.getElementsByClassName("arrowLast")[0]
-const nextButton = document.getElementsByClassName("arrowNext")[0]
+const lastButton = document.getElementsByClassName("arrow-last")[0]
+const nextButton = document.getElementsByClassName("arrow-next")[0]
 nextButton.addEventListener("click", showNext)
 lastButton.addEventListener("click", showLast)
 

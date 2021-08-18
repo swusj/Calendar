@@ -15,7 +15,7 @@
 #top #clock {
   width: 165px;
 }
-#top #todayTime {
+#top #today-time {
   width: 165px;
   padding-top: 15px;
 }
@@ -26,11 +26,11 @@
   height: 344px;
   position: relative;
 }
-#calendar_top {
+#calendar-top {
   width: 100%;
   height: 27px;
 }
-.calender_content {
+.calender-content {
   width: 100%;
   height: 259px;
 }
@@ -68,15 +68,15 @@
   border-left: 1px solid;
 }
 
-.arrowNext {
+.arrow-next {
   transform: translate(0, -3.53px) rotate(225deg);
 }
 
-.arrowLast {
+.arrow-last {
   transform: translate(0, 3.53px) rotate(45deg);
 }
 
-.calender_content td {
+.calender-content td {
   border: solid 2px;
   width: 42px;
   text-align: center;
@@ -91,17 +91,17 @@
   left: 13px;
 }
 
-.month_content {
+.month-content {
   width: 100%;
   height: 317px;
 }
 
-.month_content td {
+.month-content td {
   border: solid 2px;
   text-align: center;
 }
 
-.CurDate {
+.curdate {
   border: solid 2px;
   width: auto;
   text-align: center;
@@ -109,7 +109,7 @@
   display: flex;
 }
 
-.carousel_container {
+.carousel-container {
   width: 100%;
   height: 259px;
   position: relative;
