@@ -117,6 +117,7 @@ function showNext() {
 function carouselTrans(carousel, method, time) {
   const table_height = window.getComputedStyle(carousel.getElementsByTagName("table")[0]).height;  // 获取最终元素的style，是只读的，而style是只写的
 
+  // carousel.classList.add("class")
   addClass(carousel, "trans")
 
   if (method === "last") {

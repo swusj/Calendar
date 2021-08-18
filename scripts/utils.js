@@ -1,7 +1,7 @@
 import {
-  MONTHOFLEAPYEAR,
-  MONTHOFCOMYEAR,
-  DAYCHENGE,
+  MONTH_OF_LEAP_YEAR,
+  MONTH_OF_COM_YEAR,
+  DAY_CHENGE,
 } from './config.js'
 
 // 获取上个月日期对象的函数
@@ -50,16 +50,16 @@ function isLeapYear(year) {
 // 根据年份和月份获取月份天数的函数
 function getDayNum(year, month) {
   if (isLeapYear(year)) {
-    return MONTHOFLEAPYEAR[month];
+    return MONTH_OF_LEAP_YEAR[month];
   } else {
-    return MONTHOFCOMYEAR[month];
+    return MONTH_OF_COM_YEAR[month];
   }
 }
 
 // 获得某年某月的 1号 是星期几的函数
 function getDayOfOne(year, month) {
   const tmp = new Date(year, month, 1);
-  return DAYCHENGE[tmp.getDay()];
+  return DAY_CHENGE[tmp.getDay()];
 }
 
 // 获取上一年日期对象的函数

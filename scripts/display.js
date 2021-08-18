@@ -123,7 +123,9 @@ function changeCalendarCss(todayDate, showDate, content) {
             addClass(calendarList[i], "not-now")
         }
     }
-    if (showDate.year === todayDate.year && showDate.month === todayDate.month && showDate.date === todayDate.date) {
+    console.log(showDate)
+    console.log(todayDate)
+    if (showDate.year === todayDate.year && showDate.month === todayDate.month) {
         addClass(calendarList[showDate.dayOfOne + todayDate.date - 1], "curdate-item")
         let str = `<div class="curdate">${todayDate.date}</div>`
         calendarList[showDate.dayOfOne + todayDate.date - 1].innerHTML = str
