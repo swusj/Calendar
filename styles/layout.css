@@ -17,7 +17,7 @@
 .calender .dragable {
   width: 100%;
   height: 25px;
-  background-color: burlywood;
+  /* background-color: burlywood; */
 }
 .calender .dragable .clock {
   width: 165px;
