@@ -6,7 +6,8 @@ import {
     NUMOF_MONTH_YEAR_ITEM,
     NUM_OF_NEAR_YEARS,
     MONTH_NUM_OF_YEAR,
-    NUMOF_TABLE
+    NUMOF_TABLE,
+    SHOWING_STATE
 } from './config.js'
 
 import {
@@ -16,6 +17,9 @@ import {
     getNextMonth
 } from "./utils.js";
 
+import {
+    CalendarstateMachine
+} from "./statemachine.js"
 
 // 显示当前时间的函数
 function displayTime() {
@@ -43,11 +47,11 @@ function showToday(todayDate, node) {
 // 显示x历头
 function showHead(showDate, node) {
     let str = ""
-    if (showDate.showing === 0) {
+    if (CalendarstateMachine.currentState === SHOWING_STATE.DAY) {
         str = `${showDate.year}年${showDate.month + 1}月`
-    } else if (showDate.showing === 1) {
+    } else if (CalendarstateMachine.currentState === SHOWING_STATE.MONTH) {
         str = `${showDate.year}年`
-    } else if (showDate.showing === 2) {
+    } else if (CalendarstateMachine.currentState === SHOWING_STATE.YEAR) {
         str = `${showDate.year - showDate.year % NUM_OF_NEAR_YEARS}-${(showDate.year - showDate.year % NUM_OF_NEAR_YEARS) + NUM_OF_NEAR_YEARS - 1}`
     }
     node.innerHTML = str
@@ -259,33 +263,29 @@ function showYear(showDate, todayDate, content, content_head) {
 
 // 处理点击月份
 function handleMonthClick(showDate, todayDate, content, content_head) {
-    showDate.showing = 0
     const month = this.childNodes[0].nodeValue.slice(0, -1)
     showDate.month = month - 1
     showDate.dayNum = getDayNum(showDate.year, showDate.month)
     showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
-
-    showCalendar(showDate, todayDate, content, content_head)  //更新日历zz
+    CalendarstateMachine.toDayCalendar(showDate, todayDate, content, content_head)
 }
 
 // 处理点击年份
 function handleYearClick(showDate, todayDate, content, content_head) {
-    showDate.showing = 1
     const year = this.childNodes[0].nodeValue
     showDate.year = Number(year)
     showDate.dayNum = getDayNum(showDate.year, showDate.month)
     showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
-
-    showMonth(showDate, todayDate, content, content_head)  //显示月历
+    CalendarstateMachine.toYearCalender(showDate, todayDate, content, content_head)
 }
 
 
 // 显示当月日历
 function showNowMonth(showDate, todayDate, content, content_head) {
     showDate = Object.assign(showDate, todayDate)
-    showDate.showing = 0
-    showCalendar(showDate, todayDate, content, content_head)
+    CalendarstateMachine.toDayCalendar(showDate, todayDate, content, content_head)
 }
+
 
 
 export {
