@@ -65,12 +65,12 @@ function calendarOnload() {
 // 绑定事件带引用类型的参数不好。（猜测可能是代码执行到这行的时候，x.bind()直接把后面那一溜参数给了showNowMonth，然后返回了showNowMonth的拷贝，并且参数可能是也进行了拷贝，而不是直接传的，所以才会发生这种情况）
 // todayTime.addEventListener("click", showNowMonth.bind(todayTime, showDate, todayDate, content, content_head))
 
-// 因此采用下面这种方式来带参数 ———— 多套一层函数
-todayTime.addEventListener("click", handleTodayTextClick)
-
-function handleTodayTextClick() {
+// 因此采用匿名函数,this而且还是指向的不会出问题，但如果真正执行的函数需要this就还是要用call
+// (为啥，不是说匿名函数this都指向window吗？是要按照赋值语句来理解吗？)
+todayTime.addEventListener("click", function () {
+  console.log(this)
   showNowMonth(showDate, todayDate, content, content_head)
-}
+})
 
 // ----x历头----------------------------------------------
 content_head.addEventListener("click", handleContentClick)

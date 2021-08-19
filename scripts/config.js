@@ -11,6 +11,11 @@ const MONTH_NUM_OF_YEAR = 12 //一年有几个月
 const NUM_OF_NEAR_YEARS = 10 // 年历附近几年要显示变白
 const NUMOF_TABLE = 3 // 实际生成的table数
 const TRANS_TIME = 0.15 // 动画持续时间
+// const SHOWING_STATE = {  // 当前x历显示状态
+//     DAY: 0,
+//     MONTH: 1,
+//     YEAR: 2
+// }
 
 export {
     MONTH_OF_LEAP_YEAR,
@@ -26,4 +31,5 @@ export {
     NUM_OF_NEAR_YEARS,
     NUMOF_TABLE,
     TRANS_TIME,
+    // SHOWING_STATE
 }

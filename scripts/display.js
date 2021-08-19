@@ -139,7 +139,6 @@ function changeCalendarCss(todayDate, showDate, content) {
 
 // 显示日历
 function showCalendar(showDate, todayDate, content, content_head) {
-    // TODO 显示上中下三个月的日历
     createCalendar(showDate, content)
     changeCalendarCss(todayDate, showDate, content)
     showHead(showDate, content_head)
@@ -177,7 +176,9 @@ function changeMonthCss(showDate, todayDate, content, content_head) {
     }
     const monthList = tableList[1].getElementsByTagName("td")
     for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
-        monthList[i].addEventListener("click", handleMonthClick.bind(monthList[i], showDate, todayDate, content, content_head))  // 通过bind实现函数传参
+        monthList[i].addEventListener("click", function () {
+            handleMonthClick.call(monthList[i], showDate, todayDate, content, content_head)
+        })
         if (i >= MONTH_NUM_OF_YEAR) {
             monthList[i].classList.add("not-now")
         }
@@ -237,7 +238,9 @@ function changeYearCss(leftYearIndex, showDate, todayDate, content, content_head
     }
     const YearList = tableList[1].getElementsByTagName("td")
     for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
-        YearList[i].addEventListener("click", handleYearClick.bind(YearList[i], showDate, todayDate, content, content_head))
+        YearList[i].addEventListener("click", function () {
+            handleYearClick.call(YearList[i], showDate, todayDate, content, content_head)
+        })
         if (i < leftYearIndex || i >= leftYearIndex + NUM_OF_NEAR_YEARS) {
             YearList[i].classList.add("not-now")
         }
