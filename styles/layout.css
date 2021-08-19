@@ -14,11 +14,19 @@
 }
 #clock {
   width: 165px;
+  height: 45px;
 }
 #today-time {
   width: 165px;
   padding-top: 15px;
+  height: 10px;
 }
+
+#today-time span {
+  position: absolute;
+  top: 75px;
+}
+
 #calendar {
   border-top: solid 1px;
   padding: 0 12px;

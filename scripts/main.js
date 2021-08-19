@@ -44,7 +44,7 @@ let showDate = {};
 showDate = Object.assign(showDate, todayDate); // 浅拷贝就够了
 
 // 获取主要要显示内容的元素节点容器
-const todayTime = document.getElementById("today-time");
+const todayTime = document.getElementById("today-time").getElementsByTagName("span")[0];
 const content = document.getElementsByClassName("content")[0]
 const content_head = document.getElementById("show-month")
 

@@ -10,13 +10,14 @@
   font-family: "Segoe UI", Times, serif;
 }
 #clock {
-  font-size: 43px;
-  line-height: 100%;
+  font-size: 46px;
+  line-height: 35px;
 }
 #today-time {
   font-size: 14px;
   line-height: 100%;
 }
+
 table td {
   margin: 1px;
 }

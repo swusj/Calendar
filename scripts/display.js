@@ -276,7 +276,7 @@ function handleYearClick(showDate, todayDate, content, content_head) {
     showDate.year = Number(year)
     showDate.dayNum = getDayNum(showDate.year, showDate.month)
     showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
-    CalendarstateMachine.toYearCalender(showDate, todayDate, content, content_head)
+    CalendarstateMachine.toMonthCalendar(showDate, todayDate, content, content_head)
 }
 
 
