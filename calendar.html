@@ -5,24 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" media="screen" href="styles/basic.css">
     <title>calender</title>
 </head>
 
 <body>
-    <div id="main">
-        <div id="top">
-            <div id="clock">
+    <link rel="stylesheet" media="screen" href="styles/basic.css">
+    <div class="calender">
+        <div class="dragable"></div>
+        <div class="top">
+            <div class="clock">
                 00:00:00
             </div>
-            <div id="today-time">
+            <div class="today-time">
                 <span class="today-font">2021年8月12日 七月初五</span>
             </div>
         </div>
-        <div id="calendar">
-            <div id="calendar-top">
-                <div id="description">
-                    <span id="show-month" class="clickable">2021年8月</span>
+        <div class="main">
+            <div class="calendar-top">
+                <div class="description">
+                    <span class="show-month" class="clickable">2021年8月</span>
                     <div class="button">
                         <div class="arrow clickable arrow-next"></div>
                     </div>
@@ -32,273 +33,6 @@
                 </div>
             </div>
             <div class="content">
-                <!-- <div class="month_carousel">
-                    <table class="month-content">
-                        <tr>
-                            <td class="curmonth-item">1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                    </table>
-                    <table class="month-content">
-                        <tr>
-                            <td class="curmonth-item">1</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                    </table>
-                    <table class="month-content">
-                        <tr>
-                            <td class="curmonth-item">1</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                    </table>
-                </div> -->
-                <!-- <div id="week">
-                    <div class="item">一</div>
-                    <div class="item">二</div>
-                    <div class="item">三</div>
-                    <div class="item">四</div>
-                    <div class="item">五</div>
-                    <div class="item">六</div>
-                    <div class="item">日</div>
-                </div>
-                <div class="carousel-container">
-                    <div class="calender-carousel">
-                        <table class="calender-content">
-                            <tr>
-                                <td class="curdate-item">
-                                    <div class="curdate">1</div>
-                                </td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                        </table>
-                        <table id="calender-content">
-                            <tr>
-                                <td class="curdate-item">
-                                    <div class="curdate">2</div>
-                                </td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                        </table>
-                        <table id="calender-content">
-                            <tr>
-                                <td class="curdate-item">
-                                    <div class="curdate">3</div>
-                                </td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>1</td>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>3</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>

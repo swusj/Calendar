@@ -6,14 +6,14 @@
   -khtml-user-select: none; /*早期浏览器*/
   user-select: none;
 }
-#main {
+.calender {
   font-family: "Segoe UI", Times, serif;
 }
-#clock {
+.clock {
   font-size: 46px;
   line-height: 35px;
 }
-#today-time {
+.today-time {
   font-size: 14px;
   line-height: 100%;
 }
@@ -21,11 +21,11 @@
 table td {
   margin: 1px;
 }
-#calendar-top {
+.calendar-top {
   font-size: 15px;
 }
 
-#description {
+.description {
   line-height: 37px;
 }
 .item {
@@ -46,6 +46,6 @@ table td {
   transition: top 0.15s;
 }
 
-#today-time {
+.today-time {
   cursor: pointer;
 }

@@ -3,38 +3,45 @@
   margin: 0;
   box-sizing: content-box;
 }
-#main {
+.calender {
   width: 360px;
   height: 455px;
 }
-#top {
-  padding: 25px;
+
+.calender .top {
+  padding: 0 25px 25px 25px;
   width: 310px;
   height: 60px;
 }
-#clock {
+
+.calender .dragable {
+  width: 100%;
+  height: 25px;
+  background-color: burlywood;
+}
+.calender .dragable .clock {
   width: 165px;
   height: 45px;
 }
-#today-time {
+.calender .dragable .today-time {
   width: 165px;
   padding-top: 15px;
   height: 10px;
 }
 
-#today-time span {
+.today-time span {
   position: absolute;
   top: 75px;
 }
 
-#calendar {
+.main {
   border-top: solid 1px;
   padding: 0 12px;
   width: 336px;
   height: 344px;
   position: relative;
 }
-#calendar-top {
+.calendar-top {
   width: 100%;
   height: 27px;
 }
@@ -43,13 +50,13 @@
   height: 259px;
 }
 
-#description {
+.description {
   padding-left: 13px;
   height: 37px;
   display: float;
 }
 
-#week {
+.week {
   width: 100%;
   height: 48px;
   display: flex;

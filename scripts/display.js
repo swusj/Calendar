@@ -30,7 +30,7 @@ function displayTime() {
     let second = nowDate.getSeconds();
     second = second < 10 ? `0${second}` : second;
     let clockStr = `${hour}:${minute}:${second}`;
-    let clock = document.getElementById("clock");
+    let clock = document.getElementsByClassName("clock")[0];
     clock.innerHTML = clockStr;
 }
 
@@ -92,10 +92,10 @@ function createSingleMonth(showDate) {
 function createCalendar(showDate, content) {
     // 生成表头
     let week = document.createElement("div")
-    week.setAttribute("id", "week")
+    week.classList.add("week")
     for (let k = 0; k < NUMOF_CANLENDER_ROW_ITEM; k++) {
         let item = document.createElement("div")
-        item.setAttribute("class", "item")
+        item.classList.add("item")
         item.innerHTML = WEEK[k]
         week.appendChild(item)
     }

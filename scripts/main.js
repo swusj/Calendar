@@ -44,9 +44,9 @@ let showDate = {};
 showDate = Object.assign(showDate, todayDate); // 浅拷贝就够了
 
 // 获取主要要显示内容的元素节点容器
-const todayTime = document.getElementById("today-time").getElementsByTagName("span")[0];
+const todayTime = document.getElementsByClassName("today-time")[0].getElementsByTagName("span")[0];
 const content = document.getElementsByClassName("content")[0]
-const content_head = document.getElementById("show-month")
+const content_head = document.getElementsByClassName("show-month")[0]
 
 
 // 绑定各种事件
@@ -60,6 +60,12 @@ function calendarOnload() {
   showToday(todayDate, todayTime);
   showCalendar(showDate, todayDate, content, content_head)
 }
+
+// 首部拖拽
+const dragableTop = document.querySelector(".dragable")
+
+// dragableTop.addEventListener("")
+
 
 // -----蓝字部分------------------------------------------
 // 发现这里此时的showDate是最最开始的showDate，而且showNowMonth里对showDate的更改根本没传出来，说明这个已经不是一个showDate了,因此这样的
@@ -84,7 +90,6 @@ function handleContentClick() {
     CalendarstateMachine.toYearCalender(showDate, todayDate, content, content_head)
   }
 }
-
 
 // ----上下键部分------------------
 const lastButton = document.getElementsByClassName("arrow-prev")[0]
@@ -154,6 +159,9 @@ function carouselTrans(carousel, method, time) {
     }, time * 1000)
   }
 }
+
+
+
 
 
 
