@@ -38,26 +38,6 @@ function calendarOnload(
   showCalendar(showDate, todayDate, content, content_head, stateMachine);
 }
 
-// // 首部拖拽
-// const dragableTop = document.querySelector(".dragable")
-
-// dragableTop.addEventListener("")
-
-// -----蓝字部分------------------------------------------
-// 发现这里此时的showDate是最最开始的showDate，而且showNowMonth里对showDate的更改根本没传出来，说明这个已经不是一个showDate了,因此这样的
-// 绑定事件带引用类型的参数不好。（猜测可能是代码执行到这行的时候，x.bind()直接把后面那一溜参数给了showNowMonth，然后返回了showNowMonth的拷贝，并且参数可能是也进行了拷贝，而不是直接传的，所以才会发生这种情况）
-// todayTime.addEventListener("click", showNowMonth.bind(todayTime, showDate, todayDate, content, content_head))
-
-// 因此采用匿名函数,this而且还是指向的不会出问题，但如果真正执行的函数需要this就还是要用call
-// (为啥，不是说匿名函数this都指向window吗？看来这里是按对象方法来调用的)
-// todayTime.addEventListener("click", function () {
-//   console.log(this)
-//   showNowMonth(showDate, todayDate, content, content_head)
-// })
-
-// // ----x历头----------------------------------------------
-// content_head.addEventListener("click", handleContentClick)
-
 // 处理点击 x 历头
 function handleContentClick(showDate, todayDate, content, content_head, stateMachine) {
   if (stateMachine.currentState === SHOWING_STATE.DAY) {
@@ -258,10 +238,10 @@ class Calendar {
     const content = container.querySelector(".content");
     const content_head = container.querySelector(".show-month");
 
-    // // 首部拖拽
-    // const dragableTop = container.querySelector(".dragable")
+    // 首部拖拽
+    // const dragableTop = container.querySelector(".dragable");
 
-    // dragableTop.addEventListener("")
+    // dragableTop.addEventListener("");
 
     window.addEventListener("DOMContentLoaded", function () {
       calendarOnload(

@@ -25,6 +25,12 @@ function displayTime(container) {
   clock.innerHTML = clockStr;
 }
 
+// function createCurHourMinSec(){
+//   const nowDate = new Date();
+//   let hour = nowDate.getHours();
+//   let minute = nowDate.getMinutes();
+// }
+
 function showClock(container) {
   window.setInterval(function () {
     displayTime(container);

@@ -4,7 +4,7 @@
 
 # 开发的思路和细节说明
 
-DEMO 地址：https://swusj.github.io/Calendar/calendar.html
+DEMO 地址：https://swusj.github.io/Calendar/index.html
 
 问题 1：如何正确显示当前日期日历？
 首先 api 获取当前年月日，但要正常显示在 6\*7 格子中，需要了解这个月有多少天，1 号是周几，才好排列
