@@ -18,6 +18,13 @@ const SHOWING_STATE = {
   YEAR: 2,
 };
 
+const ITEM_STATE = {
+  // 当前x历item的显示状态
+  NEARLY: 0,
+  MIDDLE: 1,
+  CURRENT: 2,
+};
+
 export {
   MONTH_OF_LEAP_YEAR,
   MONTH_OF_COM_YEAR,
@@ -33,4 +40,5 @@ export {
   NUMOF_TABLE,
   TRANS_TIME,
   SHOWING_STATE,
+  ITEM_STATE,
 };

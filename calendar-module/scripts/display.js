@@ -8,32 +8,23 @@ import {
   MONTH_NUM_OF_YEAR,
   NUMOF_TABLE,
   SHOWING_STATE,
+  ITEM_STATE,
 } from "./config.js";
 
 import { getDayNum, getDayOfOne, getPrevMonth, getNextMonth } from "./utils.js";
 
-// 显示当前时间的函数
-function displayTime(container) {
-  const nowDate = new Date();
-  let hour = nowDate.getHours();
-  let minute = nowDate.getMinutes();
-  minute = minute < 10 ? `0${minute}` : minute;
-  let second = nowDate.getSeconds();
-  second = second < 10 ? `0${second}` : second;
-  let clockStr = `${hour}:${minute}:${second}`;
+import { createClockStr } from "./time.js";
+
+// 渲染时钟的函数
+function renderClock(container) {
   let clock = container.querySelector(".clock");
-  clock.innerHTML = clockStr;
+  clock.innerHTML = createClockStr();
 }
 
-// function createCurHourMinSec(){
-//   const nowDate = new Date();
-//   let hour = nowDate.getHours();
-//   let minute = nowDate.getMinutes();
-// }
-
+// 让时钟动起来
 function showClock(container) {
   window.setInterval(function () {
-    displayTime(container);
+    renderClock(container);
   }, 1000);
 }
 
@@ -57,6 +48,121 @@ function showHead(showDate, node, stateMachine) {
   }
   node.innerHTML = str;
 }
+
+// 求一个月的日历数据
+function createCalendarData(showDate, todayDate) {
+  let calData = [];
+  let LastMonth = getPrevMonth(showDate.year, showDate.month);
+  let j = 1,
+    k = 1;
+
+  for (let i = 0; i < NUMOF_CANLENDER_ITEM; i++) {
+    if (i < showDate.dayOfOne) {
+      //上个月的
+      calData.push({
+        date: LastMonth.dayNum - showDate.dayOfOne + i + 1,
+        state: ITEM_STATE.NEARLY,
+      });
+    } else if (i >= showDate.dayOfOne && i < showDate.dayOfOne + showDate.dayNum) {
+      //中间的
+      if (showDate.year === todayDate.year && showDate.month === todayDate.month && j === todayDate.date) {
+        //当天
+        calData.push({
+          date: j,
+          state: ITEM_STATE.CURRENT,
+        });
+      } else {
+        calData.push({
+          date: j,
+          state: ITEM_STATE.MIDDLE,
+        });
+      }
+      j++;
+    } else {
+      //下个月的
+      calData.push({
+        date: k,
+        state: ITEM_STATE.NEARLY,
+      });
+      k++;
+    }
+  }
+  return calData;
+}
+
+// 创建一个月的日历骨架
+function createCalendarDOM(calData) {
+  let table = document.createElement("table");
+  let str = "";
+  for (let i = 0; i < NUMOF_CANLENDER_ITEM; i++) {
+    if (i % NUMOF_CANLENDER_ROW_ITEM === 0) {
+      Str += "<tr>";
+    }
+    str += `<td>${calData[i].date}</td>`;
+    if (i % NUMOF_CANLENDER_ROW_ITEM === NUMOF_CANLENDER_ROW_ITEM - 1) {
+      str += "</tr>";
+    }
+  }
+  table.innerHTML = Str;
+  return table;
+}
+
+// 生成日历表头
+function createCalHead() {
+  let week = document.createElement("div");
+  week.classList.add("week");
+  for (let k = 0; k < NUMOF_CANLENDER_ROW_ITEM; k++) {
+    let item = document.createElement("div");
+    item.classList.add("item");
+    item.innerHTML = WEEK[k];
+    week.appendChild(item);
+  }
+  return week;
+}
+
+// 创建轮播图日历骨架
+function createCaroCalDOM(calData_last, calData_now, calData_next) {
+  // 生成三个表
+  const table_last = createCalendarDOM(calData_last);
+  const table_now = createCalendarDOM(calData_now);
+  const table_next = createCalendarDOM(calData_next);
+
+  // 轮播图容器
+  const carousel_container = document.createElement("div");
+  carousel_container.setAttribute("class", "carousel-container");
+
+  // 轮播图
+  const calender_carousel = document.createElement("div");
+  calender_carousel.setAttribute("class", "calender-carousel");
+  calender_carousel.appendChild(table_last);
+  calender_carousel.appendChild(table_now);
+  calender_carousel.appendChild(table_next);
+
+  carousel_container.appendChild(calender_carousel);
+
+  return carousel_container;
+}
+
+// css根据数据渲染轮播图日历
+
+function renderCaroCalDOM(CalDOM, showDate, todayDate) {}
+
+// 生成日历骨架并
+function createCalendar(showDate, todayDate, content) {
+  // 获取三个月数据
+  const calData_last = createCalendarData(getPrevMonth(showDate.year, showDate.month), todayDate);
+  const calData_now = createCalendarData(showDate, todayDate);
+  const calData_next = createCalendarData(getNextMonth(showDate.year, showDate.month), todayDate);
+  // 生成日历DOM
+  const week = createCalHead();
+  // 生成三个月的DOM
+  const CaroCalDOM = createCaroCalDOM(calData_last, calData_now, calData_next);
+  // DOM显示到页面中去
+  content.innerHTML = "";
+  content.appendChild(week);
+  content.appendChild(CaroCalDOM);
+}
+// TODO：这里
 
 // 生成一个月的日历骨架
 function createSingleMonth(showDate) {
@@ -285,7 +391,6 @@ function showNowMonth(showDate, todayDate, content, content_head, stateMachine) 
 }
 
 export {
-  displayTime,
   showToday,
   changeCalendarCss,
   showHead,
