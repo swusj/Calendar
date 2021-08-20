@@ -9,18 +9,22 @@
 </head>
 
 <body>
+
+    <div id="cal"></div>
     <div id="mm"></div>
 
     <div id="xx"></div>
-    <!-- <script>
+    <!-- <script type="module">
         // 1
-        import calendar from './scripts/main.js';
+        import Calendar from '/index.js';
 
         // install(idName, options = {})
-        calendar.install('#mm', {
-            drag: false
-        });
-        calendar.install('#xx');
+        // calendar.install('#mm', {
+        //     drag: false
+        // });
+        const myCalendar = new Calendar
+        myCalendar.install('#xx');
+        myCalendar.install("#mm");
 
         // 2 
         // 点击每个日期，输出时间戳：1629256013686
@@ -30,6 +34,8 @@
         // 支持拖动, options = {drag: true}
 
     </script> -->
+    <!-- <script src="calendar-module/index.js"></script> -->
+    <script type="module" src="index.js"></script>
 </body>
 
 </html>
