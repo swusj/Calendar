@@ -12,10 +12,6 @@ import {
 
 import { getDayNum, getDayOfOne, getPrevMonth, getNextMonth } from "./utils.js";
 
-// import {
-//     stateMachine
-// } from "./statemachine.js"
-
 // 显示当前时间的函数
 function displayTime(container) {
   const nowDate = new Date();
@@ -25,7 +21,7 @@ function displayTime(container) {
   let second = nowDate.getSeconds();
   second = second < 10 ? `0${second}` : second;
   let clockStr = `${hour}:${minute}:${second}`;
-  let clock = container.getElementsByClassName("clock")[0];
+  let clock = container.querySelector(".clock");
   clock.innerHTML = clockStr;
 }
 
@@ -37,14 +33,12 @@ function showClock(container) {
 
 // 显示今天日期的函数
 function showToday(todayDate, node) {
-  console.log(node);
   let today = `${todayDate.year}年${todayDate.month + 1}月${todayDate.date}日`;
   node.innerHTML = today;
 }
 
 // 显示x历头
 function showHead(showDate, node, stateMachine) {
-  console.log(stateMachine);
   let str = "";
   if (stateMachine.currentState === SHOWING_STATE.DAY) {
     str = `${showDate.year}年${showDate.month + 1}月`;
@@ -122,7 +116,6 @@ function createCalendar(showDate, content) {
   content.innerHTML = "";
   content.appendChild(week);
   content.appendChild(carousel_container);
-  console.log("createCalendar");
 }
 
 // 更改日历显示效果
@@ -143,8 +136,6 @@ function changeCalendarCss(todayDate, showDate, content) {
 
 // 显示日历
 function showCalendar(showDate, todayDate, content, content_head, stateMachine) {
-  console.log("showCalendar");
-  console.log(stateMachine);
   createCalendar(showDate, content);
   changeCalendarCss(todayDate, showDate, content);
   showHead(showDate, content_head, stateMachine);
@@ -284,8 +275,6 @@ function handleYearClick(showDate, todayDate, content, content_head, stateMachin
 // 显示当月日历
 function showNowMonth(showDate, todayDate, content, content_head, stateMachine) {
   showDate = Object.assign(showDate, todayDate);
-  console.log("showNowMonth");
-  console.log(stateMachine);
   stateMachine.toDayCalendar(showDate, todayDate, content, content_head, stateMachine);
 }
 

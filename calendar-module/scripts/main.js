@@ -8,7 +8,6 @@ import {
   getPrevTenYear,
   getNextTenYear,
   createCss,
-  createScript,
 } from "./utils.js";
 
 import { SHOWING_STATE, TRANS_TIME } from "./config.js";
@@ -23,32 +22,6 @@ import {
 } from "./display.js";
 
 import { CalendarstateMachine } from "./statemachine.js";
-// const myDate = new Date();
-
-// // 存当前处于时间的对象
-// const todayDate = {
-//   year: myDate.getFullYear(),
-//   month: myDate.getMonth(),
-//   date: myDate.getDate(),
-// };
-
-// // 初始化当前时间对象
-// todayDate.dayNum = getDayNum(todayDate.year, todayDate.month);
-// todayDate.dayOfOne = getDayOfOne(todayDate.year, todayDate.month);
-
-// // 初始化当前显示时间对象
-// let showDate = {};
-// showDate = Object.assign(showDate, todayDate); // 浅拷贝就够了
-
-// // 获取主要要显示内容的元素节点容器
-// const todayTime = document.getElementsByClassName("today-time")[0].getElementsByTagName("span")[0];
-// const content = document.getElementsByClassName("content")[0]
-// const content_head = document.getElementsByClassName("show-month")[0]
-
-// 绑定各种事件
-
-// ---绑定页面除了js的异步请求以外的东西加载完成时-------------------------------------
-// window.addEventListener("DOMContentLoaded", calendarOnload);
 
 // 页面初始化要调用的函数
 function calendarOnload(
@@ -60,9 +33,6 @@ function calendarOnload(
   container,
   stateMachine
 ) {
-  // console.log(stateMachine)
-  // stateMachine = new stateMachine()
-  // console.log(stateMachine)
   showClock(container);
   showToday(todayDate, todayTime);
   showCalendar(showDate, todayDate, content, content_head, stateMachine);
@@ -97,15 +67,8 @@ function handleContentClick(showDate, todayDate, content, content_head, stateMac
   }
 }
 
-// // ----上下键部分------------------
-// const lastButton = document.getElementsByClassName("arrow-prev")[0]
-// const nextButton = document.getElementsByClassName("arrow-next")[0]
-// nextButton.addEventListener("click", showNext)
-// lastButton.addEventListener("click", showLast)
-
 // 显示上个月x历
 function showLast(showDate, todayDate, content, content_head, container, stateMachine) {
-  console.log(showDate);
   if (stateMachine.currentState === SHOWING_STATE.DAY) {
     //如果在显示日历
     carouselTrans(
@@ -143,7 +106,6 @@ function showLast(showDate, todayDate, content, content_head, container, stateMa
       stateMachine
     );
   }
-  console.log(showDate);
 }
 
 // 显示下个月x历
@@ -252,7 +214,7 @@ class Calendar {
                 00:00:00
             </div>
             <div class="today-time">
-                <span class="today-font">2021年8月12日 七月初五</span>
+                <span class="today-font js_todaytime">2021年8月12日 七月初五</span>
             </div>
         </div>
         <div class="main">
@@ -260,10 +222,10 @@ class Calendar {
                 <div class="description">
                     <span class="show-month" class="clickable">2021年8月</span>
                     <div class="button">
-                        <div class="arrow clickable arrow-next"></div>
+                        <div class="arrow clickable arrow-next js_arrow_down"></div>
                     </div>
                     <div class="button">
-                        <div class="arrow clickable arrow-prev"></div>
+                        <div class="arrow clickable arrow-prev js_arrow_up"></div>
                     </div>
                 </div>
             </div>
@@ -272,7 +234,6 @@ class Calendar {
         </div>
     </div>`;
     createCss("calendar-module/styles/basic.css");
-    createScript("calendar-module/index.js");
     const container = document.querySelector(idName);
     container.innerHTML = htmlstr;
 
@@ -293,11 +254,9 @@ class Calendar {
     let showDate = {};
     showDate = Object.assign(showDate, todayDate); // 浅拷贝就够了
     // 获取主要要显示内容的元素节点容器
-    const todayTime = container
-      .getElementsByClassName("today-time")[0]
-      .getElementsByTagName("span")[0];
-    const content = container.getElementsByClassName("content")[0];
-    const content_head = container.getElementsByClassName("show-month")[0];
+    const todayTime = container.querySelector(".js_todaytime");
+    const content = container.querySelector(".content");
+    const content_head = container.querySelector(".show-month");
 
     // // 首部拖拽
     // const dragableTop = container.querySelector(".dragable")
@@ -317,7 +276,6 @@ class Calendar {
     });
     // 绑定蓝字
     todayTime.addEventListener("click", function () {
-      console.log(stateMachine);
       showNowMonth(showDate, todayDate, content, content_head, stateMachine);
     });
 
@@ -327,14 +285,14 @@ class Calendar {
     });
 
     // ----上下键部分------------------
-    const lastButton = container.getElementsByClassName("arrow-prev")[0];
-    const nextButton = container.getElementsByClassName("arrow-next")[0];
+
+    const lastButton = container.querySelector(".js_arrow_up");
+    const nextButton = container.querySelector(".js_arrow_down");
     nextButton.addEventListener("click", function () {
       showNext(showDate, todayDate, content, content_head, container, stateMachine);
     });
     lastButton.addEventListener("click", function () {
       showLast(showDate, todayDate, content, content_head, container, stateMachine);
-      console.log(showDate);
     });
   }
 }

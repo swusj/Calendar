@@ -6,6 +6,7 @@
 .calender {
   width: 360px;
   height: 455px;
+  border: 1px solid;
 }
 
 .calender .top {

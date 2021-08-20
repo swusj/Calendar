@@ -1,6 +1,7 @@
 .calender {
   background-color: rgb(43, 49, 61);
   color: white;
+  border-color: rgb(95, 97, 101);
 }
 .today-time {
   color: rgb(166, 216, 255);

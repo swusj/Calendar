@@ -135,21 +135,6 @@ const createCss = (function () {
   };
 })();
 
-const createScript = (function () {
-  var cache = [];
-  return function (path) {
-    if (!cache.includes(path)) {
-      //TODO 加
-      const body = document.getElementsByTagName("body")[0];
-      const script = document.createElement("script");
-      script.type = "module";
-      script.href = path;
-      body.appendChild(script);
-      cache.push(path);
-    }
-  };
-})();
-
 export {
   getPrevMonth,
   getNextMonth,
@@ -161,5 +146,4 @@ export {
   getPrevTenYear,
   getNextTenYear,
   createCss,
-  createScript,
 };
