@@ -141,10 +141,6 @@ onload：
 
 1. calendarOnload 页面初始化要调用的函数(showClock,showToday,showCalendar)
 
-轮播图过渡：
-
-1. carouselTrans 实现过渡效果 先给轮播图加上 trans, 再移动 top, 移完了，去掉 trans,更新日历
-
 # changelog
 
 ## 2021
