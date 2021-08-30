@@ -71,14 +71,14 @@ https://swusj.github.io/Calendar/index.html
 DEMO 地址：https://swusj.github.io/Calendar/index.html
 
 问题 1：如何正确显示当前日期日历？
-首先 api 获取当前年月日，但要正常显示在 6/\*7 格子中，需要了解这个月有多少天，1 号是周几，才好排列
+首先 api 获取当前年月日，但要正常显示在 6×7 格子中，需要了解这个月有多少天，1 号是周几，才好排列
 （上个月（主要是上个月有多少天）和下个月的日期也要显示几个）
 
 1. 因此首先要有个对象，存当前处于时间（年月日，天数，一号为周几）。const TodayDate (date,month,year,dayNum,dayOfOne)
 2. 第二个对象（年月日，天数，一号为周几），存当前显示的时间。let ShowDate (date,month,year,dayNum,dayOfOne)
 
-问题 2：如何点击日历头来切换显示的是日历还是年历？
-最开始是用了一个全局变量 showing 来存储当前显示状态，但发现如果将代码拆分到多个文件中去的话，showing 不好更改，因此重新考虑作为 ShowDate 的一个属性 ShowDate.showing 好带着走。
+问题 2：如何点击根据不同元素的点击事件切换 x 历？
+使用状态机来进行状态管理
 
 问题 3：怎么实现点击按钮后是滚动切换的效果？
 借鉴轮播图的思想。可以先显示 3 个月/年/十年的日历，显示的容器 overflow:hidden，position:relative, size 还是是 x 历该有的大小;内里包含一个放了三个 x 历的 div2，按理来说应该是显示容器的三倍（因为有上中下三个月嘛），设置其 position 为 absolute，top 应该等于负一个 x 历的高度；
