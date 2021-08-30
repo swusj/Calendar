@@ -6,12 +6,19 @@ import {
 	NUMOF_MONTH_YEAR_ITEM,
 	NUM_OF_NEAR_YEARS,
 	MONTH_NUM_OF_YEAR,
-	NUMOF_TABLE,
-	SHOWING_STATE,
 	ITEM_STATE,
 } from "./config.js";
 
-import { getDayNum, getDayOfOne, getPrevMonth, getNextMonth, getPrevYear, getNextYear } from "./utils.js";
+import {
+	getDayNum,
+	getDayOfOne,
+	getPrevMonth,
+	getNextMonth,
+	getPrevYear,
+	getNextYear,
+	getPrevTenYear,
+	getNextTenYear,
+} from "./utils.js";
 
 import { createClockStr } from "./time.js";
 
@@ -23,9 +30,10 @@ function renderClock(container) {
 
 // 让时钟动起来
 function showClock(container) {
-	window.setInterval(function () {
+	const clock = window.setInterval(function () {
 		renderClock(container);
 	}, 1000);
+	return clock;
 }
 
 // 显示今天日期的函数
@@ -35,18 +43,8 @@ function showToday(todayDate, node) {
 }
 
 // 显示x历头
-function showHead(showDate, node, stateMachine) {
-	let str = "";
-	if (stateMachine.currentState === SHOWING_STATE.DAY) {
-		str = `${showDate.year}年${showDate.month + 1}月`;
-	} else if (stateMachine.currentState === SHOWING_STATE.MONTH) {
-		str = `${showDate.year}年`;
-	} else if (stateMachine.currentState === SHOWING_STATE.YEAR) {
-		str = `${showDate.year - (showDate.year % NUM_OF_NEAR_YEARS)}-${
-			showDate.year - (showDate.year % NUM_OF_NEAR_YEARS) + NUM_OF_NEAR_YEARS - 1
-		}`;
-	}
-	node.innerHTML = str;
+function showHead(headStr, node) {
+	node.innerHTML = headStr;
 }
 
 // 求一个月的日历数据
@@ -126,15 +124,17 @@ function createCaroCalDOM(calData_last, calData_now, calData_next) {
 	// 生成三个表
 	const table_last = createCalendarDOM(calData_last);
 	const table_now = createCalendarDOM(calData_now);
+	table_now.classList.add("J_showing_table");
 	const table_next = createCalendarDOM(calData_next);
 
 	// 轮播图容器
 	const carousel_container = document.createElement("div");
-	carousel_container.setAttribute("class", "carousel-container");
+	carousel_container.classList.add("carousel-container");
 
 	// 轮播图
 	const calender_carousel = document.createElement("div");
-	calender_carousel.setAttribute("class", "calender-carousel");
+	calender_carousel.classList.add("calender-carousel");
+	calender_carousel.classList.add("J_carousel");
 	calender_carousel.appendChild(table_last);
 	calender_carousel.appendChild(table_now);
 	calender_carousel.appendChild(table_next);
@@ -158,19 +158,23 @@ function createCalendar(calData_last, calData_now, calData_next, container) {
 function renderCalender(container, calData) {
 	const table = container.getElementsByTagName("table")[1];
 	let calendarList = table.getElementsByTagName("td");
-	for (let i = 0; i < NUMOF_CANLENDER_ITEM; i++) {
+	for (let i = 0; i < calendarList.length; i++) {
 		if (calData[i].state === ITEM_STATE.NEARLY) {
 			calendarList[i].classList.add("not-now");
 		} else if (calData[i].state === ITEM_STATE.CURRENT) {
 			calendarList[i].classList.add("curdate-item");
-			let str = `<div class="curdate">${calData[i].date}</div>`;
-			calendarList[i].classList.innerHTML = str;
+			const curdate = document.createElement("div");
+			curdate.classList.add("curdate");
+			curdate.innerHTML = calData[i].date;
+			//   let str = `<div class="curdate">${calData[i].date}</div>`;
+			calendarList[i].innerHTML = "";
+			calendarList[i].appendChild(curdate);
 		}
 	}
 }
 
 // 显示日历
-function showCalendar(showDate, todayDate, container, content_head, stateMachine) {
+function showCalendar(showDate, todayDate, container) {
 	// 调用函数，获取三个月数据
 	const calData_prev = createCalendarData(getPrevMonth(showDate.year, showDate.month), todayDate);
 	const calData_now = createCalendarData(showDate, todayDate);
@@ -179,151 +183,147 @@ function showCalendar(showDate, todayDate, container, content_head, stateMachine
 	createCalendar(calData_prev, calData_now, calData_next, container);
 	// 根据数据渲染日历
 	renderCalender(container, calData_now);
-	// 显示日历头
-	showHead(showDate, content_head, stateMachine);
 }
 
 // ============================月历=================================
-
-// 显示月历骨架
-function createMonth(content) {
-	// 生成一个表格
-	let str = "<table>";
-	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
-		if (i % NUMOF_MONTH_YEAR_ROW_ITEM === 0) {
-			str += "<tr>";
-		}
-		str += `<td>${(i % MONTH_NUM_OF_YEAR) + 1}月</td>`;
-		if (i % NUMOF_MONTH_YEAR_ROW_ITEM === NUMOF_MONTH_YEAR_ROW_ITEM - 1) {
-			str += "</tr>";
-		}
-	}
-	str += "</table>";
-
-	// 生成轮播图
-	const month_carousel = document.createElement("div");
-	month_carousel.classList.add("month_carousel");
-	month_carousel.innerHTML = str + str + str;
-
-	content.innerHTML = "";
-	content.appendChild(month_carousel);
-}
-
-// 更改月历显示效果,绑定事件处理函数
-function changeMonthCss(showDate, todayDate, content, content_head, stateMachine) {
-	const tableList = content.getElementsByTagName("table");
-	for (let i = 0; i < NUMOF_TABLE; i++) {
-		tableList[i].classList.add("month-content");
-	}
-	const monthList = tableList[1].getElementsByTagName("td");
-	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
-		monthList[i].addEventListener("click", function () {
-			handleMonthClick.call(monthList[i], showDate, todayDate, content, content_head, stateMachine);
-		});
-		if (i >= MONTH_NUM_OF_YEAR) {
-			monthList[i].classList.add("not-now");
-		}
-	}
-	if (showDate.year === todayDate.year && showDate.month === todayDate.month) {
-		monthList[showDate.month].classList.add("curmonth-item");
-	}
-}
-
 // 获取月份数据
 function createMonthData(showDate, todayDate) {
 	let monthData = [];
 	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
 		// 如果当年
-		if (i < MONTH_NUM_OF_YEAR - 1) {
+		if (i < MONTH_NUM_OF_YEAR) {
 			// 如果当月
-			if (showDate.year === todayDate.year && showDate.month === todayDate.month) {
-				monthData.push({ date: i + 1, state: ITEM_STATE.CURRENT });
+			if (showDate.year === todayDate.year && showDate.month === todayDate.month && i + 1 === showDate.month) {
+				monthData.push({ date: `${i + 1}月`, state: ITEM_STATE.CURRENT });
+			} else {
+				monthData.push({ date: `${i + 1}月`, state: ITEM_STATE.MIDDLE });
 			}
-			monthData.push({ date: i + 1, state: ITEM_STATE.MIDDLE });
 		} else {
-			monthData.push({ date: (i % MONTH_NUM_OF_YEAR) + 1, state: ITEM_STATE.NEARLY });
+			monthData.push({
+				date: `${(i % MONTH_NUM_OF_YEAR) + 1}月`,
+				state: ITEM_STATE.NEARLY,
+			});
 		}
 	}
-	debugger;
+	return monthData;
 }
 
-// 显示月历的函数
-function showMonth(showDate, todayDate) {
-	// 获取月份数据
-	const monthData_prev = createMonthData(getPrevYear(showDate), todayDate);
-	const monthData_now = createMonthData(showDate, todayDate);
-	const monthData_next = createMonthData(getNextYear(showDate), todayDate);
-	// 根据数据创建月历并将其加到页面
-	createMonthDOM();
-	// 根据数据渲染月历
-	// 显示月历头
-}
-// function showMonth(showDate, todayDate, content, content_head, stateMachine) {
-// 	createMonth(content);
-// 	changeMonthCss(showDate, todayDate, content, content_head, stateMachine);
-// 	showHead(showDate, content_head, stateMachine);
-// }
-
-// 显示年历骨架
-function createYear(showDate, content) {
-	// 生成表格骨架
-	let index = [3, 0, 1, 2];
-	let leftYear = showDate.year - (showDate.year % NUM_OF_NEAR_YEARS);
-	let leftYearIndex = index[leftYear % NUMOF_MONTH_YEAR_ROW_ITEM];
+// 创建一个月的月历html;
+function createSingleMonthDom(monthData) {
+	const monthDom = document.createElement("table");
 	let str = "";
-	const firstYear = leftYear - leftYearIndex - NUMOF_MONTH_YEAR_ITEM;
-	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM * NUMOF_TABLE; i++) {
-		if (i % NUMOF_MONTH_YEAR_ITEM === 0) {
-			str += "<table>";
-		}
+	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
 		if (i % NUMOF_MONTH_YEAR_ROW_ITEM === 0) {
 			str += "<tr>";
 		}
-		str += `<td>${firstYear + i}</td>`;
+		str += `<td>${monthData[i].date}</td>`;
 		if (i % NUMOF_MONTH_YEAR_ROW_ITEM === NUMOF_MONTH_YEAR_ROW_ITEM - 1) {
 			str += "</tr>";
 		}
-		if (i % NUMOF_MONTH_YEAR_ITEM === NUMOF_MONTH_YEAR_ITEM - 1) {
-			str += "</table>";
-		}
 	}
+	monthDom.innerHTML = str;
+	monthDom.classList.add("month-content");
+	return monthDom;
+}
 
-	// 生成轮播图
+// 根据数据创建月历并将其加到页面
+function createMonthDOM(monthData_prev, monthData_now, monthData_next, container) {
+	const prevMonthDom = createSingleMonthDom(monthData_prev);
+	const nowMonthDom = createSingleMonthDom(monthData_now);
+	nowMonthDom.classList.add("J_showing_table");
+	const nextMonthDom = createSingleMonthDom(monthData_next);
+
+	//   生成轮播图;
 	const month_carousel = document.createElement("div");
 	month_carousel.classList.add("month_carousel");
-	month_carousel.innerHTML = str;
+	month_carousel.classList.add("J_carousel");
+	month_carousel.appendChild(prevMonthDom);
+	month_carousel.appendChild(nowMonthDom);
+	month_carousel.appendChild(nextMonthDom);
 
-	content.innerHTML = "";
-	content.appendChild(month_carousel);
-
-	return leftYearIndex;
+	container.innerHTML = "";
+	container.appendChild(month_carousel);
 }
 
-// 更改年历显示效果，绑定事件处理函数
-function changeYearCss(leftYearIndex, showDate, todayDate, content, content_head, stateMachine) {
-	const tableList = content.getElementsByTagName("table");
-	for (let i = 0; i < NUMOF_TABLE; i++) {
-		tableList[i].classList.add("month-content");
-	}
-	const YearList = tableList[1].getElementsByTagName("td");
-	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
-		YearList[i].addEventListener("click", function () {
-			handleYearClick.call(YearList[i], showDate, todayDate, content, content_head, stateMachine);
-		});
-		if (i < leftYearIndex || i >= leftYearIndex + NUM_OF_NEAR_YEARS) {
-			YearList[i].classList.add("not-now");
+// 绑定事件处理函数
+function bindMonthEventListner(container, showDate, todayDate, content, content_head, stateMachine) {
+	const showingDom = container.querySelector(".J_showing_table");
+	showingDom.addEventListener("click", function (e) {
+		handleMonthClick.call(e.target, showDate, todayDate, content, content_head, stateMachine);
+	});
+}
+
+function renderMonthYear(container, calData) {
+	const table = container.querySelector(".J_showing_table");
+	let calendarList = table.getElementsByTagName("td");
+	for (let i = 0; i < calendarList.length; i++) {
+		if (calData[i].state === ITEM_STATE.NEARLY) {
+			calendarList[i].classList.add("not-now");
+		} else if (calData[i].state === ITEM_STATE.CURRENT) {
+			calendarList[i].classList.add("curmonth-item");
 		}
 	}
-	if (showDate.year === todayDate.year) {
-		YearList[leftYearIndex + (todayDate.year % NUM_OF_NEAR_YEARS)].classList.add("curmonth-item");
-	}
+}
+// 显示月历的函数
+function showMonth(showDate, todayDate, container, content_head, stateMachine) {
+	// 获取月份数据
+	const monthData_prev = createMonthData(getPrevYear(showDate.year, showDate.month), todayDate);
+	const monthData_now = createMonthData(showDate, todayDate);
+	const monthData_next = createMonthData(getNextYear(showDate.year, showDate.month), todayDate);
+	// 根据数据创建月历并将其加到页面
+	createMonthDOM(monthData_prev, monthData_now, monthData_next, container);
+	// 根据数据渲染月历
+	renderMonthYear(container, monthData_now);
+	// 添加事件处理函数,很多参数可删
+	bindMonthEventListner(container, showDate, todayDate, container, content_head, stateMachine);
 }
 
-// 显示年历
-function showYear(showDate, todayDate, content, content_head, stateMachine) {
-	const leftYearIndex = createYear(showDate, content);
-	changeYearCss(leftYearIndex, showDate, todayDate, content, content_head, stateMachine);
-	showHead(showDate, content_head, stateMachine);
+//====================年历=============================
+function createYearData(showDate, todayDate) {
+	let yearData = [];
+	const INDEX = [3, 0, 1, 2];
+	let leftYear = showDate.year - (showDate.year % NUM_OF_NEAR_YEARS); // 十年区间的第一年
+	let leftYearIndex = INDEX[leftYear % NUMOF_MONTH_YEAR_ROW_ITEM]; // // 十年区间的第一年的位置
+	const firstYear = leftYear - leftYearIndex; // 日历显示第一年
+	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
+		// 如果当十年
+		if (i >= leftYearIndex && i < leftYearIndex + NUM_OF_NEAR_YEARS) {
+			// 如果当年
+			if (showDate.year === todayDate.year && firstYear + i === todayDate.year) {
+				yearData.push({ date: firstYear + i, state: ITEM_STATE.CURRENT });
+			} else {
+				yearData.push({ date: firstYear + i, state: ITEM_STATE.MIDDLE });
+			}
+		} else {
+			yearData.push({
+				date: firstYear + i,
+				state: ITEM_STATE.NEARLY,
+			});
+		}
+	}
+	return yearData;
+}
+
+function showYear(showDate, todayDate, container, content_head, stateMachine) {
+	// 获取月份数据
+	const YearData_prev = createYearData(getPrevTenYear(showDate.year, showDate.month), todayDate);
+	const YearData_now = createYearData(showDate, todayDate);
+	const YearData_next = createYearData(getNextTenYear(showDate.year, showDate.month), todayDate);
+	// 根据数据创建年历并将其加到页面,和月历用的一个函数
+	createMonthDOM(YearData_prev, YearData_now, YearData_next, container);
+	// 根据数据渲染年历，和日历暂时用的一个函数
+	// TODO 渲染函数
+	renderMonthYear(container, YearData_now);
+	// 添加事件处理函数,很多参数可删
+	bindYearEventListner(container, showDate, todayDate, container, content_head, stateMachine);
+}
+
+// 绑定事件处理函数
+function bindYearEventListner(container, showDate, todayDate, content, content_head, stateMachine) {
+	const showingDom = container.querySelector(".J_showing_table");
+	showingDom.addEventListener("click", function (e) {
+		handleYearClick.call(e.target, showDate, todayDate, content, content_head, stateMachine);
+	});
 }
 
 // 处理点击月份
@@ -332,7 +332,7 @@ function handleMonthClick(showDate, todayDate, content, content_head, stateMachi
 	showDate.month = month - 1;
 	showDate.dayNum = getDayNum(showDate.year, showDate.month);
 	showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
-	stateMachine.toDayCalendar(showDate, todayDate, content, content_head, stateMachine);
+	stateMachine.reverseTransition(showDate, todayDate, content, content_head, stateMachine);
 }
 
 // 处理点击年份
@@ -341,13 +341,7 @@ function handleYearClick(showDate, todayDate, content, content_head, stateMachin
 	showDate.year = Number(year);
 	showDate.dayNum = getDayNum(showDate.year, showDate.month);
 	showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
-	stateMachine.toMonthCalendar(showDate, todayDate, content, content_head, stateMachine);
-}
-
-// 显示当月日历
-function showNowMonth(showDate, todayDate, content, content_head, stateMachine) {
-	showDate = Object.assign(showDate, todayDate);
-	stateMachine.toDayCalendar(showDate, todayDate, content, content_head, stateMachine);
+	stateMachine.reverseTransition(showDate, todayDate, content, content_head, stateMachine);
 }
 
 export {
@@ -355,15 +349,15 @@ export {
 	// changeCalendarCss,
 	showHead,
 	createCalendar,
-	createMonth,
-	createYear,
+	//   createMonth,
+	//   createYear,
 	showCalendar,
 	handleMonthClick,
-	changeMonthCss,
+	//   changeMonthCss,
 	handleYearClick,
 	showMonth,
-	showNowMonth,
-	changeYearCss,
+	//   showNowMonth,
+	//   changeYearCss,
 	showYear,
 	showClock,
 };

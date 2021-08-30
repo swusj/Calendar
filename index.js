@@ -8,6 +8,7 @@ const myCalendar = new Calendar();
 myCalendar.install("#xx");
 myCalendar.install("#mm");
 
+// myCalendar.unload("#mm");
 // /**
 //  * 这个函数是用来做。。。。
 //  * @param {number} a
