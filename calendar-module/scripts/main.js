@@ -1,15 +1,8 @@
 import { getDayNum, getDayOfOne, createCss } from "./utils.js";
 
-import { SHOWING_STATE, TRANS_TIME } from "./config.js";
+import { TRANS_TIME } from "./config.js";
 
-import {
-	showToday,
-	showCalendar,
-	showMonth,
-	// showNowMonth,
-	showYear,
-	showClock,
-} from "./display.js";
+import { showToday, showClock } from "./display.js";
 
 import { CalendarstateMachine } from "./statemachine.js";
 let clocks = {};
@@ -17,9 +10,7 @@ let clocks = {};
 function calendarOnload(showDate, todayDate, content, content_head, todayTime, container, stateMachine) {
 	let clock = showClock(container);
 	showToday(todayDate, todayTime);
-	stateMachine.init(showDate, todayDate, content, content_head, stateMachine);
-	console.log(111);
-	console.log(clock);
+	stateMachine.init(showDate, todayDate, content, content_head);
 	return clock;
 }
 
@@ -28,14 +19,43 @@ function handleContentClick(showDate, todayDate, content, content_head, stateMac
 	stateMachine.forwordTransition(showDate, todayDate, content, content_head, stateMachine);
 }
 
-// 实现过渡效果 先给轮播图加上trans, 再移动top, 移完了，去掉trans,更新日历
-// function carouselTrans(
+// 实现拖拽效果
+function drag(e, idName) {
+	const calender = document.querySelector(idName).querySelector(".calender");
+	if (!calender.style.position) {
+		calender.style.position = "fixed";
+	}
+	// 鼠标按下时，鼠标到元素左侧的距离
+	let posX = e.clientX - calender.offsetLeft;
+	let posY = e.clientY - calender.offsetTop;
+	document.onmousemove = function (e) {
+		let left = e.clientX - posX;
+		let top = e.clientY - posY;
+		// 限制拖拽物理的范围只能在浏览器视窗内
+		if (left < 0) {
+			left = 0;
+		} else if (left > window.innerWidth - calender.offsetWidth) {
+			left = window.innerWidth - calender.offsetWidth;
+		}
+		if (top < 0) {
+			top = 0;
+		} else if (top > window.innerHeight - calender.offsetHeight) {
+			top = window.innerHeight - calender.offsetHeight;
+		}
+		calender.style.left = left + "px";
+		calender.style.top = top + "px";
+	};
+	document.onmouseup = function () {
+		this.onmousemove = null;
+		this.onmouseup = null;
+	};
+}
 
 class Calendar {
 	// constructor() {
 	//   this.clocks = {};
 	// }
-	install(idName) {
+	install(idName, options = { isDragable: false }) {
 		const htmlstr = `
     <div class="calender">
         <div class="dragable"></div>
@@ -89,18 +109,19 @@ class Calendar {
 		const content_head = container.querySelector(".show-month");
 
 		// 首部拖拽
-		// const dragableTop = container.querySelector(".dragable");
+		if (options.isDragable) {
+			const dragableTop = container.querySelector(".dragable");
+			dragableTop.addEventListener("mousedown", function (e) {
+				drag(e, idName);
+			});
+		}
 
-		// dragableTop.addEventListener("");
-		// const that = this;
 		window.addEventListener("DOMContentLoaded", function () {
 			clocks[idName] = calendarOnload(showDate, todayDate, content, content_head, todayTime, container, stateMachine);
-			console.log(clocks);
 		});
 		// 绑定蓝字
 		todayTime.addEventListener("click", function () {
-			stateMachine.init(showDate, todayDate, content, content_head, stateMachine);
-			// showNowMonth(showDate, todayDate, content, content_head, stateMachine);
+			stateMachine.init(showDate, todayDate, content, content_head);
 		});
 
 		// ----x历头----------------------------------------------

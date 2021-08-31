@@ -246,10 +246,10 @@ function createMonthDOM(monthData_prev, monthData_now, monthData_next, container
 }
 
 // 绑定事件处理函数
-function bindMonthEventListner(container, showDate, todayDate, content, content_head, stateMachine) {
+function bindEventListner(container, showDate, todayDate, content, content_head, stateMachine) {
 	const showingDom = container.querySelector(".J_showing_table");
 	showingDom.addEventListener("click", function (e) {
-		handleMonthClick.call(e.target, showDate, todayDate, content, content_head, stateMachine);
+		stateMachine.reverseTransition(e, showDate, todayDate, content, content_head, stateMachine);
 	});
 }
 
@@ -275,7 +275,7 @@ function showMonth(showDate, todayDate, container, content_head, stateMachine) {
 	// 根据数据渲染月历
 	renderMonthYear(container, monthData_now);
 	// 添加事件处理函数,很多参数可删
-	bindMonthEventListner(container, showDate, todayDate, container, content_head, stateMachine);
+	bindEventListner(container, showDate, todayDate, container, content_head, stateMachine);
 }
 
 //====================年历=============================
@@ -314,34 +314,8 @@ function showYear(showDate, todayDate, container, content_head, stateMachine) {
 	// 根据数据渲染年历，和日历暂时用的一个函数
 	// TODO 渲染函数
 	renderMonthYear(container, YearData_now);
-	// 添加事件处理函数,很多参数可删
-	bindYearEventListner(container, showDate, todayDate, container, content_head, stateMachine);
-}
-
-// 绑定事件处理函数
-function bindYearEventListner(container, showDate, todayDate, content, content_head, stateMachine) {
-	const showingDom = container.querySelector(".J_showing_table");
-	showingDom.addEventListener("click", function (e) {
-		handleYearClick.call(e.target, showDate, todayDate, content, content_head, stateMachine);
-	});
-}
-
-// 处理点击月份
-function handleMonthClick(showDate, todayDate, content, content_head, stateMachine) {
-	const month = this.childNodes[0].nodeValue.slice(0, -1);
-	showDate.month = month - 1;
-	showDate.dayNum = getDayNum(showDate.year, showDate.month);
-	showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
-	stateMachine.reverseTransition(showDate, todayDate, content, content_head, stateMachine);
-}
-
-// 处理点击年份
-function handleYearClick(showDate, todayDate, content, content_head, stateMachine) {
-	const year = this.childNodes[0].nodeValue;
-	showDate.year = Number(year);
-	showDate.dayNum = getDayNum(showDate.year, showDate.month);
-	showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
-	stateMachine.reverseTransition(showDate, todayDate, content, content_head, stateMachine);
+	// 添加事件处理函数
+	bindEventListner(container, showDate, todayDate, container, content_head, stateMachine);
 }
 
 export {

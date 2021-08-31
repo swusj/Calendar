@@ -2,10 +2,9 @@
 
 import Calendar from "./calendar-module/index.js";
 
-console.log(11);
 const myCalendar = new Calendar();
 
-myCalendar.install("#xx");
+myCalendar.install("#xx", { isDragable: true });
 myCalendar.install("#mm");
 
 // myCalendar.unload("#mm");
