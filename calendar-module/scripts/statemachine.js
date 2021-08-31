@@ -51,8 +51,6 @@ class CalendarstateMachine {
 			case SHOWING_STATE.MONTH:
 				const month = e.target.childNodes[0].nodeValue.slice(0, -1);
 				showDate.month = month - 1;
-				console.log(showDate.month);
-				console.log(todayDate.month);
 				showDate.dayNum = getDayNum(showDate.year, showDate.month);
 				showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
 				this.currentState = SHOWING_STATE.DAY;
