@@ -74,8 +74,6 @@ https://swusj.github.io/Calendar/index.html
 
 # 开发的思路和细节说明
 
-DEMO 地址：https://swusj.github.io/Calendar/index.html
-
 ### 问题 1：如何正确显示当前日期 x 历？
 
 1.  首先要有个对象，存当前处于时间（年月日，天数，一号为周几）。const TodayDate (date,month,year,dayNum,dayOfOne)
