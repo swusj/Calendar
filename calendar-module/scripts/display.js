@@ -165,7 +165,7 @@ function renderCalender(container, calData) {
 }
 
 // 显示日历
-function showCalendar(showDate, todayDate, container) {
+function showCalendar(showDate, todayDate, container, content_head, stateMachine) {
 	// 调用函数，获取三个月数据
 	const calData_prev = createCalendarData(getPrevMonth(showDate.year, showDate.month), todayDate);
 	const calData_now = createCalendarData(showDate, todayDate);
@@ -174,6 +174,8 @@ function showCalendar(showDate, todayDate, container) {
 	createCalendar(calData_prev, calData_now, calData_next, container);
 	// 根据数据渲染日历
 	renderCalender(container, calData_now);
+	// 添加事件处理函数
+	bindEventListner(container, showDate, todayDate, container, content_head, stateMachine);
 }
 
 // ============================月历=================================
@@ -265,7 +267,7 @@ function showMonth(showDate, todayDate, container, content_head, stateMachine) {
 	createMonthDOM(monthData_prev, monthData_now, monthData_next, container);
 	// 根据数据渲染月历
 	renderMonthYear(container, monthData_now);
-	// 添加事件处理函数,很多参数可删
+	// 添加事件处理函数
 	bindEventListner(container, showDate, todayDate, container, content_head, stateMachine);
 }
 

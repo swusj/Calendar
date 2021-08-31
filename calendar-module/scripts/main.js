@@ -10,7 +10,7 @@ let clocks = {};
 function calendarOnload(showDate, todayDate, content, content_head, todayTime, container, stateMachine) {
 	let clock = showClock(container);
 	showToday(todayDate, todayTime);
-	stateMachine.init(showDate, todayDate, content, content_head);
+	stateMachine.init(showDate, todayDate, content, content_head, stateMachine);
 	return clock;
 }
 
@@ -122,7 +122,7 @@ class Calendar {
 		});
 		// 绑定蓝字
 		todayTime.addEventListener("click", function () {
-			stateMachine.init(showDate, todayDate, content, content_head);
+			stateMachine.init(showDate, todayDate, content, content_head, stateMachine);
 		});
 
 		// ----x历头----------------------------------------------

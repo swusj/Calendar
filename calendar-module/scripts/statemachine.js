@@ -10,10 +10,12 @@ import {
 	getNextTenYear,
 	getDayNum,
 	getDayOfOne,
+	getTimestamp,
 } from "./utils.js";
 
 // 为啥这个参数content_head，始终减不了，content_head是因为基本每个操作完了都要更新下head，除非不传head，直接在函数里边取
 // 为啥stateMachine减不了，因为所有要更新x历的操作完了都要绑定事件处理函数，事件处理函数又需要stateMachine这个参数
+// 。。。但这样传真的好烦。。。绑定事件处理函数写在stateMachine里每次更新再写下绑事件的函数调用  or 原来的
 
 class CalendarstateMachine {
 	constructor() {
@@ -37,6 +39,14 @@ class CalendarstateMachine {
 	reverseTransition(e, showDate, todayDate, content, content_head, stateMachine) {
 		switch (this.currentState) {
 			case SHOWING_STATE.DAY:
+				const yearRegexp = /(\d*)年/;
+				const monthRegexp = /年(\d*)月/;
+				const clickYear = yearRegexp.exec(content_head.childNodes[0].nodeValue)[1];
+				const clickMonth = monthRegexp.exec(content_head.childNodes[0].nodeValue)[1];
+				const date = e.target.childNodes[0].nodeValue;
+				const timestamp = getTimestamp(clickYear, clickMonth, date);
+				console.log(timestamp);
+				// 点击显示时间戳
 				break;
 			case SHOWING_STATE.MONTH:
 				const month = e.target.childNodes[0].nodeValue.slice(0, -1);
@@ -44,7 +54,7 @@ class CalendarstateMachine {
 				showDate.dayNum = getDayNum(showDate.year, showDate.month);
 				showDate.dayOfOne = getDayOfOne(showDate.year, showDate.month);
 				this.currentState = SHOWING_STATE.DAY;
-				showCalendar(showDate, todayDate, content);
+				showCalendar(showDate, todayDate, content, content_head, stateMachine);
 				break;
 			case SHOWING_STATE.YEAR:
 				const year = e.target.childNodes[0].nodeValue;
@@ -74,10 +84,10 @@ class CalendarstateMachine {
 		}
 		showHead(headStr, content_head);
 	}
-	init(showDate, todayDate, content, content_head) {
+	init(showDate, todayDate, content, content_head, stateMachine) {
 		showDate = Object.assign(showDate, todayDate);
 		this.currentState = SHOWING_STATE.DAY;
-		showCalendar(showDate, todayDate, content);
+		showCalendar(showDate, todayDate, content, content_head, stateMachine);
 		this.updateHead(showDate, content_head);
 	}
 	prev(showDate, todayDate, content, content_head, container, stateMachine, time) {
@@ -89,7 +99,7 @@ class CalendarstateMachine {
 			case SHOWING_STATE.DAY:
 				trans = function () {
 					showDate = Object.assign(showDate, getPrevMonth(showDate.year, showDate.month));
-					showCalendar(showDate, todayDate, content);
+					showCalendar(showDate, todayDate, content, content_head, stateMachine);
 					this.updateHead(showDate, content_head);
 				};
 				break;
@@ -124,7 +134,7 @@ class CalendarstateMachine {
 			case SHOWING_STATE.DAY:
 				trans = function () {
 					showDate = Object.assign(showDate, getNextMonth(showDate.year, showDate.month));
-					showCalendar(showDate, todayDate, content);
+					showCalendar(showDate, todayDate, content, content_head, stateMachine);
 					this.updateHead(showDate, content_head);
 				};
 				break;
