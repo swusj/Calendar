@@ -32,7 +32,6 @@
 }
 .month-content td:hover {
 	border-color: rgb(95, 97, 101);
-	/* background-color: blueviolet; */
 }
 
 .calender-content .curdate-item {
