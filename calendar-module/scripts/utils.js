@@ -110,20 +110,11 @@ function getNextTenYear(year, month) {
 	return NextTenYear;
 }
 
-// TODO：带记忆功能
-// function createCss(path) {
-//   let cache = {}
-//   return function(){
-
-//   }
-// }
-
-// 添加link
+// 添加link（带记忆功能）
 const createCss = (function () {
 	var cache = [];
 	return function (path) {
 		if (!cache.includes(path)) {
-			//TODO 加
 			const head = document.getElementsByTagName("head")[0];
 			const link = document.createElement("link");
 			link.rel = "stylesheet";

@@ -1,9 +1,9 @@
 import {
 	WEEK,
-	NUMOF_CANLENDER_ITEM,
-	NUMOF_CANLENDER_ROW_ITEM,
-	NUMOF_MONTH_YEAR_ROW_ITEM,
-	NUMOF_MONTH_YEAR_ITEM,
+	NUM_OF_CANLENDER_ITEM,
+	NUM_OF_CANLENDER_ROW_ITEM,
+	NUM_OF_MONTH_YEAR_ROW_ITEM,
+	NUM_OF_MONTH_YEAR_ITEM,
 	NUM_OF_NEAR_YEARS,
 	MONTH_NUM_OF_YEAR,
 	ITEM_STATE,
@@ -45,7 +45,7 @@ function createCalendarData(showDate, todayDate) {
 	let j = 1,
 		k = 1;
 
-	for (let i = 0; i < NUMOF_CANLENDER_ITEM; i++) {
+	for (let i = 0; i < NUM_OF_CANLENDER_ITEM; i++) {
 		if (i < showDate.dayOfOne) {
 			//上个月的
 			calData.push({
@@ -84,12 +84,12 @@ function createCalendarDOM(calData) {
 	let table = document.createElement("table");
 	table.classList.add("calender-content");
 	let str = "";
-	for (let i = 0; i < NUMOF_CANLENDER_ITEM; i++) {
-		if (i % NUMOF_CANLENDER_ROW_ITEM === 0) {
+	for (let i = 0; i < NUM_OF_CANLENDER_ITEM; i++) {
+		if (i % NUM_OF_CANLENDER_ROW_ITEM === 0) {
 			str += "<tr>";
 		}
 		str += `<td>${calData[i].date}</td>`;
-		if (i % NUMOF_CANLENDER_ROW_ITEM === NUMOF_CANLENDER_ROW_ITEM - 1) {
+		if (i % NUM_OF_CANLENDER_ROW_ITEM === NUM_OF_CANLENDER_ROW_ITEM - 1) {
 			str += "</tr>";
 		}
 	}
@@ -101,7 +101,7 @@ function createCalendarDOM(calData) {
 function createCalHead() {
 	let week = document.createElement("div");
 	week.classList.add("week");
-	for (let k = 0; k < NUMOF_CANLENDER_ROW_ITEM; k++) {
+	for (let k = 0; k < NUM_OF_CANLENDER_ROW_ITEM; k++) {
 		let item = document.createElement("div");
 		item.classList.add("item");
 		item.innerHTML = WEEK[k];
@@ -182,7 +182,7 @@ function showCalendar(showDate, todayDate, container, content_head, stateMachine
 // 获取月份数据
 function createMonthData(showDate, todayDate) {
 	let monthData = [];
-	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
+	for (let i = 0; i < NUM_OF_MONTH_YEAR_ITEM; i++) {
 		// 如果当年
 		if (i < MONTH_NUM_OF_YEAR) {
 			// 如果当月
@@ -205,12 +205,12 @@ function createMonthData(showDate, todayDate) {
 function createSingleMonthDom(monthData) {
 	const monthDom = document.createElement("table");
 	let str = "";
-	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
-		if (i % NUMOF_MONTH_YEAR_ROW_ITEM === 0) {
+	for (let i = 0; i < NUM_OF_MONTH_YEAR_ITEM; i++) {
+		if (i % NUM_OF_MONTH_YEAR_ROW_ITEM === 0) {
 			str += "<tr>";
 		}
 		str += `<td>${monthData[i].date}</td>`;
-		if (i % NUMOF_MONTH_YEAR_ROW_ITEM === NUMOF_MONTH_YEAR_ROW_ITEM - 1) {
+		if (i % NUM_OF_MONTH_YEAR_ROW_ITEM === NUM_OF_MONTH_YEAR_ROW_ITEM - 1) {
 			str += "</tr>";
 		}
 	}
@@ -276,9 +276,9 @@ function createYearData(showDate, todayDate) {
 	let yearData = [];
 	const INDEX = [3, 0, 1, 2];
 	let leftYear = showDate.year - (showDate.year % NUM_OF_NEAR_YEARS); // 十年区间的第一年
-	let leftYearIndex = INDEX[leftYear % NUMOF_MONTH_YEAR_ROW_ITEM]; // // 十年区间的第一年的位置
+	let leftYearIndex = INDEX[leftYear % NUM_OF_MONTH_YEAR_ROW_ITEM]; // // 十年区间的第一年的位置
 	const firstYear = leftYear - leftYearIndex; // 日历显示第一年
-	for (let i = 0; i < NUMOF_MONTH_YEAR_ITEM; i++) {
+	for (let i = 0; i < NUM_OF_MONTH_YEAR_ITEM; i++) {
 		// 如果当十年
 		if (i >= leftYearIndex && i < leftYearIndex + NUM_OF_NEAR_YEARS) {
 			// 如果当年
