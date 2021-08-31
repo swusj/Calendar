@@ -92,7 +92,7 @@ https://swusj.github.io/Calendar/index.html
 
 日历头部拿块区域，按住其可以就拖拽日历。思路是通过实时更改日历的 left,top。mousedown 时，先将 position 设为 fixed，我们要相当于整个视窗来拖动，然后计算鼠标按下时的位置相对于元素左侧的距离（为了之后根据鼠标位置计算应该在的 top 和 left 做准备）。然后 mousemove 时，根据鼠标位置计算 left，top，更改日历的 left,top。然后 mouseup 时，要清除掉 onmousemove 和 onmouseup。
 
-### 问题 5：如何输出时间戳
+### 问题 5：如何输出时间戳？
 
 获取日历头的 textnode 的 nodevalue 值，然后通过正则匹配来获取年和月。根据点击的元素的 textnode 的 nodevalue 值来获取日历，用前面获得的年、月、日来 new Date，然后输出这个日期对象的 getTime()即可获取时间戳。
 
