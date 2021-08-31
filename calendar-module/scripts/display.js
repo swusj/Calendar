@@ -186,7 +186,7 @@ function createMonthData(showDate, todayDate) {
 		// 如果当年
 		if (i < MONTH_NUM_OF_YEAR) {
 			// 如果当月
-			if (showDate.year === todayDate.year && showDate.month === todayDate.month && i + 1 === showDate.month) {
+			if (showDate.year === todayDate.year && i === todayDate.month) {
 				monthData.push({ date: `${i + 1}月`, state: ITEM_STATE.CURRENT });
 			} else {
 				monthData.push({ date: `${i + 1}月`, state: ITEM_STATE.MIDDLE });
