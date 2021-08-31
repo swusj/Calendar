@@ -2,7 +2,7 @@ import { getDayNum, getDayOfOne, createCss } from "./utils.js";
 
 import { TRANS_TIME } from "./config.js";
 
-import { showToday, showClock } from "./display.js";
+import { showToday, showClock, drag } from "./display.js";
 
 import { CalendarstateMachine } from "./statemachine.js";
 let clocks = {};
@@ -12,43 +12,6 @@ function calendarOnload(showDate, todayDate, content, content_head, todayTime, c
 	showToday(todayDate, todayTime);
 	stateMachine.init(showDate, todayDate, content, content_head, stateMachine);
 	return clock;
-}
-
-// 处理点击 x 历头
-function handleContentClick(showDate, todayDate, content, content_head, stateMachine) {
-	stateMachine.forwordTransition(showDate, todayDate, content, content_head, stateMachine);
-}
-
-// 实现拖拽效果
-function drag(e, idName) {
-	const calender = document.querySelector(idName).querySelector(".calender");
-	if (!calender.style.position) {
-		calender.style.position = "fixed";
-	}
-	// 鼠标按下时，鼠标到元素左侧的距离
-	let posX = e.clientX - calender.offsetLeft;
-	let posY = e.clientY - calender.offsetTop;
-	document.onmousemove = function (e) {
-		let left = e.clientX - posX;
-		let top = e.clientY - posY;
-		// 限制拖拽物理的范围只能在浏览器视窗内
-		// if (left < 0) {
-		// 	left = 0;
-		// } else if (left > window.innerWidth - calender.offsetWidth) {
-		// 	left = window.innerWidth - calender.offsetWidth;
-		// }
-		// if (top < 0) {
-		// 	top = 0;
-		// } else if (top > window.innerHeight - calender.offsetHeight) {
-		// 	top = window.innerHeight - calender.offsetHeight;
-		// }
-		calender.style.left = left + "px";
-		calender.style.top = top + "px";
-	};
-	document.onmouseup = function () {
-		this.onmousemove = null;
-		this.onmouseup = null;
-	};
 }
 
 class Calendar {
@@ -127,7 +90,7 @@ class Calendar {
 
 		// ----x历头----------------------------------------------
 		content_head.addEventListener("click", function () {
-			handleContentClick(showDate, todayDate, content, content_head, stateMachine);
+			stateMachine.forwordTransition(showDate, todayDate, content, content_head, stateMachine);
 		});
 
 		// ----上下键部分------------------

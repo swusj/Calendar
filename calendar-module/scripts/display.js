@@ -220,7 +220,7 @@ function createSingleMonthDom(monthData) {
 }
 
 // 根据数据创建月历并将其加到页面
-function createMonthDOM(monthData_prev, monthData_now, monthData_next, container) {
+function createMonthYearDOM(monthData_prev, monthData_now, monthData_next, container) {
 	const prevMonthDom = createSingleMonthDom(monthData_prev);
 	const nowMonthDom = createSingleMonthDom(monthData_now);
 	nowMonthDom.classList.add("J_showing_table");
@@ -264,7 +264,7 @@ function showMonth(showDate, todayDate, container, content_head, stateMachine) {
 	const monthData_now = createMonthData(showDate, todayDate);
 	const monthData_next = createMonthData(getNextYear(showDate.year, showDate.month), todayDate);
 	// 根据数据创建月历并将其加到页面
-	createMonthDOM(monthData_prev, monthData_now, monthData_next, container);
+	createMonthYearDOM(monthData_prev, monthData_now, monthData_next, container);
 	// 根据数据渲染月历
 	renderMonthYear(container, monthData_now);
 	// 添加事件处理函数
@@ -303,7 +303,7 @@ function showYear(showDate, todayDate, container, content_head, stateMachine) {
 	const YearData_now = createYearData(showDate, todayDate);
 	const YearData_next = createYearData(getNextTenYear(showDate.year, showDate.month), todayDate);
 	// 根据数据创建年历并将其加到页面,和月历用的一个函数
-	createMonthDOM(YearData_prev, YearData_now, YearData_next, container);
+	createMonthYearDOM(YearData_prev, YearData_now, YearData_next, container);
 	// 根据数据渲染年历，和日历暂时用的一个函数
 	// TODO 渲染函数
 	renderMonthYear(container, YearData_now);
@@ -311,4 +311,37 @@ function showYear(showDate, todayDate, container, content_head, stateMachine) {
 	bindEventListner(container, showDate, todayDate, container, content_head, stateMachine);
 }
 
-export { showToday, showHead, createCalendar, showCalendar, showMonth, showYear, showClock };
+// 实现拖拽效果
+function drag(e, idName) {
+	const calender = document.querySelector(idName).querySelector(".calender");
+	if (!calender.style.position) {
+		calender.style.position = "fixed";
+	}
+	// 鼠标按下时，鼠标到元素左侧的距离
+	let posX = e.clientX - calender.offsetLeft;
+	let posY = e.clientY - calender.offsetTop;
+	document.onmousemove = function (e) {
+		let left = e.clientX - posX;
+		let top = e.clientY - posY;
+		// 限制拖拽物理的范围只能在浏览器视窗内
+		// if (left < 0) {
+		// 	left = 0;
+		// } else if (left > window.innerWidth - calender.offsetWidth) {
+		// 	left = window.innerWidth - calender.offsetWidth;
+		// }
+		// if (top < 0) {
+		// 	top = 0;
+		// } else if (top > window.innerHeight - calender.offsetHeight) {
+		// 	top = window.innerHeight - calender.offsetHeight;
+		// }
+		calender.style.left = left + "px";
+		calender.style.top = top + "px";
+	};
+	// 鼠标起来
+	document.onmouseup = function () {
+		this.onmousemove = null;
+		this.onmouseup = null;
+	};
+}
+
+export { showToday, showHead, createCalendar, showCalendar, showMonth, showYear, showClock, drag };

@@ -16,9 +16,9 @@ https://swusj.github.io/Calendar/index.html
 
 **方法：**
 
-1. 安装组件,参数为选择器名
-   `install(selector);`
-2. 卸载组件
+1. 安装组件,install(选择器名，选项)。isDragable 表示是否可以拖动
+   `install(selector,options = {isDragable=true});`
+2. 卸载组件 unload(选择器名)
    `unload(selector)`
 
 ## 功能说明：
@@ -66,80 +66,90 @@ https://swusj.github.io/Calendar/index.html
 
    ![image-20210830102431754](images/image-20210830102431754.png)
 
+7. 若 install 参数 options 的 isDragable 为 true,鼠标按住顶部即可拖拽日历
+
+8. 点击日历的日期，控制台打印该日期的时间戳
+   ![image-20210831155014198](images/image-20210831155014198.png)
+
 # 开发的思路和细节说明
 
 DEMO 地址：https://swusj.github.io/Calendar/index.html
 
-问题 1：如何正确显示当前日期日历？
-首先 api 获取当前年月日，但要正常显示在 6×7 格子中，需要了解这个月有多少天，1 号是周几，才好排列
-（上个月（主要是上个月有多少天）和下个月的日期也要显示几个）
+### 问题 1：如何正确显示当前日期 x 历？
 
-1. 因此首先要有个对象，存当前处于时间（年月日，天数，一号为周几）。const TodayDate (date,month,year,dayNum,dayOfOne)
-2. 第二个对象（年月日，天数，一号为周几），存当前显示的时间。let ShowDate (date,month,year,dayNum,dayOfOne)
+1.  首先要有个对象，存当前处于时间（年月日，天数，一号为周几）。const TodayDate (date,month,year,dayNum,dayOfOne)
+2.  第二个对象（年月日，天数，一号为周几），存当前显示的时间。let ShowDate (date,month,year,dayNum,dayOfOne)
+3.  考虑到需要做成轮播图的效果，都需要准备 3 个 x 历才可以。整体思路都是先生成 3 个 x 历的数据（包括数据以及状态），再根据数据创建 x 历并将其加到页面，再根据数据渲染日历，再添加事件处理函数。
 
-问题 2：如何点击根据不同元素的点击事件切换 x 历？
-使用状态机来进行状态管理
+### 问题 2：如何根据不同元素的点击事件切换 x 历？
 
-问题 3：怎么实现点击按钮后是滚动切换的效果？
-借鉴轮播图的思想。可以先显示 3 个月/年/十年的日历，显示的容器 overflow:hidden，position:relative, size 还是是 x 历该有的大小;内里包含一个放了三个 x 历的 div2，按理来说应该是显示容器的三倍（因为有上中下三个月嘛），设置其 position 为 absolute，top 应该等于负一个 x 历的高度；
-滚动就可以 transition: top xs
-点击的时候，先给轮播图加上 trans,再更改 div2 的 top，此时 transition 生效开始动画，动画完了(用 settimeout)。去掉 trans,再更改 ShowDate。然后重新渲染 div2 的内容(x 历)
-因此所有生成 x 历骨架的函数都要一次性生成三个表格
+使用状态机来进行状态管理。
 
-显示函数：
+### 问题 3：怎么实现点击按钮后是滚动切换的效果？
 
-1. 计时器
+借鉴轮播图的思想。可以先显示 3 个月/年/十年的日历，显示的容器 overflow:hidden，position:relative, size 还是是 x 历该有的大小;内里包含一个放了三个 x 历的 div2，按理来说应该是显示容器的三倍（因为有上中下三个月嘛），设置其 position 为 absolute，top 应该等于负一个 x 历的高度； 滚动就可以 transition: top xs 点击的时候，先给轮播图加上 trans,再更改 div2 的 top，此时 transition 生效开始动画，动画完了(用 settimeout)。去掉 trans,再更改 ShowDate。然后重新渲染 div2 的内容(x 历) 因此所有生成 x 历骨架的函数都要一次性生成三个表格。
 
-1) displayTime 显示当前时刻的函数
-2) showClock 用 setInterval 调用 displayTime 实现计时器
+### 问题 4：如何实现拖拽功能？
 
-2. 蓝字
+日历头部拿块区域，按住其可以就拖拽日历。思路是通过实时更改日历的 left,top。mousedown 时，先将 position 设为 fixed，我们要相当于整个视窗来拖动，然后计算鼠标按下时的位置相对于元素左侧的距离（为了之后根据鼠标位置计算应该在的 top 和 left 做准备）。然后 mousemove 时，根据鼠标位置计算 left，top，更改日历的 left,top。然后 mouseup 时，要清除掉 onmousemove 和 onmouseup。
 
-1) showToday 显示今天日期的函数（蓝字部分）
-2) showNowMonth 绑定的点击事件，显示当月日历
+### 问题 5：如何输出时间戳
 
-3. 日历头
+获取日历头的 textnode 的 nodevalue 值，然后通过正则匹配来获取年和月。根据点击的元素的 textnode 的 nodevalue 值来获取日历，用前面获得的年、月、日来 new Date，然后输出这个日期对象的 getTime()即可获取时间戳。
 
-1) showHead 显示 x 历头 (根据当前显示状态不同显示的内容也不同)
+#### 1. **显示函数：**
 
-3. 显示日历
+##### **1. 计时器**
 
-1) 日历：
-   createCalendar 显示全部日历骨架 (先生成 html 骨架)
-   changeCalendarCss 更改日历显示效果 (再添加 css)
-   showCalendar 显示日历 (调用 createCalendar，changeCalendarCss，showHead)
+- getCurHourMinSec 获取当前时间数据
+- createClockStr 格式化时钟文字
+- renderClock 渲染时钟的函数
+- showClock 用 setInterval 调用 renderClock 实现计时器
 
-2) 月历：
-   createMonth 显示月历骨架
-   changeMonthCss 更改月历显示效果,绑定事件处理函数 handleMonthClick
-   showMonth 显示月历(调用 createMonth,changeMonthCss,showHead)
+##### 2. **蓝字**
 
-3) 年历：
-   createYear 显示年历骨架
-   changeYearCss 更改年历显示效果，绑定事件处理函数 handleYearClick
-   showYear 显示年历(调用 createYear,changeYearCss,showHead)
+- 状态机.init
 
-交互函数：
+##### **3. 日历头**
 
-1. handleContentClick 处理点击 x 历头 (根据当前状态切换显示日历、年历、月历)
-2. handleYearClick 处理点击年份 (显示点击年份的月历)
-3. handleMonthClick 处理点击月份 (显示点击月份的日历)
-4. showLast 处理点击上箭头，显示上个 x 历 (根据当前状态显示上个日历、年历、月历)
-5. showNext 处理点击下箭头，显示下个 x 历 (根据当前状态显示下个日历、年历、月历)
+- 状态机.showHead
 
-通用工具：
+**4. 显示 x 历**
 
-1. isLeapYear 判断是不是闰年的函数
-2. getDayNum 根据年份和月份获取月份天数的函数
-3. getDayOfOne 获得某年某月的 1 号 是星期几的函数
-4. getLastYear 获取上一年日期对象的函数
-5. getNextYear 获取下一年日期对象的函数
-6. getLastTenYear 获取前十年日期对象的函数
-7. getNextTenYear 获取后十年日期对象的函数
+- 日历 showCalendar： 调用三次 createCalendarData 获取三个月的日历数据 ->createCalendar 根据数据创建日历并将其加到页面->renderCalender 根据数据渲染日历->bindEventListner 添加事件处理函数
+- 月历 showMonth： 调用三次 createMonthData 获取三年的月历数据 ->createMonthDOM 根据数据创建月历并将其加到页面->renderMonthYear 根据数据渲染月历->bindEventListner 添加事件处理函数
+- 年历 showYear： 调用三次 createYearData 获取三个十年的年历数据 ->后续操作与月历调用函数相同
 
-onload：
+#### 2. 交互：
 
-1. calendarOnload 页面初始化要调用的函数(showClock,showToday,showCalendar)
+##### 1. 所有点击事件全绑定的状态机的方法
+
+- forwordTransition 日历->月历->年历（根据切换后的状态来显示 x 历）
+- reverseTransition 年历->月历->日历 （根据切换后的状态和选中的年/月来显示 x 历，如果是日历，会打印时间戳）
+- updateHead 不切换状态（根据当前状态来更新 x 历头）
+- init 切换状态到日历 （显示当前日期的日历）
+- prev 不切换状态 （根据当前状态来实现显示上一月/年/十年的 x 历）
+- next 不切换状态 （根据当前状态来实现显示下一月/年/十年的 x 历）
+
+##### 2. 拖拽
+
+- 实现拖拽效果的绑定函数
+
+#### 3. 通用工具：
+
+- isLeapYear 判断是不是闰年的函数
+- getDayNum 根据年份和月份获取月份天数的函数
+- getDayOfOne 获得某年某月的 1 号 是星期几的函数
+- getLastYear 获取上一年日期对象的函数
+- getNextYear 获取下一年日期对象的函数
+- getLastTenYear 获取前十年日期对象的函数
+- getNextTenYear 获取后十年日期对象的函数
+- createCss 添加 css link 到页面中的函数
+- getTimestamp 根据年、月、日生成时间戳的函数
+
+#### 4. onload：
+
+- calendarOnload 页面初始化要调用的函数(showClock,showToday,showCalendar)
 
 # changelog
 
