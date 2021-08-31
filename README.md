@@ -69,6 +69,7 @@ https://swusj.github.io/Calendar/index.html
 7. 若 install 参数 options 的 isDragable 为 true,鼠标按住顶部即可拖拽日历
 
 8. 点击日历的日期，控制台打印该日期的时间戳
+
    ![image-20210831155014198](images/image-20210831155014198.png)
 
 # 开发的思路和细节说明
