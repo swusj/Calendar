@@ -32,16 +32,16 @@ function drag(e, idName) {
 		let left = e.clientX - posX;
 		let top = e.clientY - posY;
 		// 限制拖拽物理的范围只能在浏览器视窗内
-		if (left < 0) {
-			left = 0;
-		} else if (left > window.innerWidth - calender.offsetWidth) {
-			left = window.innerWidth - calender.offsetWidth;
-		}
-		if (top < 0) {
-			top = 0;
-		} else if (top > window.innerHeight - calender.offsetHeight) {
-			top = window.innerHeight - calender.offsetHeight;
-		}
+		// if (left < 0) {
+		// 	left = 0;
+		// } else if (left > window.innerWidth - calender.offsetWidth) {
+		// 	left = window.innerWidth - calender.offsetWidth;
+		// }
+		// if (top < 0) {
+		// 	top = 0;
+		// } else if (top > window.innerHeight - calender.offsetHeight) {
+		// 	top = window.innerHeight - calender.offsetHeight;
+		// }
 		calender.style.left = left + "px";
 		calender.style.top = top + "px";
 	};
@@ -111,6 +111,7 @@ class Calendar {
 		// 首部拖拽
 		if (options.isDragable) {
 			const dragableTop = container.querySelector(".dragable");
+			dragableTop.style.cursor = "pointer";
 			dragableTop.addEventListener("mousedown", function (e) {
 				drag(e, idName);
 			});

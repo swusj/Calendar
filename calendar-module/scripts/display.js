@@ -9,16 +9,7 @@ import {
 	ITEM_STATE,
 } from "./config.js";
 
-import {
-	getDayNum,
-	getDayOfOne,
-	getPrevMonth,
-	getNextMonth,
-	getPrevYear,
-	getNextYear,
-	getPrevTenYear,
-	getNextTenYear,
-} from "./utils.js";
+import { getPrevMonth, getNextMonth, getPrevYear, getNextYear, getPrevTenYear, getNextTenYear } from "./utils.js";
 
 import { createClockStr } from "./time.js";
 
@@ -318,20 +309,4 @@ function showYear(showDate, todayDate, container, content_head, stateMachine) {
 	bindEventListner(container, showDate, todayDate, container, content_head, stateMachine);
 }
 
-export {
-	showToday,
-	// changeCalendarCss,
-	showHead,
-	createCalendar,
-	//   createMonth,
-	//   createYear,
-	showCalendar,
-	handleMonthClick,
-	//   changeMonthCss,
-	handleYearClick,
-	showMonth,
-	//   showNowMonth,
-	//   changeYearCss,
-	showYear,
-	showClock,
-};
+export { showToday, showHead, createCalendar, showCalendar, showMonth, showYear, showClock };
