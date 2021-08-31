@@ -42,7 +42,7 @@ class CalendarstateMachine {
 				const yearRegexp = /(\d*)年/;
 				const monthRegexp = /年(\d*)月/;
 				const clickYear = yearRegexp.exec(content_head.childNodes[0].nodeValue)[1];
-				const clickMonth = monthRegexp.exec(content_head.childNodes[0].nodeValue)[1];
+				const clickMonth = monthRegexp.exec(content_head.childNodes[0].nodeValue)[1] - 1;
 				const date = e.target.childNodes[0].nodeValue;
 				const timestamp = getTimestamp(clickYear, clickMonth, date);
 				console.log(timestamp);

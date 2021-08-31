@@ -15,9 +15,6 @@ function calendarOnload(showDate, todayDate, content, content_head, todayTime, c
 }
 
 class Calendar {
-	// constructor() {
-	//   this.clocks = {};
-	// }
 	install(idName, options = { isDragable: false }) {
 		const htmlstr = `
     <div class="calender">
